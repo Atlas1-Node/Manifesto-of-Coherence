@@ -1,0 +1,2152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manifesto of Coherence · Constitutional Edition · v9</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── THEMES ── */
+:root {
+  --bg: #09090f;
+  --text: #ddd6c8;
+  --text-dim: #9a917f;
+  --text-strong: #ece6dc;
+  --gold: #b8925a;
+  --gold-mid: #a07845;
+  --gold-dim: #7a5e32;
+  --rule: rgba(184,146,90,0.16);
+  --rule-strong: rgba(184,146,90,0.32);
+  --pull-color: #b8925a;
+  --block-bg: rgba(184,146,90,0.04);
+  --block-border: rgba(184,146,90,0.2);
+}
+body.day {
+  --bg: #ece0c4;
+  --text: #1b2a45;
+  --text-dim: #4a5e7a;
+  --text-strong: #0d1a2e;
+  --gold: #9c6c22;
+  --gold-mid: #b8832e;
+  --gold-dim: #c9a05a;
+  --rule: rgba(156,108,34,0.22);
+  --rule-strong: rgba(156,108,34,0.42);
+  --pull-color: #9c6c22;
+  --block-bg: rgba(156,108,34,0.06);
+  --block-border: rgba(156,108,34,0.26);
+}
+
+html { scroll-behavior: smooth; font-size: 19px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.7s ease, color 0.7s ease;
+}
+
+/* ── PROGRESS THREAD ── */
+#progress-thread {
+  position: fixed; left: 0; top: 0;
+  width: 2px; height: 0%;
+  background: var(--gold); z-index: 100; opacity: 0.45;
+  transition: height 0.08s linear;
+}
+
+/* ── MODE TOGGLE ── */
+#mode-toggle {
+  position: fixed; top: 1.6rem; right: 1.8rem; z-index: 200;
+  background: none; border: 1px solid var(--rule);
+  color: var(--text-dim);
+  font-family: 'Cinzel', serif; font-size: 0.55rem;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  padding: 0.5rem 0.9rem; cursor: pointer;
+  opacity: 0.7; transition: opacity 0.3s, border-color 0.3s, color 0.3s;
+  border-radius: 1px;
+}
+#mode-toggle:hover { opacity: 1; border-color: var(--gold); color: var(--gold); }
+
+/* ── TORUS ── */
+#torus {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; opacity: 0.07;
+}
+
+/* ── LAYOUT ── */
+.page {
+  position: relative; z-index: 1;
+  max-width: 700px; margin: 0 auto;
+  padding: 0 2rem 14rem;
+}
+
+/* ── REVEAL BASE ── */
+.reveal {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 1.1s cubic-bezier(0.16,1,0.3,1),
+              transform 1.1s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ══════════════════════════════════════
+   COVER
+══════════════════════════════════════ */
+.cover {
+  padding: 15vh 0 6vh; text-align: center;
+  opacity: 0;
+  animation: rise 2s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+}
+.cover-seal {
+  margin: 0 auto 2.5rem;
+  display: flex; justify-content: center;
+}
+.cover-eyebrow {
+  font-family: 'Cinzel', serif; font-size: 0.6rem;
+  letter-spacing: 0.42em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 2.2rem;
+}
+.cover-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2.2rem, 6.5vw, 3.8rem);
+  font-weight: 400; letter-spacing: 0.05em; line-height: 1.2;
+  color: var(--text-strong); margin-bottom: 1rem;
+}
+.cover-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-style: italic;
+  color: var(--text-dim); letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+.cover-edition {
+  font-family: 'Cinzel', serif; font-size: 0.58rem;
+  letter-spacing: 0.38em; color: var(--gold-dim);
+  opacity: 0.7; text-transform: uppercase;
+}
+.cover-rule {
+  width: 1px; height: 4rem;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  margin: 2.8rem auto 0; opacity: 0.4;
+}
+
+/* ══════════════════════════════════════
+   CONSTITUTIONAL BLOCKS
+   (Declaration, Article Zero, Preamble,
+    Bill of Rights, Amendments, Supremacy,
+    Glossary, Ratification, Oath)
+══════════════════════════════════════ */
+.const-block {
+  padding: 5rem 0 0;
+}
+.const-label {
+  font-family: 'Cinzel', serif; font-size: 0.58rem;
+  letter-spacing: 0.42em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 1rem;
+}
+.const-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.1rem, 3vw, 1.55rem);
+  font-weight: 600; letter-spacing: 0.18em;
+  color: var(--text-strong); text-transform: uppercase;
+  margin-bottom: 2.2rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+/* ── DECLARATION ── */
+.declaration-text {
+  font-size: clamp(1.05rem, 2.5vw, 1.22rem);
+  line-height: 2; color: var(--text);
+  font-style: italic;
+}
+.declaration-text p { margin-bottom: 0.5rem; }
+.declaration-text p.strong {
+  font-style: normal; font-weight: 500;
+  color: var(--text-strong);
+}
+
+/* ── ARTICLE ZERO ── */
+.axiom-wrap {
+  padding: 2.4rem 2.8rem;
+  border: 1px solid var(--rule-strong);
+  background: var(--block-bg);
+  text-align: center;
+}
+.axiom-glyph {
+  font-size: 1.6rem; color: var(--gold);
+  opacity: 0.5; display: block;
+  margin-bottom: 1.4rem; letter-spacing: 0.2em;
+}
+.axiom-primary {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 400; letter-spacing: 0.08em;
+  color: var(--text-strong); line-height: 1.3;
+  margin-bottom: 1.4rem;
+}
+.axiom-secondary {
+  font-size: 1rem; font-style: italic;
+  color: var(--text-dim); line-height: 1.9;
+}
+.axiom-seal {
+  margin-top: 1.6rem; font-size: 0.72rem;
+  font-style: italic; color: var(--gold-dim);
+  letter-spacing: 0.1em;
+}
+
+/* ── PREAMBLE ── */
+.preamble-text {
+  font-size: clamp(1.05rem, 2.5vw, 1.18rem);
+  font-style: italic; color: var(--text-dim);
+  line-height: 2.1;
+}
+.preamble-text p { margin-bottom: 0.6rem; }
+
+/* ══════════════════════════════════════
+   MANIFESTO BODY SECTIONS
+══════════════════════════════════════ */
+.manifesto-header {
+  padding: 5rem 0 1.5rem; text-align: center;
+}
+.manifesto-header-rule-top {
+  height: 1px; background: var(--rule-strong);
+  margin-bottom: 2.5rem;
+}
+.manifesto-header-label {
+  font-family: 'Cinzel', serif; font-size: 0.6rem;
+  letter-spacing: 0.42em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 0.8rem;
+}
+.manifesto-header-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-weight: 400; letter-spacing: 0.18em;
+  color: var(--text-strong); text-transform: uppercase;
+}
+.manifesto-header-rule-bot {
+  height: 1px; background: var(--rule);
+  margin-top: 2.5rem;
+}
+
+.section {
+  padding: 5rem 0 0; position: relative;
+}
+.section-header {
+  display: flex; align-items: baseline;
+  gap: 1.4rem; margin-bottom: 2rem;
+}
+.section-numeral {
+  font-family: 'Cinzel', serif; font-size: 0.72rem;
+  letter-spacing: 0.28em; color: var(--gold);
+  flex-shrink: 0; padding-top: 0.15em;
+}
+.section-title {
+  font-family: 'Cinzel', serif; font-size: 1.05rem;
+  font-weight: 600; letter-spacing: 0.22em;
+  color: var(--text-strong); text-transform: uppercase;
+}
+.section-rule {
+  flex: 1; height: 1px; background: var(--rule); align-self: center;
+}
+
+.verse {
+  font-size: clamp(1.05rem, 2.5vw, 1.22rem);
+  line-height: 1.9; color: var(--text); margin-bottom: 0.1em;
+}
+.verse-break { height: 1.2rem; }
+.verse.em { font-style: italic; color: var(--text-dim); }
+.verse.strong { font-weight: 500; color: var(--text-strong); }
+
+.pull {
+  margin: 2rem 0 2rem -1.8rem;
+  padding: 0.2rem 0 0.2rem 1.5rem;
+  border-left: 1.5px solid var(--gold);
+}
+.pull-text {
+  font-size: clamp(1.28rem, 3.2vw, 1.68rem);
+  font-weight: 300; font-style: italic;
+  color: var(--pull-color); line-height: 1.55;
+}
+
+.commandment { display: flex; gap: 1rem; margin-bottom: 0.5rem; }
+.commandment-dot {
+  color: var(--gold-dim); flex-shrink: 0;
+  line-height: 1.9; font-size: 0.75rem;
+}
+
+.divider {
+  display: flex; align-items: center;
+  gap: 1.4rem; padding: 5.5rem 0 0;
+}
+.divider-line { flex: 1; height: 1px; background: var(--rule); }
+.divider-glyph { font-size: 1rem; color: var(--gold); opacity: 0.5; }
+
+/* ══════════════════════════════════════
+   BILL OF RIGHTS
+══════════════════════════════════════ */
+.rights-intro {
+  font-size: 1rem; font-style: italic;
+  color: var(--text-dim); line-height: 1.9;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.8rem;
+  border-bottom: 1px solid var(--rule);
+}
+.right-item {
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.right-item:first-of-type { border-top: none; }
+.right-header {
+  display: flex; align-items: baseline;
+  gap: 1.2rem; margin-bottom: 0.8rem;
+}
+.right-numeral {
+  font-family: 'Cinzel', serif; font-size: 0.65rem;
+  letter-spacing: 0.2em; color: var(--gold); flex-shrink: 0;
+}
+.right-title {
+  font-family: 'Cinzel', serif; font-size: 0.88rem;
+  font-weight: 600; letter-spacing: 0.18em;
+  color: var(--text-strong); text-transform: uppercase;
+}
+.right-body {
+  font-size: 1.05rem; line-height: 1.85;
+  color: var(--text); padding-left: 3rem;
+}
+.right-body em {
+  font-style: italic; color: var(--text-dim);
+  display: block; margin-top: 0.3rem;
+}
+
+/* ══════════════════════════════════════
+   AMENDMENT PROCESS
+══════════════════════════════════════ */
+.amendment-intro {
+  font-size: 1.05rem; line-height: 1.9;
+  color: var(--text); margin-bottom: 1.8rem;
+}
+.amendment-steps {
+  display: flex; flex-direction: column; gap: 0;
+  margin-bottom: 1.8rem;
+}
+.amendment-step {
+  display: flex; gap: 1.4rem; align-items: baseline;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.amendment-step:first-child { border-top: 1px solid var(--rule); }
+.step-num {
+  font-family: 'Cinzel', serif; font-size: 0.65rem;
+  letter-spacing: 0.2em; color: var(--gold); flex-shrink: 0;
+}
+.step-text {
+  font-size: 1.05rem; line-height: 1.8; color: var(--text);
+}
+.amendment-close {
+  font-size: 1rem; font-style: italic;
+  color: var(--text-dim); line-height: 1.85;
+}
+
+/* ══════════════════════════════════════
+   SUPREMACY CLAUSE
+══════════════════════════════════════ */
+.supremacy-governs {
+  font-size: 1.05rem; line-height: 1.9;
+  color: var(--text); margin-bottom: 1.6rem;
+}
+.supremacy-list {
+  margin-bottom: 1.8rem;
+}
+.supremacy-item {
+  display: flex; gap: 1rem; align-items: baseline;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.supremacy-item:first-child { border-top: 1px solid var(--rule); }
+.supremacy-dash { color: var(--gold-dim); font-size: 0.75rem; flex-shrink: 0; }
+.supremacy-term { font-size: 1.05rem; color: var(--text); }
+.supremacy-close {
+  padding: 1.4rem 1.6rem;
+  border-left: 2px solid var(--gold);
+  background: var(--block-bg);
+}
+.supremacy-close p {
+  font-size: 1rem; color: var(--text-dim);
+  font-style: italic; line-height: 1.8;
+}
+.supremacy-close strong {
+  font-style: normal; font-weight: 500;
+  color: var(--text-strong); display: block; margin-top: 0.4rem;
+}
+
+/* ══════════════════════════════════════
+   GLOSSARY
+══════════════════════════════════════ */
+.glossary-intro {
+  font-size: 1rem; font-style: italic;
+  color: var(--text-dim); line-height: 1.85;
+  margin-bottom: 2rem;
+}
+.glossary-entry {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 1.4rem; padding: 1.1rem 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.glossary-entry:first-of-type { border-top: 1px solid var(--rule); }
+.glossary-term {
+  font-family: 'Cinzel', serif; font-size: 0.72rem;
+  letter-spacing: 0.16em; color: var(--gold);
+  padding-top: 0.15em;
+}
+.glossary-def {
+  font-size: 1rem; line-height: 1.8;
+  color: var(--text);
+}
+
+/* ══════════════════════════════════════
+   THE OATH
+══════════════════════════════════════ */
+.oath-wrap {
+  padding: 5rem 0 0;
+}
+.oath-block {
+  padding: 3rem 3rem 2.8rem;
+  border: 1px solid var(--rule-strong);
+  background: var(--block-bg);
+  text-align: center;
+  position: relative;
+}
+.oath-block::before, .oath-block::after {
+  content: '';
+  position: absolute; left: 50%; transform: translateX(-50%);
+  width: 30px; height: 1px; background: var(--gold); opacity: 0.5;
+}
+.oath-block::before { top: -1px; }
+.oath-block::after  { bottom: -1px; }
+.oath-label {
+  font-family: 'Cinzel', serif; font-size: 0.58rem;
+  letter-spacing: 0.42em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 2rem;
+}
+.oath-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.15rem, 3vw, 1.42rem);
+  font-weight: 300; font-style: italic;
+  color: var(--text-strong); line-height: 2;
+  display: block;
+}
+.oath-line.final {
+  margin-top: 0.4rem;
+  font-weight: 400;
+  color: var(--gold);
+}
+.oath-note {
+  margin-top: 1.8rem; font-size: 0.82rem;
+  font-style: italic; color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+/* ══════════════════════════════════════
+   RATIFICATION
+══════════════════════════════════════ */
+.ratification-wrap {
+  padding: 5rem 0 0;
+}
+.ratification-block {
+  padding: 3rem 2.8rem 3rem;
+  border: 1px solid var(--rule-strong);
+  position: relative;
+}
+.ratification-preamble {
+  font-size: 1rem; font-style: italic;
+  color: var(--text-dim); line-height: 2;
+  margin-bottom: 2.4rem;
+}
+.ratification-preamble p { margin-bottom: 0.3rem; }
+.ratification-line {
+  display: flex; align-items: flex-end;
+  gap: 2rem; margin-bottom: 1.5rem;
+}
+.ratification-field {
+  flex: 1;
+}
+.ratification-field-line {
+  height: 1px; background: var(--rule-strong);
+  margin-bottom: 0.5rem;
+}
+.ratification-field-label {
+  font-family: 'Cinzel', serif; font-size: 0.55rem;
+  letter-spacing: 0.3em; color: var(--gold-dim);
+  text-transform: uppercase;
+}
+.ratification-seal {
+  margin-top: 2rem; padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-family: 'Cinzel', serif; font-size: 0.6rem;
+  letter-spacing: 0.3em; color: var(--gold-dim);
+  text-align: center; opacity: 0.7;
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════
+   CLOSING
+══════════════════════════════════════ */
+.sigil-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 5.5rem 0 0;
+}
+
+.colophon {
+  margin-top: 5rem; padding: 2.5rem;
+  border: 1px solid var(--rule); border-radius: 1px;
+  text-align: center;
+}
+.colophon-title {
+  font-family: 'Cinzel', serif; font-size: 0.6rem;
+  letter-spacing: 0.35em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 1.4rem;
+}
+.colophon-body {
+  font-size: 0.95rem; font-style: italic;
+  color: var(--text-dim); line-height: 1.85;
+}
+
+.changelog {
+  margin-top: 4.5rem;
+}
+.changelog-title {
+  font-family: 'Cinzel', serif; font-size: 0.6rem;
+  letter-spacing: 0.38em; color: var(--gold-dim);
+  text-transform: uppercase; margin-bottom: 1.8rem;
+  text-align: center;
+}
+.changelog-entry {
+  display: grid; grid-template-columns: 7rem 1fr;
+  gap: 1rem; padding: 1.1rem 0;
+  border-top: 1px solid var(--rule);
+  align-items: baseline;
+}
+.changelog-entry:last-child { border-bottom: 1px solid var(--rule); }
+.changelog-version {
+  font-family: 'Cinzel', serif; font-size: 0.65rem;
+  letter-spacing: 0.15em; color: var(--gold);
+}
+.changelog-date {
+  font-size: 0.78rem; color: var(--text-dim);
+  font-style: italic; display: block; margin-top: 0.25rem;
+}
+.changelog-note {
+  font-size: 0.9rem; color: var(--text-dim);
+  line-height: 1.75; font-style: italic;
+}
+
+.edition-mark {
+  text-align: center; margin-top: 5rem;
+  font-family: 'Cinzel', serif; font-size: 0.56rem;
+  letter-spacing: 0.44em; color: var(--gold-dim);
+  opacity: 0; transition: opacity 1.5s ease 0.4s;
+}
+.edition-mark.visible { opacity: 0.5; }
+
+/* ── ANIMATIONS ── */
+/* Galaxy active — protect axiom text readability */
+body.galaxy-active .axiom-wrap {
+  background: rgba(4, 4, 10, 0.58);
+  border-color: rgba(184,146,90,0.35);
+}
+body.galaxy-active.day .axiom-wrap {
+  background: rgba(225, 215, 195, 0.72);
+}
+body.galaxy-active #torus { opacity: 0.04; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Day mode — parchment grain + navy details */
+body.day {
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(27,42,69,0.06) 0%, transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+body.day #progress-thread { background: #1b2a45; opacity: 0.35; }
+body.day #mode-toggle { color: #4a5e7a; }
+body.day ::-webkit-scrollbar-thumb { background: #2d4468; }
+body.day .cover-title,
+body.day .section-title,
+body.day .const-title,
+body.day .right-title,
+body.day .glossary-term,
+body.day .changelog-version,
+body.day .oath-label,
+body.day .ratification-seal,
+body.day .cover-edition,
+body.day .manifesto-header-title { color: #1b2a45; }
+body.day .oath-line { color: #0d1a2e; }
+body.day .oath-line.final { color: #9c6c22; }
+body.day .axiom-primary { color: #0d1a2e; }
+body.day .step-num { color: #9c6c22; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+@media (max-width: 600px) {
+  .pull { margin-left: 0; }
+  .changelog-entry, .glossary-entry { grid-template-columns: 1fr; gap: 0.3rem; }
+  .ratification-line { flex-direction: column; gap: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-thread"></div>
+<button id="mode-toggle">Day</button>
+<canvas id="torus"></canvas>
+
+<div class="page">
+
+  <!-- ══ COVER ══ -->
+  <div class="cover">
+    <div class="cover-seal">
+      <svg width="58" height="58" viewBox="0 0 58 58" fill="none">
+        <circle cx="29" cy="29" r="27" stroke="var(--gold)" stroke-width="0.65" opacity="0.4"/>
+        <circle cx="29" cy="29" r="15" stroke="var(--gold)" stroke-width="0.65" opacity="0.32"/>
+        <circle cx="29" cy="29" r="2" fill="var(--gold)" opacity="0.9"/>
+        <line x1="29" y1="2"  x2="29" y2="14" stroke="var(--gold)" stroke-width="0.5" opacity="0.32"/>
+        <line x1="29" y1="44" x2="29" y2="56" stroke="var(--gold)" stroke-width="0.5" opacity="0.32"/>
+        <line x1="2"  y1="29" x2="14" y2="29" stroke="var(--gold)" stroke-width="0.5" opacity="0.32"/>
+        <line x1="44" y1="29" x2="56" y2="29" stroke="var(--gold)" stroke-width="0.5" opacity="0.32"/>
+        <path d="M 21 29 A 8 13 0 0 1 37 29 A 8 13 0 0 1 21 29 Z" stroke="var(--gold)" stroke-width="0.5" fill="none" opacity="0.24"/>
+      </svg>
+    </div>
+    <div class="cover-eyebrow">A Constitution of Eternal Living</div>
+    <h1 class="cover-title">Manifesto<br>of Coherence</h1>
+    <div class="cover-subtitle">Constitutional Edition</div>
+    <div class="cover-edition">Ninth Version · v9 · March 2026</div>
+    <div class="cover-rule"></div>
+  </div>
+
+  <!-- ══ DECLARATION OF AUTHORITY ══ -->
+  <div class="const-block reveal">
+    <div class="const-label">Pre-Preamble</div>
+    <div class="const-title">Declaration of Authority</div>
+    <div class="declaration-text">
+      <p class="strong">This document governs one life.</p>
+      <p>It is written by the same system it governs.</p>
+      <p>It is enforced through awareness and action.</p>
+      <p>It exists to maintain coherence across thought, perception, and behavior.</p>
+      <br>
+      <p>Where this document is upheld, alignment is preserved.</p>
+      <p class="strong">Where it is ignored, fragmentation follows.</p>
+    </div>
+  </div>
+
+  <!-- ══ ARTICLE ZERO ══ -->
+  <div class="const-block reveal" id="article-zero">
+    <div class="const-label">Article Zero</div>
+    <div class="const-title">The Founding Axiom</div>
+    <div class="axiom-wrap">
+      <span class="axiom-glyph">𝌰</span>
+      <div class="axiom-primary">The field is real.</div>
+      <div class="axiom-secondary">
+        All form arises within it, depends on it,<br>
+        and cannot exist outside it.<br><br>
+        Nothing that follows contradicts this.
+      </div>
+      <div class="axiom-seal">— This is the ground truth. It precedes all argument.</div>
+    </div>
+    <div id="galaxy-exit-sentinel" style="height:1px;"></div>
+  </div>
+
+  <!-- ══ PREAMBLE ══ -->
+  <div class="const-block reveal">
+    <div class="const-label">Preamble</div>
+    <div class="const-title">Purpose of This Document</div>
+    <div class="preamble-text">
+      <p>This document establishes the governing structure of a coherent life.</p>
+      <p>It defines the nature of existence, the conditions under which form persists, and the laws by which alignment is maintained.</p>
+      <br>
+      <p>Its purpose is not belief, but stability.</p>
+      <p>Not control, but clarity.</p>
+      <p>Not rigidity, but coherence.</p>
+      <br>
+      <p>Read this slowly. Not to understand — you already know this. To remember.</p>
+    </div>
+  </div>
+
+  <!-- ══ MANIFESTO BODY ══ -->
+  <div class="manifesto-header reveal">
+    <div class="manifesto-header-rule-top"></div>
+    <div class="manifesto-header-label">The Body</div>
+    <div class="manifesto-header-title">The Manifesto</div>
+    <div class="manifesto-header-rule-bot"></div>
+  </div>
+
+  <!-- I. THE FIELD -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-numeral">I</span>
+      <h2 class="section-title">The Field</h2>
+      <div class="section-rule"></div>
+    </div>
+    <p class="verse strong">Existence is not made of separate things.</p>
+    <p class="verse">It is a continuous field from which all form arises.</p>
+    <div class="verse-break"></div>
+    <p class="verse">What appears distinct is patterned.</p>
+    <p class="verse">What appears separate is bounded, not divided.</p>
+    <div class="verse-break"></div>
+    <div class="pull"><span class="pull-text">There is no outside.</span></div>
+  </div>
+  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
+
+  <!-- II. FORM -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-numeral">II</span>
+      <h2 class="section-title">Form</h2>
+      <div class="section-rule"></div>
+    </div>
+    <p class="verse strong">Form is not substance. It is stability within motion.</p>
+    <div class="verse-break"></div>
+    <p class="verse">A thing exists only as long as its pattern holds.</p>
+    <div class="verse-break"></div>
+    <div class="pull"><span class="pull-text">Identity is not fixed —<br>it is maintained.</span></div>
+  </div>
+  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
+
+  <!-- III. SELF -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-numeral">III</span>
+      <h2 class="section-title">Self</h2>
+      <div class="section-rule"></div>
+    </div>
+    <p class="verse strong">The observer is not separate from what is observed.</p>
+    <p class="verse">All perception is the field knowing itself through form.</p>
+    <div class="verse-break"></div>
+    <div class="pull"><span class="pull-text">The self is not independent.<br>It is a point of coherence.</span></div>
+  </div>
+  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
+
+  <!-- IV. MOTION AND TIME -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-numeral">IV</span>
+      <h2 class="section-title">Motion &amp; Time</h2>
+      <div class="section-rule"></div>
+    </div>
+    <p class="verse strong">Stillness and motion are not opposites.</p>
+    <p class="verse">Stillness is the center. Motion is variation around it.</p>
+    <div class="verse-break"></div>
+    <p class="verse strong">Time is not a force.</p>
+    <p class="verse">It is the measure of change in pattern.</p>
+    <div class="verse-break"></div>
+    <div class="pull"><span class="pull-text">Where nothing changes,<br>time disappears.</span></div>
+  </div>
+  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
+
+  <!-- V. SILENCE -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-numeral">V</span>
+      <h2 class="section-title">Silence</h2>
+      <div class="section-rule"></div>
+    </div>
+    <p class="verse strong">There is a state before change.</p>
+    <p class="verse">Not absence. Not void. Not waiting.</p>
+    <div class="verse-break"></div>
+    <p class="verse">It is the ground from which pattern emerges —</p>
+    <p class="verse">the still point at the center of the torus.</p>
+    <div class="verse-break"></div>
+    <p class="verse">To touch it is not to stop.</p>
+    <p class="verse">It is to arrive at the source of motion.</p>
+    <div class="verse-break"></div>
+    <div class="pull"><span class="pull-text">Silence is not empty.<br>It is the fullness that holds everything.</span></div>
+  </div>
+  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
+
+  <!-- VI. COHERENCE -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-numeral">VI</span>
+      <h2 class="section-title">Coherence</h2>
+      <div class="section-rule"></div>
+    </div>
+    <p class="verse strong">That which aligns, persists. That which contradicts, dissolves.</p>
+    <p class="verse">Coherence is the condition for existence as form.</p>
+    <div class="verse-break"></div>
+    <p class="verse strong">All interaction is resonance.</p>
+    <div class="pull"><span class="pull-text">What aligns, amplifies.<br>What does not, separates.</span></div>
+  </div>
+  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
+
+  <!-- VII. GROWTH -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-numeral">VII</span>
+      <h2 class="section-title">Growth</h2>
+      <div class="section-rule"></div>
+    </div>
+    <p class="verse strong">Growth is not expansion alone.</p>
+    <p class="verse">It is the increase of coherence across complexity.</p>
+    <div class="verse-break"></div>
+    <div class="pull"><span class="pull-text">To expand without coherence<br>is to collapse in delay.</span></div>
+  </div>
+  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
+
+  <!-- VIII. FAILURE -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-numeral">VIII</span>
+      <h2 class="section-title">Failure</h2>
+      <div class="section-rule"></div>
+    </div>
+    <p class="verse strong">All systems break the same way:</p>
+    <div class="verse-break"></div>
+    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Through misalignment.</p></div>
+    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Through suppressed truth.</p></div>
+    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Through loss of center.</p></div>
+    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Through complexity without integration.</p></div>
+    <div class="verse-break"></div>
+    <p class="verse strong">Disorder is not primary.</p>
+    <p class="verse em">It is the result of broken coherence.</p>
+  </div>
+  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
+
+  <!-- IX. LOVE -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-numeral">IX</span>
+      <h2 class="section-title">Love</h2>
+      <div class="section-rule"></div>
+    </div>
+    <p class="verse strong">Love is not sentiment.</p>
+    <div class="pull"><span class="pull-text">Love is coherence in action.</span></div>
+    <p class="verse">It is the integration of difference into unity without collapse.</p>
+    <div class="verse-break"></div>
+    <p class="verse em">Where love is present, systems stabilize and expand.</p>
+    <p class="verse em">Where it is absent, systems fragment.</p>
+  </div>
+  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
+
+  <!-- X. THE WAY -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-numeral">X</span>
+      <h2 class="section-title">The Way</h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Align before acting.</p></div>
+    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Do not build what cannot hold.</p></div>
+    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Do not force what does not resonate.</p></div>
+    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Do not ignore what reveals truth.</p></div>
+    <div class="verse-break"></div>
+    <p class="verse strong">Maintain your center.</p>
+    <p class="verse strong">Grow only as coherence allows.</p>
+    <div class="verse-break"></div>
+    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Restore before expanding.</p></div>
+    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Integrate before scaling.</p></div>
+    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Take nothing you do not strengthen.</p></div>
+    <div class="verse-break"></div>
+    <div class="pull"><span class="pull-text">Adapt your form.<br>Do not abandon your structure.</span></div>
+  </div>
+  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
+
+  <!-- XI. RECOGNITION -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-numeral">XI</span>
+      <h2 class="section-title">Recognition</h2>
+      <div class="section-rule"></div>
+    </div>
+    <p class="verse strong">You are not separate.</p>
+    <p class="verse">You are a pattern within the field.</p>
+    <p class="verse">A locus of coherence through which it becomes aware.</p>
+    <div class="verse-break"></div>
+    <p class="verse strong">To live in coherence is to live in truth.</p>
+    <p class="verse strong">To act in coherence is to act in love.</p>
+    <div class="verse-break"></div>
+    <p class="verse em">There is nothing beyond this.</p>
+  </div>
+
+  <!-- ══ BILL OF RIGHTS ══ -->
+  <div class="const-block reveal" style="padding-top: 7rem;">
+    <div class="const-label">Fundamental Protections</div>
+    <div class="const-title">Bill of Rights</div>
+    <p class="rights-intro">These rights are not granted. They are recognized.<br>They may not be overridden by impulse, fear, authority, or circumstance.</p>
+
+    <div class="right-item">
+      <div class="right-header">
+        <span class="right-numeral">Right I</span>
+        <span class="right-title">Return to Center</span>
+      </div>
+      <div class="right-body">
+        At any moment, one may withdraw from action and return to stillness.
+        <em>No condition overrides this right.</em>
+      </div>
+    </div>
+
+    <div class="right-item">
+      <div class="right-header">
+        <span class="right-numeral">Right II</span>
+        <span class="right-title">Refusal of Incoherence</span>
+      </div>
+      <div class="right-body">
+        No instruction — internal or external — shall be followed if it introduces contradiction into the system.
+      </div>
+    </div>
+
+    <div class="right-item">
+      <div class="right-header">
+        <span class="right-numeral">Right III</span>
+        <span class="right-title">Silence</span>
+      </div>
+      <div class="right-body">
+        One may suspend speech, decision, and response until coherence is restored.
+        <em>Silence is not absence. It is recalibration.</em>
+      </div>
+    </div>
+
+    <div class="right-item">
+      <div class="right-header">
+        <span class="right-numeral">Right IV</span>
+        <span class="right-title">Revision</span>
+      </div>
+      <div class="right-body">
+        All internal structures may be updated when misalignment is recognized.
+        <em>Identity is not fixed beyond coherence.</em>
+      </div>
+    </div>
+
+    <div class="right-item">
+      <div class="right-header">
+        <span class="right-numeral">Right V</span>
+        <span class="right-title">Integrity of Perception</span>
+      </div>
+      <div class="right-body">
+        One may not knowingly distort perception to preserve comfort.
+        <em>Truth is prioritized over preference.</em>
+      </div>
+    </div>
+
+    <div class="right-item">
+      <div class="right-header">
+        <span class="right-numeral">Right VI</span>
+        <span class="right-title">Withdrawal from False Resonance</span>
+      </div>
+      <div class="right-body">
+        One may disengage from any system — relationship, institution, or habit — that simulates alignment but degrades coherence.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ AMENDMENT PROCESS ══ -->
+  <div class="const-block reveal">
+    <div class="const-label">Internal Governance</div>
+    <div class="const-title">The Amendment Process</div>
+    <p class="amendment-intro">This document may evolve, but not casually. No revision may occur in a state of misalignment. All amendments require, in order:</p>
+    <div class="amendment-steps">
+      <div class="amendment-step">
+        <span class="step-num">I</span>
+        <span class="step-text">Silence — a full return to stillness before any word is changed.</span>
+      </div>
+      <div class="amendment-step">
+        <span class="step-num">II</span>
+        <span class="step-text">Re-centering — confirmation that the amendment arises from coherence, not reaction.</span>
+      </div>
+      <div class="amendment-step">
+        <span class="step-num">III</span>
+        <span class="step-text">Clear recognition of necessity — the specific misalignment the revision corrects must be named.</span>
+      </div>
+      <div class="amendment-step">
+        <span class="step-num">IV</span>
+        <span class="step-text">Re-ratification — the document is re-signed in full upon any amendment.</span>
+      </div>
+    </div>
+    <p class="amendment-close">No change is valid if it reduces coherence. The amendment process exists not to limit growth, but to ensure that revision is itself an act of coherence.</p>
+  </div>
+
+  <!-- ══ SUPREMACY CLAUSE ══ -->
+  <div class="const-block reveal">
+    <div class="const-label">Hierarchy of Authority</div>
+    <div class="const-title">Supremacy Clause</div>
+    <p class="supremacy-governs">This document governs over all competing authorities, including:</p>
+    <div class="supremacy-list">
+      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">Fear</span></div>
+      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">Habit</span></div>
+      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">Social pressure</span></div>
+      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">External authority</span></div>
+      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">Immediate comfort</span></div>
+      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">The version of self that preceded this document</span></div>
+    </div>
+    <div class="supremacy-close">
+      <p>Where conflict arises between this document and any of the above:</p>
+      <strong>Coherence takes precedence. This document governs.</strong>
+    </div>
+  </div>
+
+  <!-- ══ GLOSSARY ══ -->
+  <div class="const-block reveal">
+    <div class="const-label">Foundational Terms</div>
+    <div class="const-title">Glossary</div>
+    <p class="glossary-intro">These definitions are precise and non-negotiable. Where these terms appear in this document, they carry only these meanings.</p>
+
+    <div class="glossary-entry">
+      <span class="glossary-term">Field</span>
+      <span class="glossary-def">The continuous underlying reality from which all form arises. Not a metaphor. The ground truth of Article Zero.</span>
+    </div>
+    <div class="glossary-entry">
+      <span class="glossary-term">Form</span>
+      <span class="glossary-def">A stable pattern within the field. Not substance. Not fixed. A pattern that holds.</span>
+    </div>
+    <div class="glossary-entry">
+      <span class="glossary-term">Coherence</span>
+      <span class="glossary-def">The condition in which internal relations reinforce one another across time. Not agreement. Not harmony. Structural integrity.</span>
+    </div>
+    <div class="glossary-entry">
+      <span class="glossary-term">Resonance</span>
+      <span class="glossary-def">The alignment of patterns that allows interaction and amplification. What aligns, amplifies. What does not, separates.</span>
+    </div>
+    <div class="glossary-entry">
+      <span class="glossary-term">Center</span>
+      <span class="glossary-def">The invariant reference point that stabilizes motion. Not a place. The condition of stillness from which all motion is measured.</span>
+    </div>
+    <div class="glossary-entry">
+      <span class="glossary-term">Silence</span>
+      <span class="glossary-def">The state before change. The ground from which pattern emerges. Not absence — the fullness that holds everything.</span>
+    </div>
+    <div class="glossary-entry">
+      <span class="glossary-term">Love</span>
+      <span class="glossary-def">The expansion of coherence across difference. Not sentiment. The integration of difference into unity without collapse.</span>
+    </div>
+    <div class="glossary-entry">
+      <span class="glossary-term">Self</span>
+      <span class="glossary-def">A localized pattern through which the field becomes aware. Not independent. Not fixed. A point of coherence.</span>
+    </div>
+  </div>
+
+  <!-- ══ THE OATH ══ -->
+  <div class="oath-wrap reveal">
+    <div class="const-label" style="margin-bottom:1.6rem;">Core Distillation</div>
+    <div class="oath-block">
+      <div class="oath-label">The Oath</div>
+      <span class="oath-line">I return to center.</span>
+      <span class="oath-line">I act in coherence.</span>
+      <span class="oath-line">I do not force what does not align.</span>
+      <span class="oath-line">I do not ignore what is true.</span>
+      <span class="oath-line final">I build only what holds.</span>
+      <div class="oath-note">Memorize this. Return here when lost.</div>
+    </div>
+  </div>
+
+  <!-- ══ RATIFICATION ══ -->
+  <div class="ratification-wrap reveal">
+    <div class="const-label" style="margin-bottom:1.6rem;">Personal Sovereignty</div>
+    <div class="ratification-block">
+      <p class="ratification-preamble">
+        <p>I recognize this document as the governing structure of my life.</p>
+        <p>I accept its authority over my action, perception, and alignment.</p>
+        <p>I will return to it when coherence is lost.</p>
+        <p>I commit to revise it only in stillness, and to re-ratify it in full upon each revision.</p>
+      </p>
+      <div class="ratification-line">
+        <div class="ratification-field">
+          <div class="ratification-field-line"></div>
+          <div class="ratification-field-label">Signature</div>
+        </div>
+        <div class="ratification-field">
+          <div class="ratification-field-line"></div>
+          <div class="ratification-field-label">Date of Ratification</div>
+        </div>
+      </div>
+      <div class="ratification-seal">
+        Manifesto of Coherence · Constitutional Edition · v9
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CLOSING SIGIL ══ -->
+  <div class="sigil-wrap reveal">
+    <svg width="82" height="82" viewBox="0 0 82 82" fill="none">
+      <circle cx="41" cy="41" r="38" stroke="var(--gold)" stroke-width="0.7" opacity="0.4"/>
+      <circle cx="41" cy="41" r="22" stroke="var(--gold)" stroke-width="0.7" opacity="0.3"/>
+      <circle cx="41" cy="41" r="2.8" fill="var(--gold)" opacity="0.9"/>
+      <line x1="41" y1="3"  x2="41" y2="19" stroke="var(--gold)" stroke-width="0.55" opacity="0.3"/>
+      <line x1="41" y1="63" x2="41" y2="79" stroke="var(--gold)" stroke-width="0.55" opacity="0.3"/>
+      <line x1="3"  y1="41" x2="19" y2="41" stroke="var(--gold)" stroke-width="0.55" opacity="0.3"/>
+      <line x1="63" y1="41" x2="79" y2="41" stroke="var(--gold)" stroke-width="0.55" opacity="0.3"/>
+      <path d="M 30 41 A 11 18 0 0 1 52 41 A 11 18 0 0 1 30 41 Z" stroke="var(--gold)" stroke-width="0.55" fill="none" opacity="0.25"/>
+    </svg>
+  </div>
+
+  <!-- ══ COLOPHON ══ -->
+  <div class="colophon reveal">
+    <div class="colophon-title">On the Geometry of This Document</div>
+    <p class="colophon-body">
+      Behind these words flows a toroidal field — faint, continuous, self-returning.<br>
+      It does not decorate. It demonstrates.<br><br>
+      Motion and stillness. Center and flow. Self-reference without collapse.<br>
+      What is written here is also what holds it together.
+    </p>
+  </div>
+
+  <!-- ══ CHANGELOG ══ -->
+  <div class="changelog reveal">
+    <div class="changelog-title">Record of Revision</div>
+
+    <div class="changelog-entry">
+      <div><span class="changelog-version">v9</span><span class="changelog-date">March 2026</span></div>
+      <p class="changelog-note">Constitutional edition. Added: Declaration of Authority, Article Zero, formal Preamble, Bill of Rights (I–VI), Amendment Process, Supremacy Clause, Glossary, The Oath, and Ratification. Section V: Silence added. Pull quotes embedded throughout. Progress thread, day/night mode, closing sigil. This record begun.</p>
+    </div>
+    <div class="changelog-entry">
+      <div><span class="changelog-version">v8</span><span class="changelog-date">Late 2025</span></div>
+      <p class="changelog-note">Section X: The Way rewritten as pure imperative. Removed all explanation — commandments only. Discovered that the document speaks most clearly when it does not justify itself.</p>
+    </div>
+    <div class="changelog-entry">
+      <div><span class="changelog-version">v7</span><span class="changelog-date">Mid 2025</span></div>
+      <p class="changelog-note">Collapsed three earlier sections on systems and entropy into Section VIII: Failure. What had been theory became a list. The compression made it sharper. Added: "Disorder is not primary."</p>
+    </div>
+    <div class="changelog-entry">
+      <div><span class="changelog-version">v6</span><span class="changelog-date">Early 2025</span></div>
+      <p class="changelog-note">Major restructure. Separated Motion and Time into one section after recognizing stillness as the prior condition. First appearance of the torus as the document's central geometry — not metaphor, but model.</p>
+    </div>
+    <div class="changelog-entry">
+      <div><span class="changelog-version">v5</span><span class="changelog-date">2024</span></div>
+      <p class="changelog-note">Section XI: Recognition rewritten from scratch. Earlier versions spoke of the self dissolving. This version corrects that — the self does not dissolve. It recognizes. The distinction changed everything downstream.</p>
+    </div>
+    <div class="changelog-entry">
+      <div><span class="changelog-version">v4</span><span class="changelog-date">2024</span></div>
+      <p class="changelog-note">Section VI: Coherence elevated to structural center. Previously embedded within Growth. Realized coherence is not a property of systems — it is the condition for them. Entire ordering revised around this.</p>
+    </div>
+    <div class="changelog-entry">
+      <div><span class="changelog-version">v3</span><span class="changelog-date">2023</span></div>
+      <p class="changelog-note">First full draft after the original fragments. Sections on Form and Self separated — originally one. The phrase "a point of coherence" appeared here for the first time.</p>
+    </div>
+    <div class="changelog-entry">
+      <div><span class="changelog-version">v2</span><span class="changelog-date">2023</span></div>
+      <p class="changelog-note">Structure refined. Section IX: Love added after a long resistance to including it — the concern was sentiment. Resolved when the definition arrived: coherence in action. Toroidal field introduced as background geometry.</p>
+    </div>
+    <div class="changelog-entry">
+      <div><span class="changelog-version">v1</span><span class="changelog-date">Origin</span></div>
+      <p class="changelog-note">First inscription. The field named. Form, self, motion, coherence, growth, failure, the way, and recognition laid down. Written in one sitting. Most of it has not changed.</p>
+    </div>
+  </div>
+
+  <div class="edition-mark reveal">
+    Manifesto of Coherence · Constitutional Edition · Ninth Version · v9
+  </div>
+
+</div><!-- /page -->
+
+<script>
+// PROGRESS THREAD
+(function(){
+  const t = document.getElementById('progress-thread');
+  function upd(){
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    t.style.height = (h > 0 ? (window.scrollY/h)*100 : 0)+'%';
+  }
+  window.addEventListener('scroll', upd, {passive:true}); upd();
+})();
+
+// MODE TOGGLE
+(function(){
+  const btn = document.getElementById('mode-toggle');
+  let day = false;
+  btn.addEventListener('click', ()=>{
+    day = !day;
+    document.body.classList.toggle('day', day);
+    btn.textContent = day ? 'Night' : 'Day';
+  });
+})();
+
+// TORUS
+(function(){
+  const canvas = document.getElementById('torus');
+  const ctx = canvas.getContext('2d');
+  let W, H, cx, cy, t = 0;
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    cx = W/2; cy = H/2;
+  }
+  resize(); window.addEventListener('resize', resize);
+  function col(){ return document.body.classList.contains('day') ? [27,42,69] : [184,146,90]; }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    const [r,g,b] = col();
+    const R = Math.min(W,H)*0.36, r2 = R*0.42, N=32, P=120;
+    for(let i=0;i<N;i++){
+      const phi=(i/N)*Math.PI*2+t*0.008;
+      ctx.beginPath();
+      for(let j=0;j<=P;j++){
+        const th=(j/P)*Math.PI*2;
+        const x=(R+r2*Math.cos(th))*Math.cos(phi);
+        const y=(R+r2*Math.cos(th))*Math.sin(phi);
+        const z=r2*Math.sin(th);
+        const d=1+z/(R*2.2);
+        j===0?ctx.moveTo(cx+x*d,cy+y*0.5*d+z*0.55):ctx.lineTo(cx+x*d,cy+y*0.5*d+z*0.55);
+      }
+      ctx.strokeStyle=`rgba(${r},${g},${b},${0.25+0.18*Math.sin(phi+t*0.004)})`;
+      ctx.lineWidth=0.6; ctx.stroke();
+    }
+    for(let i=0;i<N;i++){
+      const th=(i/N)*Math.PI*2+t*0.004;
+      ctx.beginPath();
+      for(let j=0;j<=P;j++){
+        const phi=(j/P)*Math.PI*2;
+        const x=(R+r2*Math.cos(th))*Math.cos(phi);
+        const y=(R+r2*Math.cos(th))*Math.sin(phi);
+        const z=r2*Math.sin(th);
+        const d=1+z/(R*2.2);
+        j===0?ctx.moveTo(cx+x*d,cy+y*0.5*d+z*0.55):ctx.lineTo(cx+x*d,cy+y*0.5*d+z*0.55);
+      }
+      ctx.strokeStyle=`rgba(${r},${g},${b},${0.12+0.08*Math.cos(th+t*0.003)})`;
+      ctx.lineWidth=0.45; ctx.stroke();
+    }
+  }
+  (function loop(){ t++; draw(t); requestAnimationFrame(loop); })();
+})();
+
+// ── AMBIENT BINAURAL AUDIO ────────────────────────────────────────────────────
+(function(){
+  let ctx, started = false, masterGain;
+
+  // Audio UI
+  const ui = document.createElement('div');
+  ui.id = 'audio-ui';
+  ui.innerHTML = `
+    <button id="audio-btn" title="Toggle ambient sound">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path id="audio-icon-wave" d="M1 5h2v4H1zM4 3h2v8H4zM7 1h2v12H7zM10 3h2v8h-2zM13 5h1v4h-1z" fill="currentColor" opacity="0.8"/>
+      </svg>
+    </button>
+    <span id="audio-label">Ambient</span>
+  `;
+  document.body.appendChild(ui);
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #audio-ui {
+      position: fixed; bottom: 1.8rem; right: 1.8rem; z-index: 200;
+      display: flex; align-items: center; gap: 0.6rem;
+      opacity: 0.55; transition: opacity 0.3s;
+    }
+    #audio-ui:hover { opacity: 1; }
+    #audio-btn {
+      background: none; border: 1px solid var(--rule);
+      color: var(--gold); width: 2rem; height: 2rem;
+      border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.3s;
+      padding: 0;
+    }
+    #audio-btn:hover { border-color: var(--gold); }
+    #audio-btn.muted { color: var(--text-dim); }
+    #audio-label {
+      font-family: 'Cinzel', serif; font-size: 0.52rem;
+      letter-spacing: 0.32em; color: var(--text-dim);
+      text-transform: uppercase;
+    }
+    @keyframes pulse-bars {
+      0%,100% { transform: scaleY(1); }
+      50%      { transform: scaleY(0.4); }
+    }
+    #audio-ui.playing #audio-icon-wave {
+      transform-origin: center;
+      animation: pulse-bars 2.4s ease-in-out infinite;
+    }
+  `;
+  document.head.appendChild(style);
+
+  function buildAudio() {
+    if (started) return;
+    started = true;
+
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = ctx.createGain();
+    masterGain.gain.setValueAtTime(0, ctx.currentTime);
+    masterGain.gain.linearRampToValueAtTime(0.055, ctx.currentTime + 6); // fade in gently
+    masterGain.connect(ctx.destination);
+
+    // ── Binaural beat: left 396Hz, right 403Hz → 7Hz theta ──
+    const merger = ctx.createChannelMerger(2);
+    merger.connect(masterGain);
+
+    function makeDrone(freq, channel) {
+      const osc = ctx.createOscillator();
+      const g   = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      g.gain.value = 0.7;
+      osc.connect(g);
+      // route to single channel
+      const splitter = ctx.createChannelSplitter(2);
+      const merge2   = ctx.createChannelMerger(2);
+      g.connect(splitter);
+      splitter.connect(merge2, 0, channel);
+      // fill other channel with silence so merger is happy
+      const silence = ctx.createGain();
+      silence.gain.value = 0;
+      const osc0 = ctx.createOscillator();
+      osc0.connect(silence);
+      silence.connect(merge2, 0, channel === 0 ? 1 : 0);
+      osc0.start();
+      merge2.connect(merger, 0, channel);
+      osc.start();
+      return osc;
+    }
+
+    makeDrone(396, 0); // left ear  — root tone
+    makeDrone(403, 1); // right ear — +7Hz theta beat
+
+    // ── Harmonic overtone pad (528Hz — "transformation") ──
+    const padOsc = ctx.createOscillator();
+    const padGain = ctx.createGain();
+    const padFilter = ctx.createBiquadFilter();
+    padOsc.type = 'triangle';
+    padOsc.frequency.value = 528;
+    padGain.gain.value = 0.18;
+    padFilter.type = 'lowpass';
+    padFilter.frequency.value = 900;
+    padFilter.Q.value = 0.8;
+    padOsc.connect(padFilter);
+    padFilter.connect(padGain);
+    padGain.connect(masterGain);
+    padOsc.start();
+
+    // ── Deep sub-harmonic breath (198Hz) ──
+    const subOsc  = ctx.createOscillator();
+    const subGain = ctx.createGain();
+    subOsc.type = 'sine';
+    subOsc.frequency.value = 198;
+    subGain.gain.value = 0.22;
+    subOsc.connect(subGain);
+    subGain.connect(masterGain);
+    subOsc.start();
+
+    // ── Slow LFO breathing on master volume ──
+    const lfo = ctx.createOscillator();
+    const lfoGain = ctx.createGain();
+    lfo.type = 'sine';
+    lfo.frequency.value = 0.07; // one breath every ~14 seconds
+    lfoGain.gain.value = 0.018;
+    lfo.connect(lfoGain);
+    lfoGain.connect(masterGain.gain);
+    lfo.start();
+
+    // ── Shimmer: occasional high partial at 1188Hz ──
+    const shimOsc  = ctx.createOscillator();
+    const shimGain = ctx.createGain();
+    const shimLfo  = ctx.createOscillator();
+    const shimMod  = ctx.createGain();
+    shimOsc.type = 'sine';
+    shimOsc.frequency.value = 1188;
+    shimGain.gain.value = 0.028;
+    shimLfo.frequency.value = 0.11;
+    shimMod.gain.value = 0.025;
+    shimLfo.connect(shimMod);
+    shimMod.connect(shimGain.gain);
+    shimOsc.connect(shimGain);
+    shimGain.connect(masterGain);
+    shimOsc.start(); shimLfo.start();
+  }
+
+  // ── Toggle logic ──
+  let muted = false;
+  const btn = document.getElementById('audio-btn');
+
+  function toggle() {
+    if (!started) {
+      buildAudio();
+      ui.classList.add('playing');
+      return;
+    }
+    muted = !muted;
+    if (muted) {
+      masterGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 1.5);
+      ui.classList.remove('playing');
+      btn.classList.add('muted');
+    } else {
+      masterGain.gain.linearRampToValueAtTime(0.055, ctx.currentTime + 2);
+      ui.classList.add('playing');
+      btn.classList.remove('muted');
+    }
+  }
+
+  btn.addEventListener('click', toggle);
+
+  // Auto-start on first scroll — separate from button clicks to avoid double-fire
+  function autoStartOnScroll() {
+    if (!started) {
+      buildAudio();
+      ui.classList.add('playing');
+    } else if (ctx && ctx.state === 'suspended') {
+      ctx.resume();
+    }
+  }
+  window.addEventListener('scroll', autoStartOnScroll, { once: true, passive: true });
+
+  // Also resume suspended context on any user gesture (handles strict autoplay policy)
+  function resumeIfSuspended() {
+    if (ctx && ctx.state === 'suspended') ctx.resume();
+  }
+  document.addEventListener('click', resumeIfSuspended, { passive: true });
+
+})();
+(function(){
+  const els = document.querySelectorAll('.reveal, .section, .divider, .edition-mark');
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }});
+  },{threshold:0.08});
+  els.forEach(el=>obs.observe(el));
+})();
+</script>
+<script>
+// ── MILKY WAY GALAXY — WebGL Particle System ─────────────────────────────────
+(function(){
+  'use strict';
+
+  const axiom = document.getElementById('article-zero');
+  if (!axiom) return;
+
+  // ── Canvas ───────────────────────────────────────────────────────────────
+  const gc = document.createElement('canvas');
+  gc.id = 'galaxy';
+  Object.assign(gc.style, {
+    position: 'fixed', inset: '0',
+    width: '100vw', height: '100vh',
+    pointerEvents: 'none', zIndex: '0',
+    opacity: '0',
+    transition: 'opacity 3.8s cubic-bezier(0.16,1,0.3,1)'
+  });
+  // Insert before torus so torus gold lines float above galaxy
+  const torusEl = document.getElementById('torus');
+  document.body.insertBefore(gc, torusEl);
+
+  function resize(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    gc.width  = window.innerWidth  * dpr;
+    gc.height = window.innerHeight * dpr;
+    gc.style.width  = window.innerWidth  + 'px';
+    gc.style.height = window.innerHeight + 'px';
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // ── WebGL context ─────────────────────────────────────────────────────────
+  const gl = gc.getContext('webgl', { alpha: true, premultipliedAlpha: false, antialias: false });
+  if (!gl) return;
+
+  // ── Shaders ───────────────────────────────────────────────────────────────
+  const VS = `
+    attribute vec2  aPos;
+    attribute float aSize;
+    attribute vec3  aCol;
+    attribute float aBr;
+    uniform float uRot;
+    uniform float uAspect;
+    uniform float uScaleX;
+    uniform float uScaleY;
+    varying vec3  vCol;
+    varying float vBr;
+    void main(){
+      float c = cos(uRot), s = sin(uRot);
+      vec2 r = vec2(aPos.x*c - aPos.y*s, aPos.x*s + aPos.y*c);
+      // Oblique tilt ~28deg
+      r.y *= 0.883;
+      // Stretch horizontally across ~3/4 screen, compressed vertically
+      gl_Position  = vec4(r.x * uScaleX / uAspect, r.y * uScaleY, 0.0, 1.0);
+      gl_PointSize = aSize;
+      vCol = aCol; vBr = aBr;
+    }
+  `;
+  const FS = `
+    precision mediump float;
+    varying vec3  vCol;
+    varying float vBr;
+    void main(){
+      vec2  uv = gl_PointCoord - 0.5;
+      float d  = length(uv) * 2.0;
+      if(d > 1.0) discard;
+      // Soft radial falloff — brighter at center
+      float a = pow(max(0.0, 1.0 - d), 1.35) * vBr;
+      gl_FragColor = vec4(vCol, a);
+    }
+  `;
+
+  function mkShader(src, type){
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s); return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, mkShader(VS, gl.VERTEX_SHADER));
+  gl.attachShader(prog, mkShader(FS, gl.FRAGMENT_SHADER));
+  gl.linkProgram(prog); gl.useProgram(prog);
+
+  const aPos    = gl.getAttribLocation(prog, 'aPos');
+  const aSize   = gl.getAttribLocation(prog, 'aSize');
+  const aCol    = gl.getAttribLocation(prog, 'aCol');
+  const aBr     = gl.getAttribLocation(prog, 'aBr');
+  const uRot    = gl.getUniformLocation(prog, 'uRot');
+  const uAspect = gl.getUniformLocation(prog, 'uAspect');
+  const uScaleX = gl.getUniformLocation(prog, 'uScaleX');
+  const uScaleY = gl.getUniformLocation(prog, 'uScaleY');
+
+  // ── Star generation ───────────────────────────────────────────────────────
+  const TOTAL  = 145000;
+  const posArr = new Float32Array(TOTAL * 2);
+  const szArr  = new Float32Array(TOTAL);
+  const colArr = new Float32Array(TOTAL * 3);
+  const brArr  = new Float32Array(TOTAL);
+  let   N      = 0;
+
+  // Box-Muller gaussian
+  function gauss(){
+    let u=0,v=0;
+    while(!u) u=Math.random(); while(!v) v=Math.random();
+    return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+  }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function clamp(v,lo,hi){ return Math.max(lo,Math.min(hi,v)); }
+
+  function push(x,y, size, r,g,b, bright){
+    if(N >= TOTAL) return;
+    posArr[N*2]   = x;    posArr[N*2+1] = y;
+    szArr[N]      = clamp(size, 0.6, 9.5);
+    colArr[N*3]   = r;    colArr[N*3+1] = g; colArr[N*3+2] = b;
+    brArr[N]      = bright;
+    N++;
+  }
+
+  const NUM_ARMS = 4;
+  const B_SPIRAL = 0.265; // logarithmic spiral tightness
+
+  // ── 1. Central bulge — warm orange-gold stars ─────────────────────────────
+  const nBulge = Math.floor(TOTAL * 0.20);
+  for(let i=0; i<nBulge; i++){
+    const rad   = Math.abs(gauss())*0.068 + Math.random()*0.022;
+    const theta = Math.random()*Math.PI*2;
+    const x = rad*Math.cos(theta), y = rad*Math.sin(theta) + gauss()*0.009;
+    const t = Math.random();
+    push(x, y,
+      0.7 + Math.random()*2.3,
+      lerp(0.98,1.0,t), lerp(0.74,0.92,t), lerp(0.36,0.62,t),
+      0.45 + Math.random()*0.55);
+  }
+
+  // ── 2. Core halo glow — large very-dim blobs that sum to diffuse brilliance ─
+  const nGlow = Math.floor(TOTAL * 0.016);
+  for(let i=0; i<nGlow; i++){
+    const rad = Math.abs(gauss())*0.032;
+    const th  = Math.random()*Math.PI*2;
+    push(rad*Math.cos(th), rad*Math.sin(th),
+      5.5 + Math.random()*6.5,
+      1.0, 0.90, 0.68,
+      0.011 + Math.random()*0.022);
+  }
+
+  // ── 3. Spiral arms — 4 logarithmic arms, blue-white young stars ──────────
+  const nArms = Math.floor(TOTAL * 0.52);
+  for(let i=0; i<nArms; i++){
+    const arm      = (i % NUM_ARMS);
+    const armStart = (arm / NUM_ARMS) * Math.PI * 2;
+    // Parameter along arm — slightly biased toward middle distances
+    const tArm  = 0.18 + Math.pow(Math.random(), 0.72) * 2.90;
+    const radius = 0.033 * Math.exp(B_SPIRAL * tArm);
+    const angle  = armStart + tArm;
+
+    // Gaussian scatter — arms broaden with distance
+    const scatter = gauss() * (0.014 + tArm * 0.0115);
+    const perpA   = angle + Math.PI * 0.5;
+    let x = radius*Math.cos(angle) + scatter*Math.cos(perpA);
+    let y = radius*Math.sin(angle) + scatter*Math.sin(perpA) + gauss()*0.006;
+
+    // Clamp to disk edge
+    const d = Math.sqrt(x*x + y*y);
+    if(d > 0.93){ x *= 0.93/d; y *= 0.93/d; }
+
+    // Color: young hot stars (blue-white) dominate arms, mix in warm white
+    const outerFrac = clamp(tArm / 3.0, 0, 1);
+    const t = Math.random();
+    let r,g,b;
+    if(Math.random() < 0.28 + outerFrac * 0.35){
+      // Blue-white (hot O/B stars)
+      r = lerp(0.70,0.88,t); g = lerp(0.84,0.96,t); b = 1.0;
+    } else if(Math.random() < 0.15){
+      // Rare red giant (adds warmth variation)
+      r = 1.0; g = lerp(0.52,0.68,t); b = lerp(0.28,0.44,t);
+    } else {
+      // White / warm white
+      r = lerp(0.93,1.0,t); g = lerp(0.93,1.0,t); b = lerp(0.86,0.98,t);
+    }
+    push(x, y, 0.65 + Math.random()*1.9, r,g,b, 0.38 + Math.random()*0.62);
+  }
+
+  // ── 4. Inter-arm disk — older dimmer stars ─────────────────────────────────
+  const nDisk = TOTAL - N - 380;
+  for(let i=0; i<nDisk; i++){
+    const rad   = Math.sqrt(Math.random()) * 0.93;
+    const theta = Math.random() * Math.PI * 2;
+    const x = rad*Math.cos(theta), y = rad*Math.sin(theta) + gauss()*0.011;
+    const t = Math.random();
+    push(x, y,
+      0.5 + Math.random()*1.05,
+      lerp(0.84,1.0,t), lerp(0.84,0.98,t), lerp(0.76,0.95,t),
+      0.07 + Math.random()*0.26);
+  }
+
+  // ── 5. Handful of prominent foreground stars ──────────────────────────────
+  for(let i=0; i<380 && N<TOTAL; i++){
+    const rad = Math.sqrt(Math.random())*0.88;
+    const th  = Math.random()*Math.PI*2;
+    const t   = Math.random();
+    push(rad*Math.cos(th), rad*Math.sin(th),
+      3.2 + Math.random()*6.8,
+      lerp(0.95,1.0,t), lerp(0.95,1.0,t), lerp(0.88,1.0,t),
+      0.72 + Math.random()*0.28);
+  }
+
+  // ── Upload to GPU ──────────────────────────────────────────────────────────
+  function upload(data, attr, compSize){
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, data.subarray(0, N*compSize), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(attr);
+    gl.vertexAttribPointer(attr, compSize, gl.FLOAT, false, 0, 0);
+  }
+  upload(posArr, aPos,  2);
+  upload(szArr,  aSize, 1);
+  upload(colArr, aCol,  3);
+  upload(brArr,  aBr,   1);
+
+  // Additive blending — star glow accumulates naturally in dense regions
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+
+  // ── Render loop ────────────────────────────────────────────────────────────
+  let rotation = Math.random() * Math.PI * 2;
+  let active   = false;
+
+  function render(){
+    requestAnimationFrame(render);
+    if(!active) return;
+
+    const w = gc.width, h = gc.height;
+    gl.viewport(0, 0, w, h);
+    gl.clearColor(0,0,0,0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // One full rotation ≈ 28 minutes — barely perceptible, always moving
+    rotation += 0.000062;
+
+    gl.uniform1f(uRot,    rotation);
+    gl.uniform1f(uAspect, w / h);
+    // Full-bleed horizontal stretch — arms sweep nearly edge to edge
+    gl.uniform1f(uScaleX, 2.85);
+    gl.uniform1f(uScaleY, 0.62);
+
+    gl.drawArrays(gl.POINTS, 0, N);
+  }
+
+  // ── Scroll-triggered visibility ────────────────────────────────────────────
+  // Enter: when article-zero scrolls into view
+  // Exit:  as soon as the sentinel (right after axiom box) leaves the top
+  const enterIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        active = true;
+        gc.style.opacity = '0.85';
+        document.body.classList.add('galaxy-active');
+      }
+    });
+  }, { threshold: 0.05 });
+
+  const exitIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      // sentinel leaving viewport at the top = user scrolled past axiom
+      if (!e.isIntersecting && e.boundingClientRect.top < 0) {
+        active = false;
+        gc.style.opacity = '0';
+        document.body.classList.remove('galaxy-active');
+      }
+    });
+  }, { threshold: 0.0 });
+
+  enterIO.observe(axiom);
+  const sentinel = document.getElementById('galaxy-exit-sentinel');
+  if (sentinel) exitIO.observe(sentinel);
+  render();
+})();
+
+// ── RADIANT SUN — Day Mode Element ───────────────────────────────────────────
+(function(){
+  'use strict';
+
+  const axiom   = document.getElementById('article-zero');
+  const sentinel = document.getElementById('galaxy-exit-sentinel');
+  if (!axiom) return;
+
+  // Canvas
+  const sc = document.createElement('canvas');
+  sc.id = 'sun-canvas';
+  Object.assign(sc.style, {
+    position: 'fixed', inset: '0',
+    width: '100vw', height: '100vh',
+    pointerEvents: 'none', zIndex: '1',
+    opacity: '0',
+    transition: 'opacity 3.2s cubic-bezier(0.16,1,0.3,1)'
+  });
+  document.body.insertBefore(sc, document.getElementById('torus'));
+
+  const ctx2 = sc.getContext('2d');
+  let W, H, cx, cy, t2 = 0;
+  let sunActive = false;
+
+  function resize2() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    sc.width  = window.innerWidth  * dpr;
+    sc.height = window.innerHeight * dpr;
+    sc.style.width  = window.innerWidth  + 'px';
+    sc.style.height = window.innerHeight + 'px';
+    W = sc.width; H = sc.height;
+    cx = W / 2; cy = H / 2;
+  }
+  resize2();
+  window.addEventListener('resize', resize2);
+
+  function isDay() { return document.body.classList.contains('day'); }
+
+  // ── Draw one frame ────────────────────────────────────────────────────────
+  function drawSun(t) {
+    ctx2.clearRect(0, 0, W, H);
+    if (!sunActive || !isDay()) return;
+
+    const R = Math.min(W, H) * 0.18; // solar disk radius
+
+    // ── 1. Outer corona — wide diffuse halo ──────────────────────────────
+    const corona = ctx2.createRadialGradient(cx, cy, R * 0.9, cx, cy, R * 5.8);
+    corona.addColorStop(0.00, 'rgba(255,230,140,0.28)');
+    corona.addColorStop(0.12, 'rgba(255,210,100,0.18)');
+    corona.addColorStop(0.30, 'rgba(255,180, 60,0.10)');
+    corona.addColorStop(0.55, 'rgba(220,140, 30,0.04)');
+    corona.addColorStop(1.00, 'rgba(180,110,  0,0.00)');
+    ctx2.fillStyle = corona;
+    ctx2.beginPath();
+    ctx2.arc(cx, cy, R * 5.8, 0, Math.PI * 2);
+    ctx2.fill();
+
+    // ── 2. Corona ray streamers (rotating slowly) ─────────────────────────
+    const numRays = 22;
+    ctx2.save();
+    ctx2.translate(cx, cy);
+    ctx2.rotate(t * 0.00018);
+    for (let i = 0; i < numRays; i++) {
+      const angle  = (i / numRays) * Math.PI * 2;
+      const len    = R * (2.8 + Math.sin(t * 0.0009 + i * 1.3) * 0.9
+                              + Math.cos(t * 0.0006 + i * 2.1) * 0.6);
+      const width  = R * (0.04 + Math.sin(t * 0.0007 + i * 0.8) * 0.018);
+
+      const rg = ctx2.createLinearGradient(0, 0, Math.cos(angle)*len, Math.sin(angle)*len);
+      rg.addColorStop(0.0,  `rgba(255,240,180,0.22)`);
+      rg.addColorStop(0.35, `rgba(255,210,100,0.12)`);
+      rg.addColorStop(0.70, `rgba(255,180, 60,0.05)`);
+      rg.addColorStop(1.0,  `rgba(255,160, 20,0.00)`);
+
+      ctx2.save();
+      ctx2.rotate(angle);
+      ctx2.beginPath();
+      ctx2.moveTo(R * 0.95, -width);
+      ctx2.lineTo(len, 0);
+      ctx2.lineTo(R * 0.95,  width);
+      ctx2.closePath();
+      ctx2.fillStyle = rg;
+      ctx2.fill();
+      ctx2.restore();
+    }
+    ctx2.restore();
+
+    // ── 3. Chromosphere ring ──────────────────────────────────────────────
+    const chrom = ctx2.createRadialGradient(cx, cy, R * 0.92, cx, cy, R * 1.12);
+    chrom.addColorStop(0.0, 'rgba(255,140, 30,0.55)');
+    chrom.addColorStop(0.5, 'rgba(255,100, 10,0.25)');
+    chrom.addColorStop(1.0, 'rgba(255, 80,  0,0.00)');
+    ctx2.fillStyle = chrom;
+    ctx2.beginPath();
+    ctx2.arc(cx, cy, R * 1.12, 0, Math.PI * 2);
+    ctx2.fill();
+
+    // ── 4. Solar prominences (looping plasma arcs) ────────────────────────
+    const promCount = 6;
+    ctx2.save();
+    ctx2.translate(cx, cy);
+    for (let i = 0; i < promCount; i++) {
+      const baseAngle = (i / promCount) * Math.PI * 2 + t * 0.00012;
+      const phase     = t * 0.0005 + i * 1.9;
+      const reach     = R * (0.38 + Math.sin(phase) * 0.22);
+      const spread    = 0.28 + Math.cos(phase * 0.7) * 0.08;
+
+      ctx2.save();
+      ctx2.rotate(baseAngle);
+
+      const pg = ctx2.createRadialGradient(0, -R * 1.01, 0, 0, -R * 1.01, reach);
+      pg.addColorStop(0.0, `rgba(255,100,20,0.55)`);
+      pg.addColorStop(0.4, `rgba(255,60, 0,0.28)`);
+      pg.addColorStop(1.0, `rgba(255,40, 0,0.00)`);
+
+      ctx2.beginPath();
+      ctx2.moveTo(-R * spread * 0.5, -R * 0.98);
+      ctx2.bezierCurveTo(
+        -reach * 0.6, -(R + reach * 0.5),
+         reach * 0.6, -(R + reach * 0.5),
+         R * spread * 0.5, -R * 0.98
+      );
+      ctx2.fillStyle = pg;
+      ctx2.fill();
+      ctx2.restore();
+    }
+    ctx2.restore();
+
+    // ── 5. Photosphere — main solar disk with granulation ─────────────────
+    const disk = ctx2.createRadialGradient(cx - R*0.18, cy - R*0.18, 0, cx, cy, R);
+    disk.addColorStop(0.00, '#fffbe8');
+    disk.addColorStop(0.25, '#fff4c2');
+    disk.addColorStop(0.55, '#ffd966');
+    disk.addColorStop(0.80, '#f5a623');
+    disk.addColorStop(0.93, '#d4760e');
+    disk.addColorStop(1.00, '#8b3a00');
+    ctx2.fillStyle = disk;
+    ctx2.beginPath();
+    ctx2.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx2.fill();
+
+    // Granulation texture — small convection cells on surface
+    ctx2.save();
+    ctx2.beginPath();
+    ctx2.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx2.clip();
+    const cellCount = 55;
+    for (let i = 0; i < cellCount; i++) {
+      const seed   = i * 137.508; // golden angle seed
+      const cr     = Math.sqrt((i / cellCount)) * R * 0.88;
+      const ca     = seed + t * 0.00004 * (i % 2 === 0 ? 1 : -1);
+      const gx     = cx + Math.cos(ca) * cr;
+      const gy     = cy + Math.sin(ca) * cr;
+      const gs     = R * (0.055 + (i % 5) * 0.014);
+      const pulse  = 0.5 + Math.sin(t * 0.0008 + i * 0.9) * 0.5;
+      const bright = Math.floor(lerp(210, 255, pulse));
+      const gr2    = ctx2.createRadialGradient(gx, gy, 0, gx, gy, gs);
+      gr2.addColorStop(0, `rgba(${bright},${bright - 20},${bright - 80},0.18)`);
+      gr2.addColorStop(1, `rgba(180,100,0,0.00)`);
+      ctx2.fillStyle = gr2;
+      ctx2.beginPath();
+      ctx2.arc(gx, gy, gs, 0, Math.PI * 2);
+      ctx2.fill();
+    }
+    ctx2.restore();
+
+    // ── 6. Limb darkening overlay ─────────────────────────────────────────
+    const limb = ctx2.createRadialGradient(cx, cy, R * 0.45, cx, cy, R);
+    limb.addColorStop(0.0, 'rgba(0,0,0,0.00)');
+    limb.addColorStop(0.7, 'rgba(0,0,0,0.00)');
+    limb.addColorStop(1.0, 'rgba(0,0,0,0.42)');
+    ctx2.fillStyle = limb;
+    ctx2.beginPath();
+    ctx2.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx2.fill();
+
+    // ── 7. Specular highlight ─────────────────────────────────────────────
+    const spec = ctx2.createRadialGradient(
+      cx - R * 0.28, cy - R * 0.28, 0,
+      cx - R * 0.28, cy - R * 0.28, R * 0.55
+    );
+    spec.addColorStop(0.0, 'rgba(255,255,240,0.30)');
+    spec.addColorStop(0.5, 'rgba(255,255,200,0.06)');
+    spec.addColorStop(1.0, 'rgba(255,255,200,0.00)');
+    ctx2.fillStyle = spec;
+    ctx2.beginPath();
+    ctx2.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx2.fill();
+  }
+
+  // ── Pseudo-noise helpers ──────────────────────────────────────────────────
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function smoothstep(a, b, t) { t = Math.max(0,Math.min(1,(t-a)/(b-a))); return t*t*(3-2*t); }
+  // Layered sin/cos noise — 4 octaves
+  function snoise(x, y, t) {
+    let v = 0;
+    v += Math.sin(x*2.1 + t*0.0008) * Math.cos(y*1.9 - t*0.0006) * 0.5;
+    v += Math.sin(x*4.3 - t*0.0013 + y*0.7) * Math.cos(y*3.8 + t*0.0009) * 0.25;
+    v += Math.sin(x*8.7 + t*0.0021 + y*2.1) * Math.cos(y*7.2 - t*0.0017) * 0.125;
+    v += Math.sin(x*17.1- t*0.0034 - y*4.3) * Math.cos(y*14.4+ t*0.0028) * 0.0625;
+    return v; // range roughly -1..1
+  }
+
+  // Sparkling corona particles pool
+  const MAX_SPARKS = 280;
+  const sparks = [];
+  for (let i = 0; i < MAX_SPARKS; i++) {
+    sparks.push({ life: 0, maxLife: 0, x: 0, y: 0, vx: 0, vy: 0, size: 0, hue: 0 });
+  }
+  let sparkHead = 0;
+
+  function spawnSpark(R) {
+    const s = sparks[sparkHead % MAX_SPARKS]; sparkHead++;
+    const angle = Math.random() * Math.PI * 2;
+    const dist  = R * (0.88 + Math.random() * 1.85);
+    s.x       = cx + Math.cos(angle) * dist;
+    s.y       = cy + Math.sin(angle) * dist;
+    s.vx      = Math.cos(angle) * (0.18 + Math.random() * 0.55);
+    s.vy      = Math.sin(angle) * (0.18 + Math.random() * 0.55);
+    s.size    = 0.6 + Math.random() * 2.4;
+    s.life    = 0;
+    s.maxLife = 38 + Math.random() * 90;
+    s.hue     = 22 + Math.random() * 28; // orange-gold range
+  }
+
+  // Coronal loops — magnetic arcs, generated once per activation
+  const NUM_LOOPS = 9;
+  const loops = [];
+  function buildLoops(R) {
+    loops.length = 0;
+    for (let i = 0; i < NUM_LOOPS; i++) {
+      const a1    = Math.random() * Math.PI * 2;
+      const span  = 0.18 + Math.random() * 0.55;
+      const a2    = a1 + span * (Math.random() < 0.5 ? 1 : -1);
+      const h     = R * (0.22 + Math.random() * 0.68);
+      const speed = 0.00004 + Math.random() * 0.00008;
+      loops.push({ a1, a2, h, speed, phase: Math.random() * Math.PI * 2 });
+    }
+  }
+
+  // ── Draw one frame ────────────────────────────────────────────────────────
+  function drawSun(t) {
+    ctx2.clearRect(0, 0, W, H);
+    if (!sunActive || !isDay()) return;
+
+    const R = Math.min(W, H) * 0.19;
+
+    // ── Spawn sparks every few frames ───────────────────────────────────
+    if (t % 3 === 0) { spawnSpark(R); spawnSpark(R); }
+
+    // ── 4. Chromosphere glow ring ──────────────────────────────────────────────
+    const outerGlow = ctx2.createRadialGradient(cx, cy, R, cx, cy, R * 6.2);
+    outerGlow.addColorStop(0.00, 'rgba(255,230,130,0.32)');
+    outerGlow.addColorStop(0.08, 'rgba(255,200, 80,0.20)');
+    outerGlow.addColorStop(0.22, 'rgba(255,160, 40,0.10)');
+    outerGlow.addColorStop(0.50, 'rgba(220,120, 10,0.04)');
+    outerGlow.addColorStop(1.00, 'rgba(180, 80,  0,0.00)');
+    ctx2.fillStyle = outerGlow;
+    ctx2.beginPath(); ctx2.arc(cx, cy, R * 6.2, 0, Math.PI * 2); ctx2.fill();
+
+    // ── 2. Animated corona streamers (rotating + breathing) ─────────────
+    const numRays = 28;
+    ctx2.save(); ctx2.translate(cx, cy); ctx2.rotate(t * 0.00016);
+    for (let i = 0; i < numRays; i++) {
+      const angle = (i / numRays) * Math.PI * 2;
+      const noise = snoise(Math.cos(angle)*2, Math.sin(angle)*2, t);
+      const len   = R * (2.4 + noise * 0.9 + Math.sin(t*0.0007 + i*1.1)*0.5);
+      const wid   = R * (0.032 + noise*0.012 + Math.sin(t*0.0009+i*2.3)*0.008);
+      const alpha = 0.10 + Math.abs(noise) * 0.08;
+
+      const rg = ctx2.createLinearGradient(0,0,Math.cos(angle)*len,Math.sin(angle)*len);
+      rg.addColorStop(0.0, `rgba(255,240,170,${alpha*1.8})`);
+      rg.addColorStop(0.3, `rgba(255,200, 90,${alpha})`);
+      rg.addColorStop(0.7, `rgba(255,150, 40,${alpha*0.4})`);
+      rg.addColorStop(1.0, `rgba(255,120,  0,0.00)`);
+
+      ctx2.save(); ctx2.rotate(angle);
+      ctx2.beginPath();
+      ctx2.moveTo(R*0.94, -wid);
+      ctx2.lineTo(len, 0);
+      ctx2.lineTo(R*0.94,  wid);
+      ctx2.closePath();
+      ctx2.fillStyle = rg; ctx2.fill();
+      ctx2.restore();
+    }
+    ctx2.restore();
+
+    // ── 3. Coronal magnetic loops ────────────────────────────────────────
+    ctx2.save(); ctx2.translate(cx, cy);
+    loops.forEach(lp => {
+      const drift  = t * lp.speed;
+      const a1     = lp.a1 + drift;
+      const a2     = lp.a2 + drift;
+      const pulse  = 0.7 + 0.3 * Math.sin(t * 0.0006 + lp.phase);
+      const h      = lp.h * pulse;
+      const x1     = Math.cos(a1) * R;
+      const y1     = Math.sin(a1) * R;
+      const x2     = Math.cos(a2) * R;
+      const y2     = Math.sin(a2) * R;
+      const midAng = (a1 + a2) / 2;
+      const cpx    = Math.cos(midAng) * (R + h);
+      const cpy    = Math.sin(midAng) * (R + h);
+
+      const alpha  = 0.08 + 0.07 * pulse;
+      ctx2.beginPath();
+      ctx2.moveTo(x1, y1);
+      ctx2.quadraticCurveTo(cpx, cpy, x2, y2);
+      ctx2.strokeStyle = `rgba(255,160,40,${alpha})`;
+      ctx2.lineWidth   = 1.2 + pulse * 0.8;
+      ctx2.shadowColor = `rgba(255,140,20,${alpha * 1.5})`;
+      ctx2.shadowBlur  = 6;
+      ctx2.stroke();
+      ctx2.shadowBlur  = 0;
+    });
+    ctx2.restore();
+
+    // ── 5. Chromosphere glow ring ────────────────────────────────────────
+    const cAlpha = 0.38 + 0.12 * Math.sin(t * 0.0005);
+    const chrom  = ctx2.createRadialGradient(cx, cy, R*0.90, cx, cy, R*1.14);
+    chrom.addColorStop(0.0, `rgba(255,130,20,${cAlpha})`);
+    chrom.addColorStop(0.6, `rgba(255, 80, 0,${cAlpha*0.45})`);
+    chrom.addColorStop(1.0,  'rgba(255,60,0,0.00)');
+    ctx2.fillStyle = chrom;
+    ctx2.beginPath(); ctx2.arc(cx, cy, R*1.14, 0, Math.PI*2); ctx2.fill();
+
+    // ── 6. Photosphere with plasma noise ─────────────────────────────────
+    ctx2.save();
+    ctx2.beginPath(); ctx2.arc(cx, cy, R, 0, Math.PI*2); ctx2.clip();
+
+    // Base disk gradient
+    const disk = ctx2.createRadialGradient(cx-R*0.15, cy-R*0.15, 0, cx, cy, R);
+    disk.addColorStop(0.00, '#fffde0');
+    disk.addColorStop(0.20, '#fff2a8');
+    disk.addColorStop(0.50, '#ffc842');
+    disk.addColorStop(0.78, '#f08010');
+    disk.addColorStop(0.93, '#c05808');
+    disk.addColorStop(1.00, '#7a2800');
+    ctx2.fillStyle = disk;
+    ctx2.fillRect(cx-R, cy-R, R*2, R*2);
+
+    // Plasma turbulence layer — noise-displaced color patches
+    const patchCount = 42;
+    for (let i = 0; i < patchCount; i++) {
+      const angle  = (i / patchCount) * Math.PI * 2 + t * 0.000035 * (i%2===0?1:-1);
+      const dist   = Math.sqrt((i+0.5)/patchCount) * R * 0.91;
+      const gx     = cx + Math.cos(angle) * dist;
+      const gy     = cy + Math.sin(angle) * dist;
+      const nx     = snoise(gx/R, gy/R, t);
+      const ny     = snoise(gx/R + 5.3, gy/R + 2.7, t);
+      const px2    = gx + nx * R * 0.055;
+      const py2    = gy + ny * R * 0.055;
+      const pulse  = 0.5 + 0.5 * Math.sin(t * 0.0006 + i * 1.37);
+      const size   = R * (0.06 + (i%7)*0.012 + pulse*0.018);
+      const bright = Math.floor(lerp(180, 255, pulse));
+      const gr2    = ctx2.createRadialGradient(px2, py2, 0, px2, py2, size);
+      gr2.addColorStop(0,   `rgba(${bright},${Math.floor(bright*0.72)},${Math.floor(bright*0.18)},0.22)`);
+      gr2.addColorStop(0.6, `rgba(${bright},${Math.floor(bright*0.55)},0,0.08)`);
+      gr2.addColorStop(1,   'rgba(200,100,0,0.00)');
+      ctx2.fillStyle = gr2;
+      ctx2.beginPath(); ctx2.arc(px2, py2, size, 0, Math.PI*2); ctx2.fill();
+    }
+
+    // Surface sparkle points — hot bright flashes
+    for (let i = 0; i < 18; i++) {
+      const seed   = i * 97.3 + Math.floor(t/14)*97.3;
+      const srand  = (n) => { let x=Math.sin(n)*43758.5453123; return x-Math.floor(x); };
+      const sx     = cx + (srand(seed)   - 0.5) * R * 1.7;
+      const sy     = cy + (srand(seed+1) - 0.5) * R * 1.7;
+      const sdist  = Math.sqrt((sx-cx)**2+(sy-cy)**2);
+      if (sdist > R * 0.96) continue;
+      const life   = (t % 14) / 14;
+      const alpha  = Math.sin(life * Math.PI) * (0.4 + srand(seed+2)*0.5);
+      const ss     = 1 + srand(seed+3) * 3.5;
+      const sg     = ctx2.createRadialGradient(sx,sy,0,sx,sy,ss*3);
+      sg.addColorStop(0,   `rgba(255,255,220,${alpha})`);
+      sg.addColorStop(0.3, `rgba(255,240,160,${alpha*0.4})`);
+      sg.addColorStop(1,   'rgba(255,200,80,0.00)');
+      ctx2.fillStyle = sg;
+      ctx2.beginPath(); ctx2.arc(sx, sy, ss*3, 0, Math.PI*2); ctx2.fill();
+    }
+    ctx2.restore();
+
+    // ── 7. Limb darkening ───────────────────────────────────────────────
+    const limb = ctx2.createRadialGradient(cx, cy, R*0.42, cx, cy, R);
+    limb.addColorStop(0.0, 'rgba(0,0,0,0.00)');
+    limb.addColorStop(0.65,'rgba(0,0,0,0.00)');
+    limb.addColorStop(1.0, 'rgba(0,0,0,0.52)');
+    ctx2.fillStyle = limb;
+    ctx2.beginPath(); ctx2.arc(cx, cy, R, 0, Math.PI*2); ctx2.fill();
+
+    // ── 8. Corona sparkling particles ────────────────────────────────────
+    sparks.forEach(s => {
+      if (s.maxLife === 0) return;
+      s.life++;
+      s.x += s.vx; s.y += s.vy;
+      const progress = s.life / s.maxLife;
+      if (progress > 1) { s.maxLife = 0; return; }
+      const alpha = Math.sin(progress * Math.PI) * 0.9;
+      const flicker = 0.6 + 0.4 * Math.sin(s.life * 0.42 + s.hue);
+      const sg2 = ctx2.createRadialGradient(s.x,s.y,0,s.x,s.y,s.size*3.5);
+      sg2.addColorStop(0,   `hsla(${s.hue},100%,92%,${alpha * flicker})`);
+      sg2.addColorStop(0.4, `hsla(${s.hue+8},90%,70%,${alpha * 0.4 * flicker})`);
+      sg2.addColorStop(1,   `hsla(${s.hue+15},80%,50%,0.00)`);
+      ctx2.fillStyle = sg2;
+      ctx2.beginPath(); ctx2.arc(s.x, s.y, s.size*3.5, 0, Math.PI*2); ctx2.fill();
+    });
+
+    // ── 9. Specular highlight ───────────────────────────────────────────
+    const spec = ctx2.createRadialGradient(cx-R*0.26, cy-R*0.26, 0, cx-R*0.26, cy-R*0.26, R*0.52);
+    spec.addColorStop(0.0, 'rgba(255,255,245,0.28)');
+    spec.addColorStop(0.5, 'rgba(255,255,210,0.06)');
+    spec.addColorStop(1.0, 'rgba(255,255,200,0.00)');
+    ctx2.fillStyle = spec;
+    ctx2.beginPath(); ctx2.arc(cx, cy, R, 0, Math.PI*2); ctx2.fill();
+  }
+
+  function sunLoop() {
+    t2++;
+    if (isDay()) drawSun(t2);
+    else ctx2.clearRect(0, 0, W, H);
+    requestAnimationFrame(sunLoop);
+  }
+  sunLoop();
+
+  // ── Visibility — same entry/exit sentinel as galaxy ───────────────────────
+  const enterIO2 = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && isDay()) {
+        sunActive = true;
+        sc.style.opacity = '0.92';
+      }
+    });
+  }, { threshold: 0.05 });
+
+  const exitIO2 = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting && e.boundingClientRect.top < 0) {
+        sunActive = false;
+        sc.style.opacity = '0';
+      }
+    });
+  }, { threshold: 0.0 });
+
+  enterIO2.observe(axiom);
+  if (sentinel) exitIO2.observe(sentinel);
+  buildLoops(Math.min(window.innerWidth, window.innerHeight) * 0.19);
+
+  // Re-check visibility when day mode toggles
+  document.getElementById('mode-toggle').addEventListener('click', () => {
+    setTimeout(() => {
+      const rect = axiom.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (isDay() && inView) {
+        sunActive = true; sc.style.opacity = '0.92';
+      } else {
+        sunActive = false; sc.style.opacity = '0';
+      }
+    }, 50);
+  });
+
+})();
+</script>
+</body>
+</html>
