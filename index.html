@@ -602,10 +602,28 @@ body.day .step-num { color: #9c6c22; }
   .changelog-entry, .glossary-entry { grid-template-columns: 1fr; gap: 0.3rem; }
   .ratification-line { flex-direction: column; gap: 1rem; }
 }
+
+/* ── EVENT HORIZON BACKGROUND ── */
+#bh-bg {
+  position: fixed; inset: 0;
+  background: url('bg.png') center / cover no-repeat;
+  opacity: 0.22;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.7s ease;
+}
+body.day #bh-bg { opacity: 0.07; }
+
+/* ── COPY SHIELD ── */
+*, *::before, *::after {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
 </style>
 </head>
 <body>
 
+<div id="bh-bg"></div>
 <div id="progress-thread"></div>
 <button id="mode-toggle">Day</button>
 <canvas id="torus"></canvas>
@@ -2146,6 +2164,60 @@ body.day .step-num { color: #9c6c22; }
     }, 50);
   });
 
+})();
+</script>
+<script>
+// ── CANVAS COPY SHIELD ─────────────────────────────────────────────────────────
+// Transparent canvas sits above page content (z 10) but below UI buttons (z 200).
+// It intercepts mouse events, preventing any text selection by pointer.
+// Wheel + touch events are forwarded so scrolling works normally.
+(function(){
+  const shield = document.createElement('canvas');
+  shield.id = 'copy-shield';
+  Object.assign(shield.style, {
+    position: 'fixed', inset: '0', zIndex: '10',
+    opacity: '0', cursor: 'default'
+  });
+
+  function resize(){
+    const dpr = window.devicePixelRatio || 1;
+    shield.width  = window.innerWidth  * dpr;
+    shield.height = window.innerHeight * dpr;
+    shield.style.width  = window.innerWidth  + 'px';
+    shield.style.height = window.innerHeight + 'px';
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  document.body.appendChild(shield);
+
+  // Forward wheel scroll through the shield
+  shield.addEventListener('wheel', e => {
+    window.scrollBy({ top: e.deltaY, left: e.deltaX, behavior: 'auto' });
+  }, { passive: true });
+
+  // Forward touch scroll through the shield
+  let lastTouchY = 0;
+  shield.addEventListener('touchstart', e => { lastTouchY = e.touches[0].clientY; }, { passive: true });
+  shield.addEventListener('touchmove', e => {
+    const dy = lastTouchY - e.touches[0].clientY;
+    lastTouchY = e.touches[0].clientY;
+    window.scrollBy(0, dy);
+  }, { passive: true });
+
+  // Block all copy paths
+  document.addEventListener('copy', e => {
+    e.preventDefault();
+    try { e.clipboardData.setData('text/plain', ''); } catch(_){}
+  });
+  document.addEventListener('cut',         e => e.preventDefault());
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('selectstart', e => e.preventDefault());
+  document.addEventListener('dragstart',   e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && ['a','c','u','s'].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+    }
+  });
 })();
 </script>
 </body>
