@@ -123,7 +123,7 @@ If you find something that should change, open an issue. It will be considered i
 
 ## License
 
-© [Your Name]
+© [AetherVibes-The-ThornWeave]
 
 This work is licensed under **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)**.
 
