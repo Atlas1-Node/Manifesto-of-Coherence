@@ -2176,7 +2176,7 @@ body.day #bh-bg { opacity: 0.03; }
   shield.id = 'copy-shield';
   Object.assign(shield.style, {
     position: 'fixed', inset: '0', zIndex: '10',
-    opacity: '0', cursor: 'default'
+    opacity: '0', cursor: 'default', touchAction: 'pan-y'
   });
 
   function resize(){
@@ -2193,15 +2193,6 @@ body.day #bh-bg { opacity: 0.03; }
   // Forward wheel scroll through the shield
   shield.addEventListener('wheel', e => {
     window.scrollBy({ top: e.deltaY, left: e.deltaX, behavior: 'auto' });
-  }, { passive: true });
-
-  // Forward touch scroll through the shield
-  let lastTouchY = 0;
-  shield.addEventListener('touchstart', e => { lastTouchY = e.touches[0].clientY; }, { passive: true });
-  shield.addEventListener('touchmove', e => {
-    const dy = lastTouchY - e.touches[0].clientY;
-    lastTouchY = e.touches[0].clientY;
-    window.scrollBy(0, dy);
   }, { passive: true });
 
   // Block all copy paths
