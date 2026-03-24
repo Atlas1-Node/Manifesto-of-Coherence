@@ -635,13 +635,16 @@ body.day #bh-bg { opacity: 0.015; }
   text-transform: uppercase;
 }
 .lock-glyph {
-  font-size: 2.4rem; color: var(--gold); opacity: 0.5;
-  letter-spacing: 0.2em;
+  color: var(--gold); opacity: 0.7;
+}
+.lock-glyph svg {
+  display: block;
 }
 .lock-subtitle {
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.95rem; font-style: italic;
-  color: var(--text-dim); letter-spacing: 0.06em;
+  color: var(--text-strong); letter-spacing: 0.06em;
+  text-shadow: 0 0 18px rgba(9,9,15,1), 0 0 32px rgba(9,9,15,1), 0 0 6px rgba(9,9,15,1);
 }
 .lock-form {
   display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
@@ -1744,7 +1747,33 @@ body.day #bh-bg { opacity: 0.015; }
 <div id="lock-screen">
   <div class="lock-inner">
     <div class="lock-eyebrow">MANIFESTO OF COHERENCE</div>
-    <div class="lock-glyph">&#x4D30;</div>
+    <div class="lock-glyph">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 80" width="80" height="107" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Vertical axis — the still center -->
+        <line x1="30" y1="3" x2="30" y2="77" stroke-width="0.6" opacity="0.45"/>
+        <!-- Crown arc — emergence -->
+        <path d="M 16 19 Q 30 7 44 19" stroke-width="0.85" opacity="0.8"/>
+        <!-- Outer diamond — coherent form -->
+        <polygon points="30,22 49,40 30,58 11,40" stroke-width="0.95" opacity="0.9"/>
+        <!-- Inner diamond — depth / layers -->
+        <polygon points="30,31 39,40 30,49 21,40" stroke-width="0.55" opacity="0.38"/>
+        <!-- Center point — the field -->
+        <circle cx="30" cy="40" r="2" fill="currentColor" opacity="0.85"/>
+        <!-- Torus flow arcs — the field curving back -->
+        <path d="M 11 40 Q 4 56 19 66" stroke-width="0.6" opacity="0.32"/>
+        <path d="M 49 40 Q 56 56 41 66" stroke-width="0.6" opacity="0.32"/>
+        <!-- Base bar — ground -->
+        <line x1="22" y1="69" x2="38" y2="69" stroke-width="0.7" opacity="0.48"/>
+        <!-- Nodes at diamond cardinal points -->
+        <circle cx="30" cy="22" r="1.5" fill="currentColor" opacity="0.65"/>
+        <circle cx="49" cy="40" r="1.5" fill="currentColor" opacity="0.65"/>
+        <circle cx="30" cy="58" r="1.5" fill="currentColor" opacity="0.65"/>
+        <circle cx="11" cy="40" r="1.5" fill="currentColor" opacity="0.65"/>
+        <!-- Crown arc endpoint nodes -->
+        <circle cx="16" cy="19" r="1.2" fill="currentColor" opacity="0.55"/>
+        <circle cx="44" cy="19" r="1.2" fill="currentColor" opacity="0.55"/>
+      </svg>
+    </div>
     <div class="lock-subtitle">Constitutional Edition &middot; v9</div>
     <div class="lock-form">
       <input type="password" id="lock-input" placeholder="enter passphrase"
