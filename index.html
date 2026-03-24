@@ -607,12 +607,12 @@ body.day .step-num { color: #9c6c22; }
 #bh-bg {
   position: fixed; inset: 0;
   background: url('bg.gif') center / cover no-repeat;
-  opacity: 0.10;
+  opacity: 0.05;
   z-index: 0;
   pointer-events: none;
   transition: opacity 0.7s ease;
 }
-body.day #bh-bg { opacity: 0.03; }
+body.day #bh-bg { opacity: 0.015; }
 
 /* ── COPY SHIELD ── */
 *, *::before, *::after {
@@ -1674,33 +1674,28 @@ body.day #bh-bg { opacity: 0.03; }
     gl.drawArrays(gl.POINTS, 0, N);
   }
 
-  // ── Scroll-triggered visibility ────────────────────────────────────────────
-  // Enter: when article-zero scrolls into view
-  // Exit:  as soon as the sentinel (right after axiom box) leaves the top
-  const enterIO = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        active = true;
-        gc.style.opacity = '0.85';
-        document.body.classList.add('galaxy-active');
-      }
-    });
-  }, { threshold: 0.05 });
+  // ── Visibility — show on load, fade out as soon as scroll begins ───────────
+  setTimeout(() => {
+    active = true;
+    gc.style.transition = 'opacity 3.8s cubic-bezier(0.16,1,0.3,1)';
+    gc.style.opacity = '0.85';
+    document.body.classList.add('galaxy-active');
+  }, 50);
 
-  const exitIO = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      // sentinel leaving viewport at the top = user scrolled past axiom
-      if (!e.isIntersecting && e.boundingClientRect.top < 0) {
-        active = false;
-        gc.style.opacity = '0';
-        document.body.classList.remove('galaxy-active');
-      }
-    });
-  }, { threshold: 0.0 });
+  function updateGalaxyFade() {
+    const fade = Math.max(0, Math.min(1, (380 - window.scrollY) / 200));
+    gc.style.transition = 'none';
+    gc.style.opacity = String(0.85 * fade);
+    if (fade <= 0 && active) {
+      active = false;
+      document.body.classList.remove('galaxy-active');
+    } else if (fade > 0 && !active) {
+      active = true;
+      document.body.classList.add('galaxy-active');
+    }
+  }
+  window.addEventListener('scroll', updateGalaxyFade, { passive: true });
 
-  enterIO.observe(axiom);
-  const sentinel = document.getElementById('galaxy-exit-sentinel');
-  if (sentinel) exitIO.observe(sentinel);
   render();
 })();
 
@@ -2128,38 +2123,40 @@ body.day #bh-bg { opacity: 0.03; }
   }
   sunLoop();
 
-  // ── Visibility — same entry/exit sentinel as galaxy ───────────────────────
-  const enterIO2 = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting && isDay()) {
-        sunActive = true;
-        sc.style.opacity = '0.92';
-      }
-    });
-  }, { threshold: 0.05 });
+  // ── Visibility — show on load if day mode, fade out as soon as scroll begins
+  function applyDayVisibility() {
+    if (isDay() && window.scrollY === 0) {
+      sunActive = true;
+      sc.style.transition = 'opacity 3.2s cubic-bezier(0.16,1,0.3,1)';
+      sc.style.opacity = '0.92';
+    } else if (!isDay()) {
+      sunActive = false;
+      sc.style.transition = 'none';
+      sc.style.opacity = '0';
+    }
+  }
+  setTimeout(applyDayVisibility, 50);
 
-  const exitIO2 = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (!e.isIntersecting && e.boundingClientRect.top < 0) {
-        sunActive = false;
-        sc.style.opacity = '0';
-      }
-    });
-  }, { threshold: 0.0 });
+  function updateSunFade() {
+    if (!isDay()) return;
+    const fade = Math.max(0, Math.min(1, (380 - window.scrollY) / 200));
+    sc.style.transition = 'none';
+    sc.style.opacity = String(0.92 * fade);
+    sunActive = fade > 0;
+  }
+  window.addEventListener('scroll', updateSunFade, { passive: true });
 
-  enterIO2.observe(axiom);
-  if (sentinel) exitIO2.observe(sentinel);
   buildLoops(Math.min(window.innerWidth, window.innerHeight) * 0.19);
 
   // Re-check visibility when day mode toggles
   document.getElementById('mode-toggle').addEventListener('click', () => {
     setTimeout(() => {
-      const rect = axiom.getBoundingClientRect();
-      const inView = rect.top < window.innerHeight && rect.bottom > 0;
-      if (isDay() && inView) {
-        sunActive = true; sc.style.opacity = '0.92';
+      if (window.scrollY === 0) {
+        applyDayVisibility();
       } else {
-        sunActive = false; sc.style.opacity = '0';
+        sunActive = false;
+        sc.style.transition = 'none';
+        sc.style.opacity = '0';
       }
     }, 50);
   });
