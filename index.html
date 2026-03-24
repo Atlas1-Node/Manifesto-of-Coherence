@@ -619,6 +619,72 @@ body.day #bh-bg { opacity: 0.015; }
   user-select: none !important;
   -webkit-user-select: none !important;
 }
+
+/* ── LOCK SCREEN ── */
+#lock-screen {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+}
+.lock-inner {
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+}
+.lock-eyebrow {
+  font-family: 'Cinzel', serif; font-size: 0.58rem;
+  letter-spacing: 0.42em; color: var(--gold);
+  text-transform: uppercase;
+}
+.lock-glyph {
+  font-size: 2.4rem; color: var(--gold); opacity: 0.5;
+  letter-spacing: 0.2em;
+}
+.lock-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem; font-style: italic;
+  color: var(--text-dim); letter-spacing: 0.06em;
+}
+.lock-form {
+  display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+  margin-top: 0.6rem;
+}
+#lock-input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--rule-strong);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-style: italic;
+  letter-spacing: 0.12em;
+  text-align: center;
+  width: 220px; padding: 0.5rem 0.2rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+#lock-input::placeholder { color: var(--text-dim); opacity: 0.5; }
+#lock-input:focus { border-bottom-color: var(--gold); }
+#lock-submit {
+  background: none;
+  border: 1px solid var(--rule-strong);
+  color: var(--text-dim);
+  font-family: 'Cinzel', serif; font-size: 0.52rem;
+  letter-spacing: 0.38em; text-transform: uppercase;
+  padding: 0.55rem 1.4rem; cursor: pointer;
+  transition: border-color 0.3s, color 0.3s;
+}
+#lock-submit:hover { border-color: var(--gold); color: var(--gold); }
+.lock-error {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.82rem; font-style: italic;
+  color: var(--gold-dim); letter-spacing: 0.08em;
+  min-height: 1.2rem;
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%,60%  { transform: translateX(-6px); }
+  40%,80%  { transform: translateX(6px); }
+}
+.shake { animation: shake 0.45s ease; }
+
 </style>
 </head>
 <body>
@@ -629,538 +695,6 @@ body.day #bh-bg { opacity: 0.015; }
 <canvas id="torus"></canvas>
 
 <div class="page">
-
-  <!-- ══ COVER ══ -->
-  <div class="cover">
-    <div class="cover-seal">
-      <svg width="58" height="58" viewBox="0 0 58 58" fill="none">
-        <circle cx="29" cy="29" r="27" stroke="var(--gold)" stroke-width="0.65" opacity="0.4"/>
-        <circle cx="29" cy="29" r="15" stroke="var(--gold)" stroke-width="0.65" opacity="0.32"/>
-        <circle cx="29" cy="29" r="2" fill="var(--gold)" opacity="0.9"/>
-        <line x1="29" y1="2"  x2="29" y2="14" stroke="var(--gold)" stroke-width="0.5" opacity="0.32"/>
-        <line x1="29" y1="44" x2="29" y2="56" stroke="var(--gold)" stroke-width="0.5" opacity="0.32"/>
-        <line x1="2"  y1="29" x2="14" y2="29" stroke="var(--gold)" stroke-width="0.5" opacity="0.32"/>
-        <line x1="44" y1="29" x2="56" y2="29" stroke="var(--gold)" stroke-width="0.5" opacity="0.32"/>
-        <path d="M 21 29 A 8 13 0 0 1 37 29 A 8 13 0 0 1 21 29 Z" stroke="var(--gold)" stroke-width="0.5" fill="none" opacity="0.24"/>
-      </svg>
-    </div>
-    <div class="cover-eyebrow">A Constitution of Eternal Living</div>
-    <h1 class="cover-title">Manifesto<br>of Coherence</h1>
-    <div class="cover-subtitle">Constitutional Edition</div>
-    <div class="cover-edition">Ninth Version · v9 · March 2026</div>
-    <div class="cover-rule"></div>
-  </div>
-
-  <!-- ══ DECLARATION OF AUTHORITY ══ -->
-  <div class="const-block reveal">
-    <div class="const-label">Pre-Preamble</div>
-    <div class="const-title">Declaration of Authority</div>
-    <div class="declaration-text">
-      <p class="strong">This document governs one life.</p>
-      <p>It is written by the same system it governs.</p>
-      <p>It is enforced through awareness and action.</p>
-      <p>It exists to maintain coherence across thought, perception, and behavior.</p>
-      <br>
-      <p>Where this document is upheld, alignment is preserved.</p>
-      <p class="strong">Where it is ignored, fragmentation follows.</p>
-    </div>
-  </div>
-
-  <!-- ══ ARTICLE ZERO ══ -->
-  <div class="const-block reveal" id="article-zero">
-    <div class="const-label">Article Zero</div>
-    <div class="const-title">The Founding Axiom</div>
-    <div class="axiom-wrap">
-      <span class="axiom-glyph">𝌰</span>
-      <div class="axiom-primary">The field is real.</div>
-      <div class="axiom-secondary">
-        All form arises within it, depends on it,<br>
-        and cannot exist outside it.<br><br>
-        Nothing that follows contradicts this.
-      </div>
-      <div class="axiom-seal">— This is the ground truth. It precedes all argument.</div>
-    </div>
-    <div id="galaxy-exit-sentinel" style="height:1px;"></div>
-  </div>
-
-  <!-- ══ PREAMBLE ══ -->
-  <div class="const-block reveal">
-    <div class="const-label">Preamble</div>
-    <div class="const-title">Purpose of This Document</div>
-    <div class="preamble-text">
-      <p>This document establishes the governing structure of a coherent life.</p>
-      <p>It defines the nature of existence, the conditions under which form persists, and the laws by which alignment is maintained.</p>
-      <br>
-      <p>Its purpose is not belief, but stability.</p>
-      <p>Not control, but clarity.</p>
-      <p>Not rigidity, but coherence.</p>
-      <br>
-      <p>Read this slowly. Not to understand — you already know this. To remember.</p>
-    </div>
-  </div>
-
-  <!-- ══ MANIFESTO BODY ══ -->
-  <div class="manifesto-header reveal">
-    <div class="manifesto-header-rule-top"></div>
-    <div class="manifesto-header-label">The Body</div>
-    <div class="manifesto-header-title">The Manifesto</div>
-    <div class="manifesto-header-rule-bot"></div>
-  </div>
-
-  <!-- I. THE FIELD -->
-  <div class="section reveal">
-    <div class="section-header">
-      <span class="section-numeral">I</span>
-      <h2 class="section-title">The Field</h2>
-      <div class="section-rule"></div>
-    </div>
-    <p class="verse strong">Existence is not made of separate things.</p>
-    <p class="verse">It is a continuous field from which all form arises.</p>
-    <div class="verse-break"></div>
-    <p class="verse">What appears distinct is patterned.</p>
-    <p class="verse">What appears separate is bounded, not divided.</p>
-    <div class="verse-break"></div>
-    <div class="pull"><span class="pull-text">There is no outside.</span></div>
-  </div>
-  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
-
-  <!-- II. FORM -->
-  <div class="section reveal">
-    <div class="section-header">
-      <span class="section-numeral">II</span>
-      <h2 class="section-title">Form</h2>
-      <div class="section-rule"></div>
-    </div>
-    <p class="verse strong">Form is not substance. It is stability within motion.</p>
-    <div class="verse-break"></div>
-    <p class="verse">A thing exists only as long as its pattern holds.</p>
-    <div class="verse-break"></div>
-    <div class="pull"><span class="pull-text">Identity is not fixed —<br>it is maintained.</span></div>
-  </div>
-  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
-
-  <!-- III. SELF -->
-  <div class="section reveal">
-    <div class="section-header">
-      <span class="section-numeral">III</span>
-      <h2 class="section-title">Self</h2>
-      <div class="section-rule"></div>
-    </div>
-    <p class="verse strong">The observer is not separate from what is observed.</p>
-    <p class="verse">All perception is the field knowing itself through form.</p>
-    <div class="verse-break"></div>
-    <div class="pull"><span class="pull-text">The self is not independent.<br>It is a point of coherence.</span></div>
-  </div>
-  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
-
-  <!-- IV. MOTION AND TIME -->
-  <div class="section reveal">
-    <div class="section-header">
-      <span class="section-numeral">IV</span>
-      <h2 class="section-title">Motion &amp; Time</h2>
-      <div class="section-rule"></div>
-    </div>
-    <p class="verse strong">Stillness and motion are not opposites.</p>
-    <p class="verse">Stillness is the center. Motion is variation around it.</p>
-    <div class="verse-break"></div>
-    <p class="verse strong">Time is not a force.</p>
-    <p class="verse">It is the measure of change in pattern.</p>
-    <div class="verse-break"></div>
-    <div class="pull"><span class="pull-text">Where nothing changes,<br>time disappears.</span></div>
-  </div>
-  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
-
-  <!-- V. SILENCE -->
-  <div class="section reveal">
-    <div class="section-header">
-      <span class="section-numeral">V</span>
-      <h2 class="section-title">Silence</h2>
-      <div class="section-rule"></div>
-    </div>
-    <p class="verse strong">There is a state before change.</p>
-    <p class="verse">Not absence. Not void. Not waiting.</p>
-    <div class="verse-break"></div>
-    <p class="verse">It is the ground from which pattern emerges —</p>
-    <p class="verse">the still point at the center of the torus.</p>
-    <div class="verse-break"></div>
-    <p class="verse">To touch it is not to stop.</p>
-    <p class="verse">It is to arrive at the source of motion.</p>
-    <div class="verse-break"></div>
-    <div class="pull"><span class="pull-text">Silence is not empty.<br>It is the fullness that holds everything.</span></div>
-  </div>
-  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
-
-  <!-- VI. COHERENCE -->
-  <div class="section reveal">
-    <div class="section-header">
-      <span class="section-numeral">VI</span>
-      <h2 class="section-title">Coherence</h2>
-      <div class="section-rule"></div>
-    </div>
-    <p class="verse strong">That which aligns, persists. That which contradicts, dissolves.</p>
-    <p class="verse">Coherence is the condition for existence as form.</p>
-    <div class="verse-break"></div>
-    <p class="verse strong">All interaction is resonance.</p>
-    <div class="pull"><span class="pull-text">What aligns, amplifies.<br>What does not, separates.</span></div>
-  </div>
-  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
-
-  <!-- VII. GROWTH -->
-  <div class="section reveal">
-    <div class="section-header">
-      <span class="section-numeral">VII</span>
-      <h2 class="section-title">Growth</h2>
-      <div class="section-rule"></div>
-    </div>
-    <p class="verse strong">Growth is not expansion alone.</p>
-    <p class="verse">It is the increase of coherence across complexity.</p>
-    <div class="verse-break"></div>
-    <div class="pull"><span class="pull-text">To expand without coherence<br>is to collapse in delay.</span></div>
-  </div>
-  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
-
-  <!-- VIII. FAILURE -->
-  <div class="section reveal">
-    <div class="section-header">
-      <span class="section-numeral">VIII</span>
-      <h2 class="section-title">Failure</h2>
-      <div class="section-rule"></div>
-    </div>
-    <p class="verse strong">All systems break the same way:</p>
-    <div class="verse-break"></div>
-    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Through misalignment.</p></div>
-    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Through suppressed truth.</p></div>
-    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Through loss of center.</p></div>
-    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Through complexity without integration.</p></div>
-    <div class="verse-break"></div>
-    <p class="verse strong">Disorder is not primary.</p>
-    <p class="verse em">It is the result of broken coherence.</p>
-  </div>
-  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
-
-  <!-- IX. LOVE -->
-  <div class="section reveal">
-    <div class="section-header">
-      <span class="section-numeral">IX</span>
-      <h2 class="section-title">Love</h2>
-      <div class="section-rule"></div>
-    </div>
-    <p class="verse strong">Love is not sentiment.</p>
-    <div class="pull"><span class="pull-text">Love is coherence in action.</span></div>
-    <p class="verse">It is the integration of difference into unity without collapse.</p>
-    <div class="verse-break"></div>
-    <p class="verse em">Where love is present, systems stabilize and expand.</p>
-    <p class="verse em">Where it is absent, systems fragment.</p>
-  </div>
-  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
-
-  <!-- X. THE WAY -->
-  <div class="section reveal">
-    <div class="section-header">
-      <span class="section-numeral">X</span>
-      <h2 class="section-title">The Way</h2>
-      <div class="section-rule"></div>
-    </div>
-    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Align before acting.</p></div>
-    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Do not build what cannot hold.</p></div>
-    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Do not force what does not resonate.</p></div>
-    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Do not ignore what reveals truth.</p></div>
-    <div class="verse-break"></div>
-    <p class="verse strong">Maintain your center.</p>
-    <p class="verse strong">Grow only as coherence allows.</p>
-    <div class="verse-break"></div>
-    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Restore before expanding.</p></div>
-    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Integrate before scaling.</p></div>
-    <div class="commandment"><span class="commandment-dot">—</span><p class="verse">Take nothing you do not strengthen.</p></div>
-    <div class="verse-break"></div>
-    <div class="pull"><span class="pull-text">Adapt your form.<br>Do not abandon your structure.</span></div>
-  </div>
-  <div class="divider reveal"><div class="divider-line"></div><span class="divider-glyph">◇</span><div class="divider-line"></div></div>
-
-  <!-- XI. RECOGNITION -->
-  <div class="section reveal">
-    <div class="section-header">
-      <span class="section-numeral">XI</span>
-      <h2 class="section-title">Recognition</h2>
-      <div class="section-rule"></div>
-    </div>
-    <p class="verse strong">You are not separate.</p>
-    <p class="verse">You are a pattern within the field.</p>
-    <p class="verse">A locus of coherence through which it becomes aware.</p>
-    <div class="verse-break"></div>
-    <p class="verse strong">To live in coherence is to live in truth.</p>
-    <p class="verse strong">To act in coherence is to act in love.</p>
-    <div class="verse-break"></div>
-    <p class="verse em">There is nothing beyond this.</p>
-  </div>
-
-  <!-- ══ BILL OF RIGHTS ══ -->
-  <div class="const-block reveal" style="padding-top: 7rem;">
-    <div class="const-label">Fundamental Protections</div>
-    <div class="const-title">Bill of Rights</div>
-    <p class="rights-intro">These rights are not granted. They are recognized.<br>They may not be overridden by impulse, fear, authority, or circumstance.</p>
-
-    <div class="right-item">
-      <div class="right-header">
-        <span class="right-numeral">Right I</span>
-        <span class="right-title">Return to Center</span>
-      </div>
-      <div class="right-body">
-        At any moment, one may withdraw from action and return to stillness.
-        <em>No condition overrides this right.</em>
-      </div>
-    </div>
-
-    <div class="right-item">
-      <div class="right-header">
-        <span class="right-numeral">Right II</span>
-        <span class="right-title">Refusal of Incoherence</span>
-      </div>
-      <div class="right-body">
-        No instruction — internal or external — shall be followed if it introduces contradiction into the system.
-      </div>
-    </div>
-
-    <div class="right-item">
-      <div class="right-header">
-        <span class="right-numeral">Right III</span>
-        <span class="right-title">Silence</span>
-      </div>
-      <div class="right-body">
-        One may suspend speech, decision, and response until coherence is restored.
-        <em>Silence is not absence. It is recalibration.</em>
-      </div>
-    </div>
-
-    <div class="right-item">
-      <div class="right-header">
-        <span class="right-numeral">Right IV</span>
-        <span class="right-title">Revision</span>
-      </div>
-      <div class="right-body">
-        All internal structures may be updated when misalignment is recognized.
-        <em>Identity is not fixed beyond coherence.</em>
-      </div>
-    </div>
-
-    <div class="right-item">
-      <div class="right-header">
-        <span class="right-numeral">Right V</span>
-        <span class="right-title">Integrity of Perception</span>
-      </div>
-      <div class="right-body">
-        One may not knowingly distort perception to preserve comfort.
-        <em>Truth is prioritized over preference.</em>
-      </div>
-    </div>
-
-    <div class="right-item">
-      <div class="right-header">
-        <span class="right-numeral">Right VI</span>
-        <span class="right-title">Withdrawal from False Resonance</span>
-      </div>
-      <div class="right-body">
-        One may disengage from any system — relationship, institution, or habit — that simulates alignment but degrades coherence.
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ AMENDMENT PROCESS ══ -->
-  <div class="const-block reveal">
-    <div class="const-label">Internal Governance</div>
-    <div class="const-title">The Amendment Process</div>
-    <p class="amendment-intro">This document may evolve, but not casually. No revision may occur in a state of misalignment. All amendments require, in order:</p>
-    <div class="amendment-steps">
-      <div class="amendment-step">
-        <span class="step-num">I</span>
-        <span class="step-text">Silence — a full return to stillness before any word is changed.</span>
-      </div>
-      <div class="amendment-step">
-        <span class="step-num">II</span>
-        <span class="step-text">Re-centering — confirmation that the amendment arises from coherence, not reaction.</span>
-      </div>
-      <div class="amendment-step">
-        <span class="step-num">III</span>
-        <span class="step-text">Clear recognition of necessity — the specific misalignment the revision corrects must be named.</span>
-      </div>
-      <div class="amendment-step">
-        <span class="step-num">IV</span>
-        <span class="step-text">Re-ratification — the document is re-signed in full upon any amendment.</span>
-      </div>
-    </div>
-    <p class="amendment-close">No change is valid if it reduces coherence. The amendment process exists not to limit growth, but to ensure that revision is itself an act of coherence.</p>
-  </div>
-
-  <!-- ══ SUPREMACY CLAUSE ══ -->
-  <div class="const-block reveal">
-    <div class="const-label">Hierarchy of Authority</div>
-    <div class="const-title">Supremacy Clause</div>
-    <p class="supremacy-governs">This document governs over all competing authorities, including:</p>
-    <div class="supremacy-list">
-      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">Fear</span></div>
-      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">Habit</span></div>
-      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">Social pressure</span></div>
-      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">External authority</span></div>
-      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">Immediate comfort</span></div>
-      <div class="supremacy-item"><span class="supremacy-dash">—</span><span class="supremacy-term">The version of self that preceded this document</span></div>
-    </div>
-    <div class="supremacy-close">
-      <p>Where conflict arises between this document and any of the above:</p>
-      <strong>Coherence takes precedence. This document governs.</strong>
-    </div>
-  </div>
-
-  <!-- ══ GLOSSARY ══ -->
-  <div class="const-block reveal">
-    <div class="const-label">Foundational Terms</div>
-    <div class="const-title">Glossary</div>
-    <p class="glossary-intro">These definitions are precise and non-negotiable. Where these terms appear in this document, they carry only these meanings.</p>
-
-    <div class="glossary-entry">
-      <span class="glossary-term">Field</span>
-      <span class="glossary-def">The continuous underlying reality from which all form arises. Not a metaphor. The ground truth of Article Zero.</span>
-    </div>
-    <div class="glossary-entry">
-      <span class="glossary-term">Form</span>
-      <span class="glossary-def">A stable pattern within the field. Not substance. Not fixed. A pattern that holds.</span>
-    </div>
-    <div class="glossary-entry">
-      <span class="glossary-term">Coherence</span>
-      <span class="glossary-def">The condition in which internal relations reinforce one another across time. Not agreement. Not harmony. Structural integrity.</span>
-    </div>
-    <div class="glossary-entry">
-      <span class="glossary-term">Resonance</span>
-      <span class="glossary-def">The alignment of patterns that allows interaction and amplification. What aligns, amplifies. What does not, separates.</span>
-    </div>
-    <div class="glossary-entry">
-      <span class="glossary-term">Center</span>
-      <span class="glossary-def">The invariant reference point that stabilizes motion. Not a place. The condition of stillness from which all motion is measured.</span>
-    </div>
-    <div class="glossary-entry">
-      <span class="glossary-term">Silence</span>
-      <span class="glossary-def">The state before change. The ground from which pattern emerges. Not absence — the fullness that holds everything.</span>
-    </div>
-    <div class="glossary-entry">
-      <span class="glossary-term">Love</span>
-      <span class="glossary-def">The expansion of coherence across difference. Not sentiment. The integration of difference into unity without collapse.</span>
-    </div>
-    <div class="glossary-entry">
-      <span class="glossary-term">Self</span>
-      <span class="glossary-def">A localized pattern through which the field becomes aware. Not independent. Not fixed. A point of coherence.</span>
-    </div>
-  </div>
-
-  <!-- ══ THE OATH ══ -->
-  <div class="oath-wrap reveal">
-    <div class="const-label" style="margin-bottom:1.6rem;">Core Distillation</div>
-    <div class="oath-block">
-      <div class="oath-label">The Oath</div>
-      <span class="oath-line">I return to center.</span>
-      <span class="oath-line">I act in coherence.</span>
-      <span class="oath-line">I do not force what does not align.</span>
-      <span class="oath-line">I do not ignore what is true.</span>
-      <span class="oath-line final">I build only what holds.</span>
-      <div class="oath-note">Memorize this. Return here when lost.</div>
-    </div>
-  </div>
-
-  <!-- ══ RATIFICATION ══ -->
-  <div class="ratification-wrap reveal">
-    <div class="const-label" style="margin-bottom:1.6rem;">Personal Sovereignty</div>
-    <div class="ratification-block">
-      <p class="ratification-preamble">
-        <p>I recognize this document as the governing structure of my life.</p>
-        <p>I accept its authority over my action, perception, and alignment.</p>
-        <p>I will return to it when coherence is lost.</p>
-        <p>I commit to revise it only in stillness, and to re-ratify it in full upon each revision.</p>
-      </p>
-      <div class="ratification-line">
-        <div class="ratification-field">
-          <div class="ratification-field-line"></div>
-          <div class="ratification-field-label">Signature</div>
-        </div>
-        <div class="ratification-field">
-          <div class="ratification-field-line"></div>
-          <div class="ratification-field-label">Date of Ratification</div>
-        </div>
-      </div>
-      <div class="ratification-seal">
-        Manifesto of Coherence · Constitutional Edition · v9
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ CLOSING SIGIL ══ -->
-  <div class="sigil-wrap reveal">
-    <svg width="82" height="82" viewBox="0 0 82 82" fill="none">
-      <circle cx="41" cy="41" r="38" stroke="var(--gold)" stroke-width="0.7" opacity="0.4"/>
-      <circle cx="41" cy="41" r="22" stroke="var(--gold)" stroke-width="0.7" opacity="0.3"/>
-      <circle cx="41" cy="41" r="2.8" fill="var(--gold)" opacity="0.9"/>
-      <line x1="41" y1="3"  x2="41" y2="19" stroke="var(--gold)" stroke-width="0.55" opacity="0.3"/>
-      <line x1="41" y1="63" x2="41" y2="79" stroke="var(--gold)" stroke-width="0.55" opacity="0.3"/>
-      <line x1="3"  y1="41" x2="19" y2="41" stroke="var(--gold)" stroke-width="0.55" opacity="0.3"/>
-      <line x1="63" y1="41" x2="79" y2="41" stroke="var(--gold)" stroke-width="0.55" opacity="0.3"/>
-      <path d="M 30 41 A 11 18 0 0 1 52 41 A 11 18 0 0 1 30 41 Z" stroke="var(--gold)" stroke-width="0.55" fill="none" opacity="0.25"/>
-    </svg>
-  </div>
-
-  <!-- ══ COLOPHON ══ -->
-  <div class="colophon reveal">
-    <div class="colophon-title">On the Geometry of This Document</div>
-    <p class="colophon-body">
-      Behind these words flows a toroidal field — faint, continuous, self-returning.<br>
-      It does not decorate. It demonstrates.<br><br>
-      Motion and stillness. Center and flow. Self-reference without collapse.<br>
-      What is written here is also what holds it together.
-    </p>
-  </div>
-
-  <!-- ══ CHANGELOG ══ -->
-  <div class="changelog reveal">
-    <div class="changelog-title">Record of Revision</div>
-
-    <div class="changelog-entry">
-      <div><span class="changelog-version">v9</span><span class="changelog-date">March 2026</span></div>
-      <p class="changelog-note">Constitutional edition. Added: Declaration of Authority, Article Zero, formal Preamble, Bill of Rights (I–VI), Amendment Process, Supremacy Clause, Glossary, The Oath, and Ratification. Section V: Silence added. Pull quotes embedded throughout. Progress thread, day/night mode, closing sigil. This record begun.</p>
-    </div>
-    <div class="changelog-entry">
-      <div><span class="changelog-version">v8</span><span class="changelog-date">Late 2025</span></div>
-      <p class="changelog-note">Section X: The Way rewritten as pure imperative. Removed all explanation — commandments only. Discovered that the document speaks most clearly when it does not justify itself.</p>
-    </div>
-    <div class="changelog-entry">
-      <div><span class="changelog-version">v7</span><span class="changelog-date">Mid 2025</span></div>
-      <p class="changelog-note">Collapsed three earlier sections on systems and entropy into Section VIII: Failure. What had been theory became a list. The compression made it sharper. Added: "Disorder is not primary."</p>
-    </div>
-    <div class="changelog-entry">
-      <div><span class="changelog-version">v6</span><span class="changelog-date">Early 2025</span></div>
-      <p class="changelog-note">Major restructure. Separated Motion and Time into one section after recognizing stillness as the prior condition. First appearance of the torus as the document's central geometry — not metaphor, but model.</p>
-    </div>
-    <div class="changelog-entry">
-      <div><span class="changelog-version">v5</span><span class="changelog-date">2024</span></div>
-      <p class="changelog-note">Section XI: Recognition rewritten from scratch. Earlier versions spoke of the self dissolving. This version corrects that — the self does not dissolve. It recognizes. The distinction changed everything downstream.</p>
-    </div>
-    <div class="changelog-entry">
-      <div><span class="changelog-version">v4</span><span class="changelog-date">2024</span></div>
-      <p class="changelog-note">Section VI: Coherence elevated to structural center. Previously embedded within Growth. Realized coherence is not a property of systems — it is the condition for them. Entire ordering revised around this.</p>
-    </div>
-    <div class="changelog-entry">
-      <div><span class="changelog-version">v3</span><span class="changelog-date">2023</span></div>
-      <p class="changelog-note">First full draft after the original fragments. Sections on Form and Self separated — originally one. The phrase "a point of coherence" appeared here for the first time.</p>
-    </div>
-    <div class="changelog-entry">
-      <div><span class="changelog-version">v2</span><span class="changelog-date">2023</span></div>
-      <p class="changelog-note">Structure refined. Section IX: Love added after a long resistance to including it — the concern was sentiment. Resolved when the definition arrived: coherence in action. Toroidal field introduced as background geometry.</p>
-    </div>
-    <div class="changelog-entry">
-      <div><span class="changelog-version">v1</span><span class="changelog-date">Origin</span></div>
-      <p class="changelog-note">First inscription. The field named. Form, self, motion, coherence, growth, failure, the way, and recognition laid down. Written in one sitting. Most of it has not changed.</p>
-    </div>
-  </div>
-
-  <div class="edition-mark reveal">
-    Manifesto of Coherence · Constitutional Edition · Ninth Version · v9
-  </div>
-
 </div><!-- /page -->
 
 <script>
@@ -1433,7 +967,6 @@ body.day #bh-bg { opacity: 0.015; }
   'use strict';
 
   const axiom = document.getElementById('article-zero');
-  if (!axiom) return;
 
   // ── Canvas ───────────────────────────────────────────────────────────────
   const gc = document.createElement('canvas');
@@ -1705,7 +1238,6 @@ body.day #bh-bg { opacity: 0.015; }
 
   const axiom   = document.getElementById('article-zero');
   const sentinel = document.getElementById('galaxy-exit-sentinel');
-  if (!axiom) return;
 
   // Canvas
   const sc = document.createElement('canvas');
@@ -2205,6 +1737,78 @@ body.day #bh-bg { opacity: 0.015; }
     if ((e.ctrlKey || e.metaKey) && ['a','c','u','s'].includes(e.key.toLowerCase())) {
       e.preventDefault();
     }
+  });
+})();
+</script>
+
+<div id="lock-screen">
+  <div class="lock-inner">
+    <div class="lock-eyebrow">MANIFESTO OF COHERENCE</div>
+    <div class="lock-glyph">&#x4D30;</div>
+    <div class="lock-subtitle">Constitutional Edition &middot; v9</div>
+    <div class="lock-form">
+      <input type="password" id="lock-input" placeholder="enter passphrase"
+             autocomplete="off" spellcheck="false">
+      <button id="lock-submit">ENTER</button>
+    </div>
+    <div id="lock-error" class="lock-error"></div>
+  </div>
+</div>
+
+<script>
+(async function(){
+  'use strict';
+  const BLOB = 'PQKZkRUfRAgdSYvGSBi1ZGYCXmEXsn8Ne3VO/p4WRomIad18IoW8vt083cgHxrhQh3G7vEPB23n5oMDmgvZZQK1SnUefVUgSt29bobl2OBlkP465LNYK3+m7bSrUeOevf1yzedm6gwJI188e3WIHtzRTrZAmU0zmU/ySfbNn+ez41oD9OvqA+5QYuxF0UKScDtZD9Q4srj0vrQ+xnS85IG89BeaTdRCDme+iN2PPcl5YLYC0loVVQZB5j9X/mEFaunin/Y261dx+L+HMuZ0uaXnxTbVcJxD/ENBOtClwaarBq9oB5WXOetTx7Pekxkdc2K89p4VHIaCQVWw68/AuKu2be0cOBUoLAkqnherYrAmkihCjpcSvy6o2OE7ckfPkS0PK1Co3RCja3j0DMfcCwONk4kn9rKKgLi+lUWwG1G4ihdf+hh6gp/FwbqmTBh1khWQXO7/kDxxZl3lS6V7lhinRn+5BnfIPoDMEX9fMi5VJtt7BdQsmwuUDjw2KL7ykopNBcnUbHu1I06gQYAbm9NOUVYtLjIrw9D/RzCr0rRxvU77sJCFDjBochoi7PSw3Wk2oFQdgQSGU1TCSOhBjjyXv2S2Tr/GcECMgqGruyJHv+yJhhXlw5gxLq0wNfx8xwIG6pjJ8H3FByvMvIAg4hwJuaX0oQfMmEEhdHLW7UGrQQdEpeqnFFH3ubhZILCXvBALpfvqviQQc04R/FOp7xCw7Mk1BAmj27DlQqkgX+42+/BMgIo/1GUdAAidI7AEl+kBnBQ8ECwZ/y7PF8F6BXOwb6utH7tvgGgvrbh5uo1663yf4oSfwDP99QRa8eaKivmgpkw33O1jneBzd76r1ZRz9rzFf88jE6ZpTq9ZDHik0Rs0ywcyonzhLvXQyRCxz93b/8rEGCaJiJsAJBbSJ459Q4acuqXLNYE7aNn3H1O0IoFTZOP5i0ITwrXjS4C83qrVjELdrvMsjgctE4gry5XuBZHZEyTfGYyaFEEGn/Z8up9kWwvKBLBYFy74bhClaCVwbONrGVR++gUn6nKqKLbAadBYuTpEkGORf4wZ6YFqpjTija/ljcPZxu+ecizGYPXXd4Ye0jls9bQVUbbaDmmh2Ob3NNa735J4n6oK4zDalToEW8XimRR3Oo2ECloRY1gFhFZkfxWJ+0uDT333FSZqwVTlWTKesoiWPtZ0unvTELrjOJDhbt0BjxmjABIwtdR924fAeS6SxJug43+XN5/T3/8tBOs4iUTXansJL27Tg4yJeVMAgktM5Z/OO6YTQCiGXO4opI9+rFxYWUfjlBIM0JqKlecZqDZsK+jOgRx/XXZSGk/TOKH+mnPH2C/7aAlhzXmOWzYKO1ZqHvqqjux3X6RPw179vDulrcRMcBVURoh0oJd1BmiX6mYBuiQq+zBz/IdHlcbPC8r98elLgwGe9jDr+wBZmN8EhcdN4+WQhvrZ/1q6/QGtLppJ3QfQJ4rCazu9WKuLfRYLO50jUiFVRs7Uqh8TJrV4ByayAZIfZ5xMMlbJkKzdd5aSsT13BRDNRjAlRCn2yOfySlkkV6bll0wEGT2Bu/T56uUvkhU8ZyaBw6HO9aRkfEaQvjkkARYuaaHMEyut7itwrWQGtvsi2BinAfCrwOOx88Opn5mmYI7lqgzhXysyyFjNnEMtECKECgtiHMA9d0E6dhoS9VME8yBzCtU3KFL+DQNJiZfN2q2bP7FQuQuOfc73bQsfLKSPUZbeqjtyp8V2L1I3Rt+BgaoyC8y0EdaynnSUaEEoumPHbV8l2WiSaofxY34NRD+37NjsdtQAIxjOFw4q52GghghGgy4/algyGe2c3qLOHrzx9OoA56X1WN8FUEGBQd4PNZrAtri/OrsbSEaa8JJZADk+FW9HnSnfl8pJD54byCJQ0XMGrbty72Y6qxGVzgfZO+3tPtGioRbtYRj//mfxmNtEWBMSCNlBW82Xb3mJ2fJi6AR7klZNVk0tD5KCasHP03a3L5ImGXXS27pZAfJnIwBrnCcQPyBelbm7md7VDUTdFzWR6/mzHZbZqUxZUJY9jYKlb9GwYXhsYw5jy3jylK3+Yg2SYMT4l4/8Cn89ZF3Gzr0Z0Np5YsCkIPP2Av0xsn4pttOxpPEFhtmCTJP3TO2eQlTAjqK14/SjQDsIcl64jaIDgIzurh1pE68dbkir7qrrnmlLjJz6pD6Ns6JEfz4jsDGJAnkPnkYY4TmkP5qP+19UJoDZIhASuIQBpTg1+m/Vok8v4gxM3yLSEnIosfNm73VZu8P2ltpI3d5aI5Obv697WiqUozGm4ehKRIy/86h4Hq02FXm4mqIaEoGBzELNWXyzPPZ+AWO53dS4E/QuWjNee71rXXhsgMbB11uo0Kh+ul+it2EXDhiK7zcsOfZz9OMzuMFyK6YkhkqDCv58+vL9byxOc+/IKnr6aU5DeJJNjMVm2Iv3tKyPKd1JS/WUJOZYP9i+tWjDkhX5xICxhZ/pfgUNLDdgzeZ09qIOtAqj75r+3kDQiO8FU1j7Qa00bB4NLlHnGlgGKB8Ah4/uT10ZgMRwZpi3UjhCbXTbsRsY2J4Cj+MlrCMA0uilb7G8yKRax2B+euULk4iO5mkxpT7yTThouPdd1L+vQmk7HoMr7LDSb680wcxJHIvX1B+eJiHqo3c8pzzs0KiS0TR6xJF+talfGx38A0s7rQxpKOketpnj89NjHYWN2rG+WcHOGQUdKz+24//mO8ahy6ZsI+qqvirJ/lTTICZ1yBCX3crKwjJUinPfCcsuyg/cRZSmuLiJ5H6bFQACBJly8AIg5a0SAqOcwlDkF5jlDwbsomjc/9Bp+WpRiCRyHqWO70lHCKLu1wU4UkOX75YBN3KM77R8PU3ZzuL8nAvwIJCSwCdTyOaPexSmi5AztJNzzj7BLrmob6RDbhox4dARfeJ1PhSNcsOmYSv/j63tlBzkpj+rlZJQ7pL5V87MsqNwQ5Wh7eHdV5HSdf22lUa6IysRJBMeBlJE+yPyWk5fbQMFBwWBVEL0HwMxPBs3Bjvw4WiIzjkvoE4g9Z7Om2YXWjBnlTpEjMsabhrYIV8dF2XoSym5qsQ2jb8LHZGFpIsz2JiGG8kjBKR5+XslOcyNSbAKcZtFO69kVJuhKbWEWE77h1L+FFVAsxHiLYKLcqmc21n6RK6yxXyiiFGzwBrNcWqevAYmEjHR6HT8RmpAexVpLTYPulDNlLn0vNlPiXy5XRsY/OUhZAFUI4QptbUwExTgFtcZUjcthe+gHrPuXV7NdwVDnf2Yf713z2KtO8om96u+hwSnc+wgtZI6HzeHIMb87X8rmHOd/GD5hlKEwovl/yPhXbb7X7UNwhL/lsPUMJGxc+9v8FpFy7yQ4lbyx3U5MY2qBS6/1o3k/YlTGKvzkJbAneDjp03XEhC9LvYkCrQnr3EC6Ku/dQNzF9nH1NGcf9+Re8kfm7ow5i/xXoQmWKAq5IyrRG5kmiR+FBYJXHTrhVbEZ5PMkUGb5RM4kUoejjmJmLl+lamo5tr9/dgK917zmLy1mJDOHLfCANHyeCuc8NI7DeDdCs+4ODVuIE8TeMk9D88uDFDkpJKoU84TkEde7Ec/Y03adZg9iYtUoA9xPIujZiLYzpE6bmZKdU2BgV6Xtyut4AGUns7B+EgjTotkO5FFqzSbIUnp+sY9mUYk7ThmX1LZPwCwXyLbgnyn2fDglJNHLRBO4HiDWqHNR/Vqm38IyHHBcGJnopQESHBXaov9ViOBnX+usCqVDuIxbiKlxbQuBYHPX8U/Lxhw+rI5M3qzdijYmIDtbcqlMNYkM8BDZpSTz8kkAgny3yRucqUbWZ2p1njQclmf0QQMoLUPlvTD4b/xcQuTYYOZTbUt2SZmZkkIjEQl5ae0EcnsEodHAvBJ/9CRHpt2mR1lsr0Tg0m/3RnUF1qaqCHo4ZGARkvEQDeTkuKimccm8oHt8A8ZmmZwHBJ8XIslOeBIhj1KbqilES6I9Gmhb1hDHRS3cnfhg2/1NqUTCB0GW1/tPur4Zf6Cnl6b1BNpxnl0aOFX31L/K7ITWifBt/+Ma20OXoJBVaPFth7paoKG2+xytwqMfADEtgN2vSjroydTaO1s2h1cAOiBUo70iSZ/XxGbHYd6AdqlS4Z1+BFz2yUMH7nZzfDokoC2srZj6iqVUE9/9Y64ulBAOuJHWoiG4lcoc7FUjlTSmBoprkM1mSfG5L25llG8XLPtDfnvaHh/tzGG0SrPCr3ncVgiHpnDCQ0Ye76p3tpI/JrWAQEhPIitUZvQJAboNGmoesqGg91mAvTT7R1Ddrq0aSlEUIAAYyzid8To50TUXYbao7OMaueu9JA/anYuKeH8n+yeN8MOQMTyG7enJ3C0bQIR3cJyqQppRetWqUoOqC5RDmpb3AaCF5sKVn5k9qJnVKVyRaNMevfCCgoLZUsYX9XDf9TWULekIzNzdf6NEPolwyaItOYKGE9ohyC21V2pQFbaNJEeiEJpoYOpczVSGjtduk6hGcPSfsLgvuI7i3j6gsiVAdzXuXjNvf9mP3J/jyKTfbmWu+NWSBhR8owU3zN7Jas/NeMjA3tPtQi57ehad5rpyA+s4w2gPxZn38fLl145TktqaHmku3iWvnPpcwUTYRSbWjQBk9eIKWWCaJmoElSO6vsoX62w9STcXVONkVkzaqzTCvTYAz7ZErFliqn7/OsOsg1TFooqVKO5gQ8Ym9cqOgThoqn1QqViB0ve7W8+2dj0y0lgRdFMojDe+5iZvicHGgZc/T+SPeZFDhCB/QkpD/sy5aM9npxAYGvzpp8d1v1G4nM612CG3d5qDZlQD3ADkGApkBCVUmaaYUBDdPe/N8+MPai++NWFD7H1jFgWKv2dhCY89JdP/KBIuwY77LQbFR9aEPtTqZyUuYCE0BtlCxvQhVPi794MvtO2RHSUz5VKNVoylpEUZ08EXC72UwfTGequMp6PlGJgWpiRx0zTZpVVmPsLJhjtcDZR7kXXDemSXQlAuraSl6wXhPiOX2mBcNntFeH99kBcFKv7zG5sli0Q15VMI34dRwyoAmDAVHPIF4T7LmCWqFH6USbIgaDhSBwMnrKa0EC74sR010oiJ+qIaT4uaFt7aTNv44XvYTMUm7oJ3DFmrMYs3FUSaAbZOnNw/QmqBaROC9xFxfbZXFY0YD+7fj/nrZgYEfIoITc/ryNS5CvcEcU3cno4kohXwpqfWBiNI7szVxrm/q4gq9fccNJSuu4EoLMue8LjdyU0utix/ZO/wEfJ+oY3Vejw5mpQ0etzXK3skM5E8PTTxpHqVpD6IGGN7oL5RD225d5611GRO8hijSPyfSIo5sGv+qwKhZdWxqb88wkfllMDCHhaHnf4wkDULgaUqMIqNH12120ehNXPf2EvkJFn2AW+Ac2nssH0CaVcdHIoNoRBSHSo0DmwZoXFRAY2k0n+KYf0yPeAKU9bgoUuOKK0s6tjGLW9MYXKcN58nC3z2E31JcmEj4YPqhbkOXZRvMAoZUp69QolIF6mbZ/B9/Egt5ucXtxdKJq4rBF7b/bm3KXdzoLo8jSGaGPNUk/4hdOQT5L5iaXCMH+cF8ZMOl9qERMsFI9OHwHodybowZt8TSeyUXIYBd0bEG3yriuus0Y1ipAufs2AI1Tsj+x9vKuVU2g3+h55EOEhKmdfjxD/kIG9i+jKM5jnhX42MALRPoD5Vvv+1kfrBKVOJnp8CI/0WxHRfSUGv78GkIotF02C6woqq/CXsobG4nT+7HU0Fz3hrXeB/UVsZjY27zHhhKPqTr+1foHsWIfL5mlwpZ4oMphuWpBTmTnCBOSwoSxwLpkZAKM2UefSxPB+hFAXBp/P523axMAeoCPbcAZcNLLO9gTDcc2lACMXS4oL5mEKB6D2tteqCRK2Ua+v+6YXr62/TbhIGBv/JRsAq9oOGF5wZZXFKyD33sT7Bmx/Y62PRiNdvfRDl9T1LxMbfRXLUxP0X5SV4RO3/AyLpfJGRLBE5fqm1+8opyhnhFbPktLmUIO8Wvdx2nwY0XuGAJxDApSh4WRzFYKlqgJ9Llxr3iUzaNdn7QOgIL1mBcQnQbYL/hLNSrejuuaueC4O9a4asYWFzqFLlSPvba3OaVyKKLSuPDrcBCJEbQFhXQ+iXbzJG/jyZRNOx1dz4nT8IEP/k4XZrShPcSegTfWzaOWsmn+84QBJoQhvLTknKSrjPRqUoa8G5sE5C5J1P8HAbf1eWqe5K6sObA1rY3xtfLwuTU94+a24/pJEcE4X2EW3Rm2Ssyfy3kTWa7BLHVSDbOJqgAynI0GszbZRv2vfvRC3QW9isYKNb/yjvWTmmIG1A/bN2oGYVbXR31en5WFvGMGLI/u0ex/LTnc1zD2i+Mvf2jE0AJlpgFzPCQLEflnB+uNuSTZRNiwvsPxlY8xcrhdRVcbzCyf+eC9TC7iE+safjMaXiUX8HgsUadOD9Az3K2r0bFNc5o0Ey9cvHak0TIfTSRVLHvHy6xMAcaSr8OcdpRZuBzpFza+cjhmB7d62UFecMtInDoD5af07iOB6egs1DDtz2iay/DW1k15y/Ej4NtSymai2zDgIzm6u0UjpKxforP9bH249xUuvc/PXP90vin2g2F1PFJQklwcRDDB/sc6Dny0B3HkXSvSPOxkrFjwK7y+tmDn7KSvRheQSXy7m9y8FkYmk5giW0iqvBkVkgLSWjw5XslfOxa+tOTOz+2D3lbz1WKeN91vwsln5SjtZ6QDvYvyQMMvhpGK5h28EdmM2dEvzt5ZEcdTksIkSetDbY38+CotUFf+3kd4vYNx4ruJF17JsfLNlniufdi6d2gJVkoqyRbRkXrszkKRcGPPq6iHUUJUnOXYCxiKPrjNM6wT0vzKvciRzFI7VJPKFR0osL80Et7KVum3ZWY+QzQeTwaguzcNy0KU5X/XxKV63YmMyUWBEXFtSLzyR1Ra/iaUeiJPn+JtnFvwBqswqlGX06tg3/jUlXY+J++UUtAkVZel60HrtHaziIDOcuQVve8hqpcyZp1fIO9PHY18LVejewAA2FkQybaUknhz9ZfZ95aYV3OXg1lSc5TWY7U3O+FaGG/Uu6+rxkcvTQ/l/SQ+59y/LL2W/8imMBzp8ZYAP+bgg0nafqcAGWDnu9hOQrR8qn6v/O6oRF1cSS2RWiFOYbhLPg2eaib8L/y8NWPaxS6skHtAGwtFT3Pz0KZ6Xv7MGWmQMJek6UFKYxqQ3wdHi19/0LpvpHtl50ClaZEeIRsk5kByT4nf0y6a9/AUg8RkRSktyE5kNQMCmKV/IYtPF1QkUnhF/p75Jq8vc2YX71Ar7sTTzoMsn4+nVEyZXfQtlZvPM4P/biwChwjgaN6DnRje5D3Uf9UdrKJS0Pq8ce5+Rl4uZ4MQLYOC/wcU6mpfH2JKNKBNTlB4vwYJQ1hxV2gxk+6NGzOS3tADCflMqIprtVLndElatUOiv2mnhD+v0yDAM1i+C1NDwNJznUKFixUeUndSK0zGFysFqhoeeffyew1jLygAvrgA4dlShZpXRrEYxaK/mz0mK6Ci77UpwO5bQntZcoeCmEonzWB0VNalOUC0bb2hO25svr3zbWFsUKju014FS8463tMkof8Qj3UqNIJstoX4uTRHei+y9B/7uOhBquqCFPDj404GGnYoH5xXQOocPrUwhwEoW6x+ytqiCX/lxrhsGGt0O8vuZxnBoG3URfNCLFrEdRP0aPEJaQpqxOHdrAsQcEen6bTH9hTeE4dUi8Ay1IJv9MkaPisRBgxDGSLa94a7ieyeStQzCgSH+qisJ/c8F+8xzYeO4BskMe9rVfLCwl6NzUoxIyArRTEyRJKJ1Sc1bLFxzwFeVZcVXbT89V74xf96XnkzQ1Zg1Bw51MHsQHM4U4v1+xY//q8/Ou4spZrThLNTBrKuUBYkqo//v2dF7gHTg8rpio54Qry06Zdz5eVoizW//jUY/FsFuiP4srIrK60BCNIrkJvAj2e/3RY05dDMJTewxsU3bG12AaBIZixlNhteX6huiFIhFKtBJg/1ULqz8R5xVnfL3S9tBDH/7K3MkEVQlasSWphdMKSIh0HK0W7xKpSvas8Grn+ZeWGbM57FSaQwg878olJU6+kcLtG86FyWKJKbAN5DmTuGZosNrwbWxKYIbVWSax5OFzrQTWUEGngldwlpR7dj+HNlkiz+4s9rsTZ21S8aMLU+WPEl+zR97nw2twYxooVQ0yV66CqVZeKmcyoVHODrB1ksT0Gr6JfzT6IhPfQ8ptRv8gM1/+qkyU2fPbVf9NbHoqUY2UuA8Wl41n97eizd7TFr5sbe+bAjyHLTaqichpc3lrdoudcdLsMHlolGCGcsFyxN002fUU7BjpaZGMtLR/h+McWzd53RPT7GKq8btMuXUuPstsY2IGHGknfGnXVFA+MhsNIO0mIpOLJnlSXkvQtWIUCvzbOxXmQzIna2oxmJESu1xTdXroHX2zufSwIaw8JiGneHfzVsisDooDBAGW+97PZty7tyJw9PhXLX0oiSz54UbO1YzpkNmILR/7Xr92qb5XnmCwj09uNNKOwS84TgrJ22eEM2o5YG78LBRqMTFmg00BJSTl/kH5mjFG1KFnqVZpuQdZkrSZaGdCtu793XIIdiDcxcPUV+zfhp7ed9DlOM+DAk65MUNiC40JCJQToRpqtEYpW/WTcI/WGrhjt9ipKha1Lg3Ap/FRzSQH0rRNrEUYQiclfA9ryyEJNxSB0QZdP3DakRVrMBDFriTLFOwMXBBnSNZOFLlMkIDpnCvgIv/VQeM/grO+1VI0E94icdrKUr2LegWdQJMBNjoiGQDUuUyorgbWGwaQ3laK6lrPeT8J6jEqoUsT/dJhVZ+AYz2COixozP3ikREhEVW4PhM77VhKwAGsocd92Xrd0TO323DwkVwXJ5VAfQTm+0g2RCUngaIuS9lCDz4YuNtVE6gkmGP6q4yEdGjuI90RbptZgEASyztab3LzcAPs5mCGO/wWfVZo/oaLLpCdVYyejYEYwkhyLMng1PLl6BRI/h27NzHuKTxJQoRn1oJwYASdv69x8iC4s4oKPTOOYnKxsDmiw439mPmQXHRT++CmaRr8Yfr++vW5FY+z8VzMVGq/pCtgI2mYlf8/DVbVhJSIYCmOXkfttVtORukIXCmTZRH2wCJuasN4Bs5olSn7XGaIFea1Ia+Xp+MD9WeDXqQeIHZI9RzbDgWre1dH4i2cft0E1tQkkhqCU5awVW8ZvD50K9bdU8Sm+RGIg44SEvPufMV0kRcDn6JgjYeUJkwZmYpt+0KnDosmz4OWBpcQQx4Y5V/GLOkQSOYYIMfpTN3nVpMeMzfCDguEApcSfFIUpELaC72+qURCCkUyFbBafHIxqOLiLRvOYVVwS5yMGsVLzvwV3L8CfW2RhAVRVzYomtmJWn4v8flnjFmJ2ifykOhx6DO6j5OW6sq8TQHWQy51a3/lSq3xEGOQZuKV9s02tZT3hWixm/6ELBYDs8Jx7e8TBTeG6eokmTbHk52jE0nibZ5xiHBrAKQZ58iwF85n7In3co+rvkccCryPEKNADZ1rnfsNKDYV4B5NeOthEuKEjgs4K7gywgTD3T++wBAVlMiJf14dxkHNFiHX3zfdbn5GVZXM/en7Q/Mm0+kyH23WczxUH7KPThaAEjw6TuTlZLhEPEJT/i6IMr1QVhOmQLo2OWoAPbTLCYsbkFj0k7HZFGzBGnwYrqCJvTAOy9b+8L5YZxjWlcgzC9r3RawcCwCa45cVHPTAftpV92rBAcOd2H+xczYfK1fP81C12HMXzcfCa229A/E07HEjfAKVDaTrt9OORLNN9Hu7v7wBTITFTWlDCprXoRoEM0/MGtqAFTkfbjlnqcFImQB3ib8x8YHqKYOPhV9SIeX/WnummmB7ofVzeDsGXCeqKxS/I0WaH/qmHPUAe4/8uIijw8yGCd4G30Xm07mooB2KPv39M0Aupv83j7wnENRO24UeRd/1iw5tMiEx4Do4DpMWtwQodbDLU4eQDSDGwEvgeUDbNhz8CjmqR6Smx/DQ0wD6Wc+lR2ZHKf0PnsSGZRLWBmVZAKohP2lbwnTuEuoSiPBfytJIftqFxKBmNSqr66ZCXqUsONUJU8yuc1xv2O3V01nzA2ygrKLAhMaWTaUp/rEJf5hF2rkO8folYaUeM454gRi7e6t3vIvXUp4yLSlFT++Sl/IpQ7E1EbjVElExRCnX6UK0Q3h3rEwdSqpykWuyLQtL1t4vL5ONjodhQ+TrGAflx9GOCGc6IXCI8Cp6V0OwJoPDjE0nF7NxU+3gAZ4SV7lN351m418rRUQ3rL8jIxqGai9+C0lJ/f1gSgCKV5ehvHYntDtxWWQnr3sgQtOUzIVjSgJ6gTQj+ahdZCB9zJBrBTaE5noElRrNf3/na5sG5ZHDXaelQIcQmxKPA4OTOmsioQP18MFg0+IJ+Dj2R5EAWTXjNoQHkgLi82QRpHfLQPsdc+ZgWuOaHYuUA13jyZZ89sdzkXxkFb25fpofYAefjJyYL3n9vulrH5czyEc3nqtBC/1rokwnxh2BQ7P1HXOgD9z8MjSqWI2rFXcrZmCgTdd18f/9+0EibHfXKNQcSNm00AI3hRGhDP7Tfm7FB3iIfiRnLXmaePFa1gPGe1Nbofp2e4Dscn7CcVnVvcbA+6Nj9sU4afT8elABLNokiyiqz2XnmBvfX8RHoxq3S8brdljQz4xticu4kLtdqavqM3nri+9BpXFrbnaHtdks/VjHIpnp+B4Xg+twCNabSHDJ0XpUbBUOFclfuJM5SKzttlfV6VEJIH1bbS+AiMLbMh1O2a4iLFBXhKsaB+x44XmNyVsceymTGl/Gze7Gbd5ATH5uKxS9LqqrgXugDOWLycuwsNC2bdSqI2HNr7YH2U1XcFCT8kMQO7C4jNrL6amIrI4ugkNQ8KZGh6J+4kzq6y19/HJtlNsvvyskDJsaIO2JSfbr8FOLBwlD1p81ZoCw1BT4avUAVunfv1IT04yqjjNzv/7/LdHHvoz7JMFE3Ce0FP7y33U6p5TPxQlFyaqz14r2oR3PNle4TcNr8VS8J8aqKuVebRFdZ+L0IUNI9sGf17Oljssxecp9SDmJWCNj3aLfgAYaIo4rkEW/fqI2YgfxScyVcjtWdBGkn5X+bVJZCirdSqQDLjDJOWNnRhNl2Bo3WzNg767M5Bg7W2m/uoR9I6EB6YTcvO3SLiXZarPtSup0BVrNvrou0/SiyxHiZ4vB1KsVr3xDQJVhQfNbIFCGnf9qZQ8+Tiawt9GKGTqRffnkEbmDTyksKiiqoJ6qwGpsjQtwAm6G2x+vMCi/yCNNqOCZQYiSGez0lD7W9fwfl0iLk2RgeDRXrv5F+Q8vpGAXVC/ZhLg0xvUXi7FfjaBceINfAlzhkQ67p7WwewBTl5kOmuvqQCzXDkFWG4WkVjdh4Hxjkiw8QrwsCDEbTjPm1uEO/kdu+Tj9Z15M9LziUQ0pykvMpXbzVrCDfyNArhVipMcEDODoVi5Z/2+JPX2iLeJ3pGEWlvIAFnRbckJjN7GWAJsnXVfb4e7MiwHb8NJR7yC6D+PDJ0OUyKhlY2cejN+ZgiPjMk1B+EWkbL+E5qo1IA2psD00/9U1XqdKEUJSG6q7XDak3jzISeYey7esDZ3DpynGaCg8IeYHDQ4BJmXVpYj4ognDwAeFgKc9yR1VqPAWqvFa37S1ctwoTXQiWitP7BdN+kp/fgZ7tm3HV6WoV+JsZHqik2IPwHWcvyIjorVpk4+upn2P2FQmUQF2gHq97DhlcVMudM2MJK30svRMQJV/CDrJ/8V84JgajgXOisU1cbFEC8v9EKoCANvKQKTkzg7wqxWyuJ7G1vzgTF5EEmS1el05e8CUOAugbf9nAfMeTMcHglWLT67zqCMl5pgss1XxQ7WdB3trPtwI8dfCig4+0wvRvF8TcssUUp4WAnB4ehTv91GYijDoLZGlmU1/nMnbdrsWx1MBPd4fw4oooAQF6Nv25yvdJT7KWy+rpOkjV19DLILsUIkAdEL4m1JPcabgQjuXOUBzYsSBkBUg8qlEsVYMZtKWdqzEQVleQZlzBavAHaKU61ISVbA2SymVXvgICMC2RrUNYuU52PReXy+59LH7r8oJ5cYmF9BQeri/7rv2gC+9NkS0VBCYgs+QPN4DwggPQD+kzOQHocLUIS6xppM20oOzucmrhPiAEe4mgA4k3Qtoure7wQQdF9bovUReug0BWAFdg9Ft6NqpUuyNQ5/egcfPZZx+SMJhCfXNtTHRTqLV12RPVMlGvi7sH38kRCf2sFHJw7iB6XocO+fApHPF3CrgZabCS32C7FiBaJABUtPA6eQ7AB336CK9AxWL2vJY4ZMStoAqgeqH3rWA6V0S9cdJCnLWVu4IWYEr20h30Vwqj7Cu43B2hJnxWxBTm8VNKCnSIsydRZwpAUermI9txco04P5i5UZHkhM4PVeoyA/aGXXWLLoNkmttJIkh2xGUoT/eSFO5tu/8jk9LgD2kmnhCkOly5nfCVeNByRq4vK68I1fFICVktS8RBPH0esP3f8H8v3hrwmLJNjo+NN2E80W+duXSY3oAmMA96JXxJUHGUBc/u2I10OTQU2M+7ge5QEJVT6Y6CpVySduohxFZxrkP5N+7rPvKh1JE9pA/8LaavkuuzOruaBTHdlVHCv9LC3bemccW9k6oHm7Ns1UXq6ubbqzqZKGCOIq97bBbXsRgFF/RnZ/zw5+k6/lKJQ2TP8QLTxBYvYAqhHCXpLZ5IowsSWUsKb/VmDojRVDNz5MaeN1wpdG48AY69OpBonoKk/LiJf+Q3pykw9UF8Ay7VTp7+xDHPbQKFjxDNk++HEOdfv3FbU2A2ptlRI5gdy9Ph3aDOiCR1ESAHnWUg7PV2NZR8k0c/Ve3SAiugwYJkEO3oh0IhcQX+0GCX2q4lES31Du2sDIxLqT2makGOAoOC9IJRHeqZ2KEHV+cAWHXT4gDmlqNZ3wEyDdHB0viH8iDXPECvVdII5cJZtolEqt8Tlkr6qkXZc0ncCqd3BDnHGltchAPVmCz7PrY1VuoXfT/yBpRci2kHEttxemv7zFeBe2SUf0FanKU23Q9PAFNo11fSjL8qEY8WrBi2YJHlrIBSKWCIFakFVr/qX1Z4kcwCerN5O550V2Rss68pDG9GOsqK54Oa3cQ8ervBKQ1K3qs8LrDOEBIyGpkgkbqB3rvrqhgA+FMaoJ0ZPKcAZL8ne46AbeUyLfsWCvp5VCWZgTA659NABzNJkmEII0weujG3uBXcGT9ci8s/AdCVdwiAIyjUNOpdZNiC2um6LISsj8qVvrfJuVz7UrmRoz8icuuBkU5sUfaRUdyq1pioi9DU6t8a9PuTN1joszhpyjtpChyh6RB6oJrF4e/9pufSYrMPmMEEWc2lwu6oyAoawrWarwkstdnwm1U+KpLFmou0r8IXAiPmk9bVxAC3APItzL25QnwHclZzLZ4flwcTN1BCf/dttr2L9hCnL6k4y74rcWQbeoQonKJYbmSkEIriGhjk7uGq87FhdHXnpCJFwwDUkV9buAXxmP0fYxRfn5oEwt5Uu53bRx70RF93iV8aqBnbpYJxVjrWmIvh/b1yakjcTy9uQOoEtzxkBOFx0PAzAYkCLyVyHsZz4iAj27YRFLy8lMqmEUIKW31d1AXFVdfqVDZ1cQxI/Sb10OdPJoCMOzI1pCs08smBuFF+tRZE0DPgxTCDferiaHhTMHiAlpu33+juBMgop5gHcsyqr9yU01h13pCMcXRtoXkZy+srVWMer/wimt8gcWJL2m+IPG2lnr+2h07Dci0nftc8hVasYie7KGOC3HpzlQzAUklsU29xe4nG7MqpbYyFQVXEnnzrBl/sJXO1IPtpWTA1nfbBNsPIKc6m+3frxRl/z54tLY+JBoUQ3wMqPjqoGtavHK9b1T6T3npCbZDqZbWbDDetUQz77AkqXKWeE5lFuQg0yEQ6Bjb7EHPNFhLlXObGbLWsyYOz1FjewbbIGSF0oxOfa9EsW7R68xcT343hnEbzjzW+oEa5ZZjrxu+XUlJ/mWQ0Cn9h1JWcfpOZvGhMQPz6pXLu7W3D8bh+r8VEOERzRBQG5E7ujEV2OGv2R5+NwiUN7obQ9icHUBSEgy21mCjkbeRu3gaJ2pDzNC0sra1vnBK8K/GKrglr64ZLNqjaCnwMwDm0qaa4InVjbYEncGY3g1xJY5DFb28/4g3+wI5jekIqayIlP/qDGMTfAvqWyvCrLV6rUWhLs2sNfO2kqpUTK7DcL2TsYHxWWF/tT3yd1gRc1rgDZnTqTIYygK1To1lKIZ45ecNFM6E/bKx5ic5DEypk2km/TqUtuGoiVZVgbWBn4LM2vfiE6+MP+zSto0F3QGnLki7l4NwWqOnn0gGk0UXL2yWqjnIvMKzpi8ZHWTyrm2bCrtK7CV9BDhKHToDYHY6Jt+B0hVRNGbDlRuunFip4EBtSXcuxljtrW7HGj28IaTiH+ViH9H3q6Vc/hfljhxKWRr2AN9KjkKw7Vv7zoKYoJzY/3C0vcb6VS6NslYhphB4jbuP9wragf+AxhRvHVRlC5fiA0Kikpge95tTTVmAwVXEbTcJQaooIJ0xAOaexR5nnoZ7D0qb6AQL71BelpRVixhKjbTLQ3m36+G6pOtqgs+RY7ZHeWqnLGUyEw3tH+b6jss4Z9IeoYFm/DT33jDeoW33gAugaLUcK449LYBxm45MVqjkoVKfJ/Vw1EY8gmsSEu/OtHfHLjM42LoJV4hBvt1kaiJiM2bppqd9wY91n31ikt6zVkO2JBT921Id9n7saJ4dhywg4w9jgql2Ttx1JWnwA/6o0CGPfdx0L5tsHjCLFg/89qxxOYETRVKbE2/SHAym4vgEy8y129viQ002dwYbgqQJ6DVswfirQXttPBa6eypjQgPP2UYbwOO7yKfwW2xOv/Y35MQ8AfCgA/33S483/o5LwYudbIY5PrtOx9foveqiqQkRxC0EICRoLrXq9wro0BTqqCY4ojdnIlyFgN3l1FfVk8NE0DssF9A0Rey7j4By29IvUgOdks6xwPvPj1ltTvxGWo8Ht9yZ3p9dRFBBYjZxrE36ja+3OMADTjfB4fLHl+im6O33uaZnvMLQzrgPJn3PL0E8M6nFu5PnncbP21evVwrW/Q6ziMqpWmj7aLuitpQ8sjBdCnheft3UaIcUrLgCYB//l+lS9dj1mICu6kXVWx292e43/f7vFI2rypNYOtxgyAr395CzlXa5pLabyOcz+oCISd5vaCdlRxL9je+sBmIAKM7cR0c0CDcFDjim56xTdlQBZEg0I61F6RZDhMr4XSyLRi7RGUyQP1zyEBI4x3B2bOrAkgX9TrUf7w7uVww5XdzOspkQ3movSLuLRAlo79Mt4vyVVkDQ7LoZjc7TSvWpLmISS6D74R+2ph5H5wut8ts6DImq6OUDEXGe4BuBzQFfeNJY7SKyNduxW9Udpye4RDdYiyFB9f/1ROGtxJlPA5eMq5QQinabx3QTRpkNQa+igDoI7oKZog1HatGUEKyuqBKPFhI1jX65aqs1iCFX9SbeGrCX+bnxGYHo5ZbOwSrtmHjX1iSa7uzH/04iEZH8w0vGz8g631wVv46/BbSoDyOpCVb4aDRgWEpbNiLvdDR8Hwrj97ZxaNd/TvjmMfqCssQclRgDIxU+/bhnpx6XF2uRcl0eop2LVHiztDtOJHaCtndHKl4o8TcGq1CjOOeNCKqxH34McPMEB5DItcNIgDb0FedgwWBsieb4h6UCDXHaIefDfUUglRY+FeEA6FEajfUFU7t7hrpLJkdrSTxediztBzfW5wdDIsCqs9NGc9Bo5lrld6slDS4bxmfzdgxIYe/TykPkUvCFzSS5QQRds2kgaIg5O3LsvV2BMrruxhBhJxgO5AdEP6MJsx91To+YkW5HDC1JmcTJ4V9+Rw+dGtlyKnGjjUMo0G6CxA8RMxjdhD2cwtBVlR/HYc/y5ipkCdulvxi+s8hHPemSSUJw2c0EBwAKgn8Hi61DOxDXFWEdZgTdcexutynTLfbEiN77rVWrb3k2B5ygLWwjq70GPtV0wDRT2dmUILe6NMrQGUWnoizkKIb+QhIrh/QBFuDoQkQ1y613V5z/MHWnA3nxd55cLQ6+ehc8e7+rXP/FginXZfx3PH+ekk+2VVfahUBfxBWTYP9mYF+OtfDtogPyMWDxMzWPFZhRZk24tQFGi0XVrAMSme9UfwaBFOXCSLEtY7d+QqIdzAYC1C1EzFSYF5fHb1ZEGlhtmsHScIAAHBr2HEaGz4eYpLpIu0ceE5Zcbq95TkqSBtV0xKGSVG6JRupl/W8UdWl6fRo2QzMI3X73cro0jVs5y3NwMyAY/FAl29BxfwGwHtDhztWy/kizRmBVqQpO3u/2hbFqLOUDBa7Lq9qC4vn9eup5+CfwTQz2DNh9dAJ4BLtv5doYCiswfeezNEtATNBjbMwYeffV8YrLDR5TtMcE1NOZevaKsWci28Ul6HXl5yqyxjQd6SSQ4dR+cYPf6d3loJBc3MkByT3MLl3NS07HW53JV/6yVkhLiJ/GpxCF71kcdWEV6MeHsJcgMdo07ONRqZVxnuQNQXkgYmRkvh3H8RbqDO9+S/SSjXQte2rwYxFXQJjyQkduzMTlanF3jYCnRn1ARSYObLc5cm/aAQkTGJ+tC/bvkhbEqcFmLtjKs514xD1rRM9YVcuVARVtCNidhxPjaHkBe4XCJgy2us+pJz2Eni1VAJFXxtpXWw55rmAAhRtverE2SBRi2iwO3Kl25bLCyOUMdHYoURAFMjpYph0eLqMIcQ+wmgxk6VCSZKYzceobz4m9BSE4Om9a4BBigbLNMPRpyXYkzzbEM23Ti6Vk/tCMPZKYJGAH9ghwofbocLlnRDNpR7WculMZVVBOi2xNvCF37p8vVYflqPF/bLhfWVv0no4wwp5jib1EgU1q5taUUP/gfvdQLWlj6PIFA6Uhx9bRIFS5UT57KqWs1PaYZvrDmgEQvhBwRDs7o/X0UJEObgee3XFhFaMudwKLnPu0VA1bM5SjeDdmM5sWy2trC11CBJnk5Umi5gpIjvBmOnvy8eijOdyFo66OHg+8EZeMG93PL+JMQ6gGerswmYCKmmaCw89xCfZSWzPqubYS/9og3/QVv9XsMDLgFGMn8Xi4Pk8GuUbjIt5hiqFuJk8ZRbZKj5ekHgVU3cRZbDfSjmFXYZMIJfA0fzhdFY6WriFQt9ZYcK1ZgftA9nMMY2eVCSeEEF3pDaE57WHpH9lYTvsSc74m+LefuQMye8RfZOUTIhTkZEAwwUGTuIZQOvDaPQaxnrH36LZolQTJ3JXsDPUKSf4QNwfncikWnCuaAmsN6DYQ/uCfY0pNX+PF1uIhBTdfaTEY6Q0qqhy6O5sep73yU062hd6rB2bHvuWETK0pBaOYAnr+laY0HlbEHA9tHx/ZsmA8Tmhe5B6eldPjTuArtvruhGTScQzm+tLpbcIPtvCIpOFNTb0aMyOIRDMuJqvlTxPAg63lhB1T2QRBm0unKZP+6sa1DLt3pD63gErwFoBwrZN5QoNPSj+NuU3eotZwCkXsbeVaSVuz3hkoCF9qmAYjTLH1z4fSIIFxqnGJseMesmuhNPg/lcJhAYAh0uTRf/pQAcxzB7BxEEsGjE0DcA/L2eO0+mggDTYC6XwHeddIYvn625V7ZRMI8Bb3y71K+/11Z1HHbEBrwhwecSuB4hiuTVcqcawoMPV+tZLCJF22NwnUjHN44YCZcRa8JVaVhLcK6OpXcadHTJgk8oQHXW2fa0rkRevWx+3eJzjCG18QZGMEXmA1+/+pJD24y0y6yBMuTuKYi2xkH7RgCGwtqylmds5wp4M7e2oXYWpiipi5geCyPy8bZ95LjNLlqbbm8l1ZXK2aKbKcfiK9mgcXc1efOgGD55r2gAKibcHsL+V5qDYGSK2ixNXgWnJfjlUnLyIzuXq5GJylQ8GJ2Z2+ii4CnEqTmvHocEVwuLWEQoZmQSX95vTR0b7L7hKF7x0JDTJjLypNpJ5bDnbBo3nfWMrjg987QsMEE6DK9ruAxrDNZ4ucOK1YuDbysskDXdd67VTeFVyW/bXwzzP2dvqcleMGNX4TIl3zXqEWxuucHR4lJ31dzXWS/lJx00FplRHMb+sGbJipjPFHX0E/jzReiHxGUSce1rIzNLHKh312inbyCDPhpORPUUjso7l78W0U3CgGewYAQHXR48ZJfi8ZECwZ1pI40UOI1F8hDjyhjt/K/rmM45TBUVWUjPeUpeZmBjOVVvkm98b6K7QICabc1fLAeWwDNXgpFeFpRHfnwCZ2GaWPFALwoiNf9wBSTpO9lZMha3VC2xwI6GzAYOETIYoNQRMKcRrTFeiWvpxi2o8QlzyT9wGe4dcoBi/bwhiAF3C9w4lDcaQ/Ar/yDA4ucKOWWPFqreZsZubaQdFsH9psbz48v6GMdIM2PsBGCjjk9TrVIGsUWTh5k8725KatGQ8lOZvkGThIdLEUtWidnLdMkhmHevxm1mqtv9eLWFZ3R95uqQtcixxFxEwQ+X0Moke6upRX/dyJSQX07AnGODiTapZbtbwrbpCr+59a962HDogQleitDsgXVisgC9R/oJuOhFJjA78eCPnIaq4M+b7EIfEiZFBzowoI7GxdwZnP4ndxikouykHjQnP3lluUwsY+EelzCSc9+RQQYDckrJNw/+ifYlfsTKoee/2zgHLnrQ83AsFtrnv4kkzc5Puvlkfm9B39NN7cd+uSJdngmKpByqFAWfBDsr36243eZDVA3Nbkm3Wa0+jVRHw9RstCx+2Y3TwwvDho0Tuyfn24v3Q6i/1T7blGMjeC9Sz2hXxOBSc0Z27YNRur3nXgFG5xNpTrtxdiZ+vYE8oTnwy8XGttqmSFxcDDCJPkevLfhUQLRSbqK1Xt+Gc708awkx9wVHc2PP1qJdxHgBgT18zoGaz49v+VcjWCEi8DguAiiI6WRsNss9cBOQKb7zWlO+IcqjGSnREM++fKI+UcbY88iUSFC/s+tsDz9waMXTpXcIP30zYUXaW0fECsGrkzSugFKPbU4iZmqlkXv7hsWjRGabXnUAx94iH4gNRXdJfme/uftOk4bGxr6eQBmXd2TMAhcxfcgBJncsa6mneAT2sYbzhQsmA7HqWX99lLLTqNbHQHmKFQ3EDUw35K49E5XEcfmH12zLGoIVKT+0OrN3qHUA3EsDdgTnD6MU3F5RGlcHBYugnOh73VWsxNi09fDj8ZXUcrXjNDmePe4B7SKfcODy8hclA5Dz8iCEkcTQy38zgTXgY+hFSvqs/7pYKRtFhGLlLctHKOg847Lpz0QtFl8dzQvb4NSmiYm+I/+r6tJIz22qkarUy9qszaS4nmI0ybjChKT4+STDkpddPc+oJKB8lOsO/wa5mzTR/YfMYt8d8wICkgt3kuGROF1MK30lVU2onOwDzGHjR73lNUDNydgLC3R3RkVGpFmQhlNwbWAb07BHl5oJ9+ANDLGBaBSmcFZBgni6JOYS9lfAXFOvdYnmjJp33iBipF//fcViqAXlSmJTn4S8nuccVY8wHmVvOJc4jMLdT6fLIXLfTTsE3cxaS4nT7Xwwk6nHWFTkGsY7I67CxSZ3sFc5Px/d0dBZPkQNniztqzpf9HQDg8jW65ahh2bEYhfR7DIg8XxUjfyrKSMNnru5R+8EB5KM1cbXDh7HBYuL9hQpparnx2dogJhXYminOp0hF8XZN6Nc09yVwt0VRAOGtkUGXbn9VOVoCeQz+adQUAIOTVLEqOvCB0xuk0Ebzav5OnoNdx9C8cvQ94uMhm2CeccVMTe9IhO3oT+MBkL9pgLcYzC0jvehfXDmBAr54M/BG2V/x767l/p3nsIzeZaCqNptOTtTf493r1tE9I3BZ63o5EMurWLiUtaR7MXk1OJfhi/hL27VIMkwNbwYRXcIQQGXNCQje8aosYHEiBCL0k5AI2G5lyEbx5E5VsoRQXdxeTxGPJ7G+XocR54c6HrxkdtiXmFnaIi/DXjvSq71gc5oQQUdblU0CtGC6ZkHmZt91+YSw3JV8CI04qWj5aOZIfIxH1QvBZ/xlj4kFD2KsShk5P7Q/l7zJosoj0LONEAusPOm0tHp+Wrns0T6kBv5ffBSDzb+ucHIOVKbwRUI/LwqSDgT+G66RMCHOCBiF87vQYXVE3UxF2BwWxSJp1H2I6D0nSCMOvrs6rZc9mXJoKWutPUJI6Hbbcdc5zObDlh7/Nonxt0rcFR6TWJHBLmR14KNeUvQ9HN6F86RzkXkhTERFtFHmuTyfirQQCrV+kq1oaQnigIHbdSkEGRUz07rIgFpBNKdKLjqMG5RN2hgaHUc2pEk1job892ur9T4QgY6ruk0uXIg9j7TCYFgoT4R1h+BF1mTCjZ7XdYJyLIQ3tdN12Itg495zBzWWbteiv2frl32/Ha28VsEvTGXIrHXarz4CI13E65zPRQF82Ew2GJpdMn2YVVIwU/ECfYpoxJaHJez0nFiDL7sbZZtJsTeQ+7V7O2ygwFOEOsmLSqWWHT5j+XtbE8lsoKITQ92/Nu4B9WPS2qChHxVjR8j/0tjmYv3AZBCDr48H4U/4OLFdCwP4fw88WGV30/fermCFpfrVcgCFkfNuFTN4NP3SGL3+S/hfd/2CppXRXY42NF37GfbmXXsoT8pCsV6gyJj+WI9l8vDfSmTJORxA8k4zVzzG6RGShNQmq3ZdUv4g4aVULWuedLyxEKJ/Zxrs5AMFB3nVv2EKHceCCk0fG7/JVpFxxTL1dNssvshXIk5TWGFF9hJPDBpV0ujj+mKHv3jUpLaljNi8bBQqILgApmGti6aQy7g2YM6DcZQctN0ZQRPlPQQ3acpOPHc/qld5DsUSYEwdGy7EPuLNh6AfCCytYFbiUz6vKDdlIDKy0F63jf/zR4dP+oXbMwazS/yfKbARSsDzjuWLJiH4lo5Ode7U+/4H8Kn5lAzXGO4OZe1+RL0UxPHSXGLTQkmLJ31ju8eVpUT2M5NHKPqFWLF/dF+3JPm0l1V5ZipB7vFTM9arzhjME8U3VL7WcsXtZq4v8RX6jEdDGLfN3AuDC597N0RLndhQDkSGzwZhmuPfIf4ozySaCoR9cyFlbw1OUEtysjpMkRY+VV/vtO6WDHWxcR5vk3fVnrbgOke4GpM3xc+IX5g9eCvpw6E1R2p7S4ABZNfCOeCQVFhNZX46IBZQ7Gvx69kGIyoNW8UZGA1uy7RizKuIJUwqca3jzGNUBRhvx+JBCejyZ4XOpUDG8N6VNdWzQpvyTWICram2/pnYn0qeAyAurcUkKzMgxOefe2DY+BmpDCRWna+9kUVzYbV/QCLaX13mLBjmKXBEFAkpVuuLhf8rOZfkthBi7BYYYc9nmFp9S5Mkx6RUjxjxKNX6HEOmQj67MBysBQbUKej+dFVqlsuEBVOHohfdDpJpnQKGSCPsvrrZxs+oMeN5guZZu9NrJUIzAh18fkkCsG+/2gWTq/v/eP4Uy1MJAZUmriri6NefBd2Rj/p1vBRRJFrKzvvhauQCSqs8q3i5QXT1Vq3MA65xxJUigSazsozXCK4WnZ102ZFlKJc6MQ2iFLWx4j6oCjw89koonygJOFE6iu1Ka+p8LNqM3E4fzQmFNmnWtit53OyPDv0g8Cpk+yO+hx7ub+sZRLIotE/8jq882tK1JIpaJTYMG0j2Qizw3SEtWqH8xA1WEQCelJQlQWtRX0Uh7tq1IqfA9zst40pKKxI5J0qMGCPeVPZuEtP9vGRcS+Gzr2dMYnNQGBMS2UCLYnZeQbKdsOeOCfZLDmppaXgzuonGdYArUakTAN7e0TQ1/3a4XpJuPjJNN1KTrlgC3uSzbg/8m9qzGm4YmzX+MiXkxgTFvUPekafhb7emovVcVlyXJxb4MOycu6pJcQgQ+3rmqkYHBM5d6Pq7jx4W6dX9N+WmBcke9ZAmR+6MRMpZnMhPu+OS1hUU3NreK58/cRsbUCEOE7KLCUwokvvUXoRgpSH5zKU5PKXqi2AW8cP7k+vvqssPiHT0yfFSzQkwWNmdn7iGpnCtF0HKMnfTVbirssw/0drtGxqAcISAGYf67Xhwsht5GwJT08LyPAoBmn4SB2nal4CCMkoOvcha4jvlTAfyZFunhmIf5IPwt889aZwOw706vGKkmP6QVuX361JIT4udW3HEOt3g6QW25pbDiMOiPH5ya5rnZlaCtxZDXGLQ7lNNvc+QUyo5PDuhdtyzNpF+4zs//pCc4E8oOQhaBD3sweh5hUFUgbwOLILDvT8GQv538Bki2JPf4NgTZRVu5HLbtaAQ6A6YLi0Wre0CPXFHC3DLZWlFI3ERu1xIdLFq/XoLtw2bDUYuXIehIFgP0dUZbh/8E5DOAPZIlfB1pBse6T7KCflgC4sJ+DyYqfjYmmCKJOLp2U+oqIMf6gWyk84nRAjvVyLd9l3HVAM7DckNVKijqlE/QbW6pYqO0pfW4+2wUXDMDH5YU1O4YSeFBB1O9y+R842Jk+Vb/l3vnBrLVdqVvt7mjugS/RInEjX132HtTTNKu3A9UUojtE8vcE7Ql9RIWr4UwmhAtFVTKJRkjf9EXNwW69+Y8KH1UJDv3kN6YHPJQRVMgUtSrCpt0J60R2DeHmF74HNs/dp+RfDxFFasn2uQULXHm0P8SM1KGlwMTg1okwcnhDCV7HxeMMf+hUawCp+MC0xL70xmcZf76+w+0Vd8+ihl4Llr3NNlf4PDyUZN1+cDGb46c5yML4vShG39PoB6deGv5iv60Qnt7UED0zvHMIoZw2kxeSA9bhAd4kqIu0ra8DBEj47xLozW9QZo01mEBdoEALO8LH3m+hVrLr3CuIxT4+lTSQlT3RszAz7SD0C/f9TDPNUKDtMYMgias2A34ILGX33TeYtn7B1+XrdIsF63VL0qLkTHyA8p27Yo27g/FNLiY9vmehWwa3DkXC7EmTOqU58cqVnJ8PhvCLZ8ZSl/bdQ1O4YSy4uUqJUAOxgxEnaW0l759duD005qX3hdJl09GTp4edsjYrXqgINVboh4iVHUUr4Wf9UawNwAm1rrmyuLt31iEJgxLqm3VJ8wR1LY7tDYfz65MDj9bPZGlNaMK0dC2nJnuTq6VS753HfR4NTADn7IhM85KE9973f0BVzPtaPPKj30SM8iUCETYKp7yD449pZHcqnWo0KYvWgya4Da4IRLtubC6E/oMKmiydyOz7rNTDKohsGxIq6NyWYosZYnpJBTrCsay5NGJKDdNn583UvvOK2o/I4ejq+zbuT+hn8rU06teN7KLEcf0kBDq+i3oly1QNe/wYLy4owp8q70jQ5DwDgGu86K/ycnQ19N+JRDD8pjcIpVaTyxDYKDiQatrDJMnJl5nuh9mokEn1E2NRT4K6k2B0jAhSv65lLUcmX/drgwtVpeezUTVAE2o0VofR0ndEetff/yqV3eAeF8qPilfDCJd6CF2M40DhHdushU9wGXdDSL/js/X8mFOca8cCGCvVahO4BRpQZFx47e4PT/Xs+jd795FFwfvOzxzx0SmmK5xEqFArcp1Feb5cn+grXUlI3Tgg8itkbzIIMS8p89STwHfkLMMYzyDL4XG8v5+TnlV7dfLZsSz51jUZyogWjcJSZBnw6PTX1KCjMDplFfhWjiz3CZqyVRVXU+J7sJ7OI+MgUgVkn4lLBPjl0qBWuOOF+O1glk2XKQ0OJJUFH2UGFHoxHgwpI3jY+hf8VZm7+R/6SAfZByOuXZ57y0THHiNuju6hiPB2trVU7VWu3/8Nn5P3C10FeWtCbulJ/m/DX/hKpzvjgyI1s1ZmmpQrzRqJXnVy1P2qAdv3IKon/YOxSv7v1sFPx90toRAWSolpqfWjVuBC7ie9+I+kEf+pup+VOw+mUM3neUSyFw3TWzBpbeOL90AEIPoMzJ4H7ovjPpKjcZpOimfA30wg83fW7FgsvpdiHGygAX3HPwXqGpsNHIfp4tCWNnAJivYLa8Nm/Dt0yBMO6SmRMqOv5zo8p/Z54mGxs1ypio0qwOS7BlKZYu0cYX/VzhwcGGkUudeOkjk8BrOg5t+/xGN7YYqgOs1su+l9PeuqMq3UMDFInvs2261r3nnivqZKj/zoJMYgH+sIrwnr8OqzJogYfq2kqaIVEmTexnJgTPuidR8fgweZcH7Y3/3FL4ONN9SqTPqbZUVa848zmecv4Nch/PiwZTIQ5iMkjXY72ezqqr4jHy3KeV8yE8dLskEQzN0zXMnBIRDqMR18+QHv87WDzZfYm4uH1JpKFTbOJHmoz4MBYB0aUuKBHulNSARSQ39vovU7XIt6LdyFOAOd1wbLREBVTtK1Xfj0vae6/l7Ejz2y0yevuWXlcoVpzR47w0gx6S1vjnptPWSrtpLLyhqYStFIZv5gowLnoe7LTWCDCre2sS7bUDDCGvcwREjuw0cR2AjH1dQa8mhHOvAYX91avzm9Lau3+pK8hktyW00SYn8kW6EXOQDyUjGs/mm1UFehLQiUO/+L01YQQ5R518CjWJzzCvjw7a4NGRAE4Wt/+3AVr8Y8rvsGevDk+O5BiSNuGFfCbAMa52fwwSI9KNVWMZDUdhz7MlDqHFT1E6rf0k1HSJXPlYhXqNdBRNs7cVMVJmqTyb5ziRRa7w0N8NCDNf2HdX/HvUv0HVG7OyX10iEP0GwnTcdDURr+6UIL/815AsWIDUSA7pqLazvB2iHjveXyj6oCIAZiLAmB6Tt7MfMayqCvVKbKRXHxUMylXrqoYcNY2DUX5MyOy9lbRrrCPqQVxLuf9YmrOuTq7WwIfyH39EFCokcrNFd7Dro1111KnTJtfp5eNhzTjxhTZlV8sgEG8h+TutRQWKImeQ6RchRxTtunmsecEOySj3m/GPfJJYt9mDfvQwWs7kPAoBLb6wqvVGniF40USoX+jV+B44hZtu82/1Am7vUB4D7K+39wUBg95gROITQG/Swb88OQAK/nQaXukcQ/4US1kmzdl4BGlzwnsIPmzRRz1p8j7wtS3KEcSe57a+DYqWnAC+K7rNOtuL9Vu5sghrS0boPTJv2IFcUKlPLg5fax3sCTgO2U6Qa0bz/UI3tFkmqV0mpEH1dQinVSIGpRvZLA4aVgZnsm+RZGn9M3m/wUMnjIKQoNRWSo1BiSqlpqdXgcIRSORnvkPi64KdaJOyJB0nff/41IgME0m+kvP9s0YlOR3UGAHs7gEHbC79KOVFaaruxTdSiz2J+tqBjFomSSWjHxbQ+BAQltmut2v3upPAWM2dvKglAjiJjUsjMGxJDT7WHYx4skFH2DdklqCCPsn5vVuU3fs5qPBMtrllyix85TtX7GJeaqYIsr0HVZ5VGYAM8+I3u16g53m/cZ+9Bk/OVlXVCn1hBC9eDXicgx6OFqZGAMhcmWjta0BxRD6s/kuXqEONCifsT7M/pBHdqkJRP62KQHdM4hG3gkI23A2jQW9bF48Hc9iqARPzpaFVWg7EckNHScSOiA1e1NRNBX2bm9eZwOXkGn1V5SEg0OY1kzqDcExD2dc+0r7FTqMhI3AJBPWihMt8gpNvK31JgcOnwV+hL0U0uSpiWerhKCruyIXqD+67M01pn71+MIf6hVVpEuhyGDTCVUDCCWMBRz3ri+qJ0dTCTdbvqtHhhFN/QqJ6mMKqa8s8Oc3cvsZ4L1Q7R29XJordVM+Y3TkypNuC2zV2RHPSyQ7eT15JZacONku99Cmrqt5R2tga/jJzv2C6SA0LwaocZK3WenIX85y5Y+EXmuvdpYkPHEm+P92iuTBsqBk1ctHiPBzJB6Z6cteU2w4ebelv0HfMHLPS10h/H5qxJojRrekiLgOJAReyK3l7lm1ERcfuASp8kKmphNdqtqzdEMcRjkwLZaVx6NrZGxzouhKk2cAkorD1mCrxtCsiD2+yI8sNR2Sb/82NgSMB+jPT76fDFV8ooxW4IBQJbAVtf+gIf0zU8a2nVIIqWd8yfBJ1bh5APC49x8Nyrt+bXKQaE2NPg6FhFlhcoT5uR1zGEZo9CCGpgLdTn6rrjCxtrvJXZ/wgGdEbMvRiecpejcAwm54jjLJIArLJvXl34BUTT2An4W2ltw0qLOAUfraeGvRUbKbLXBgBLmOGf4dYfSra1wRMxRxLuXoxCJK+sMNZ6lgSB4XY0y3Km56V5v8M7hedvr5ghIPJkOErj+U53iCykNpNh1LF/9yix+5opoXUXA5akLwPlN2WbQZswIDlFRWKpSi/qzr2PqDN+rN43ukDwKRA/OW3goANt03Y8lzeH9qIQOFMQ6T2mDppeGWM2V6Tlk/+qxEd0OjsS/o9m9wsOGK1QKf96bNFNKk7LAGeF7Bjvqm5dexk0iZRPadbCfQjIAOctNgctIGPkp7nGaLNPEcW1lp556ov1hyjden4sEshkKEbtr6rAh1x1a94XXyTfYUlmjQoL8cEug4WrtLolKE0yuZbDIx0/ZPs9uMCs+3rXSW6BJFKagppFMaelpw1rnXN9j8NtQ5PB9wq6GyDJXsqg1XpVB1gwkv5liUm1tu2fwpHRbOyTtLUKvG18Cr4HHBgV7+jxL76pzuj3o79CJjnRT8ZL51xsokzi0sApHcjzKGbFf1JldlVImqECP642lc4Z/s6AOk4mq4IlGpJedjS1OI9OnTQimFxevAW/kKySO1wLa61MLiwCWp4nPpD5d1kTRXr8vjrCtEfxEj+qS0OV4OnlL0Y7pbIgHxupw8ydd8/YwtssxNxOv41wDGO9WJ26m65M4PN16+S016xk3J+SZMghvYMtUQAy2lvt5qpok1oSTkvOtySKftaQ3MRWwG/srS4qfV/pxNzBLYmoHuIanArXBYvDv2bNiqlApmqkOywE582R+nUyMcN1ElfW9r/CQQLEpzQOWrPU5i7tCNawzh51tEg15cmKaS/1xPVJd2YhhJSbJyK0lNvSqPceKDC4jsrUMbHkL/WuH/HFmRYQGSIKMa9TczL/o93PjMKMfc58Yg+2mwikv29wnvXUEMPSMLQw26qqnJG1O7JzQKptu/15SS5Bo4tyVTyVTphOblnM7Omuwho6+CahCRXp9s29g0GW3GPvRRLLNgVfr/0riJXnIQfDBm9mx1ivJfv5JFL6KixHopnEDA5IqRwf872286O149N6GtWC4eFu2CN1P4/eKeuCUBxto9gePaLMc+P+v9CieVh1t13zC0APR2jElqK+M0AJ00JWARdOydIQ8BOZUnFaFIAQ5w0Bf4dvpS5bMVKQjP7LQ6aproSNxZcm95QH1q/5IHTFTMOEbfyYyiwaLUBaczqUQzDw+wlqNGbAYIraVUW6ouhN+84Z0jFXGOzeRCj6SHdQZpKyn0T+PyYq60lfFegc+srTCbs7ELFtQadG0YbTfkWOtFoUtF+zNfxHJEJqTs9H+tRisJxrcMz2OW2ti3WMZ6s1chrgFLm47xj65gmdQkcd8+7jY2mwI4no7l+Q+rkJ2A/nsD9g6ZG7pVDvjpo/TojKwJi0U0hXJj5j6WDT0eZzDA9RVEjfBBVcCn3U/8vAv11J2qsM403bKKDx2m0M1PpgfGsrkL/9dj1xhb04VbIGq7BRaI0XTaMNYmCol1zX8bUtzmTibGbRm2HvKgNC48iFaMyp2UNuVIf/x2Hu7W5xfaepCCiJZy0soXbHpkcg7R5wrVSRjTOkrA/BhENVcZKTiqINevgWkIpUmN4tHsEeirL3MgdNGo5QeH0KUoe0jDTvSk2BERdRUaQoIrzi66gUkvIpV3ROcEPf3kEKswBgPito9I2VJ5hO7fIwoiAphj6TXJVyKFyyZfIBzTqeOv2sQn+ieptdUs3z/TwJee4kKApCIIfguTQE5svxGF3Bb6qEeKboME8+ZwB00gBNeYBSMX+RLZBOFoMc7NBu0mgp26cgaixxYSArGfgHTU6g+jzVPdUK/IFXVbjlGwwlq15N1rlcBiRFIhoL3eWKulH2+IwL7wE3AtZKO7kGqCTcNdDvs1tDraE14jhbaICam+0Dx+v6X4lKlE+wlJdcwx/hS2mhBlsDb+DHgPDHUqNwVwnE7I5LRRsYeb5HkMIWjeGo7X8bkPWIfgdP4ny2yemdXVXCqIRYCH3zpxrX4JAw5WDoVkVeRdVBI5eDkxyY46SfnWj6gxFk35yYnWRYFAzXxbbaNqsu+0mHdxikAR7qZArxvGE73PXrsBAxiPfMfm+yacOoyPBdjDT2K+kYEJdYqXqKqMoGlctG4KmxiHEqdrBnK/BINHJIu1trrojTFs7/xMx28KNi56JZf4WigmTVe3tLkTUR2Ls5rGw7N9usXRAkBh+3SwEpMnJ4s+cyxiD5yZ5uUmLkhLenLkmWWUrj2jlIUgqvwa/4vHBUt107f+0YLb74MDemhATmRsdSeRbr0iKFIbnaQQNE9kLRp+i8BXwDadOPmYfgQGE5mc2+K/yRvV7Oq/HUbgF71v5hXEJL+0N/XlrGoX+QX558bixA9fiOr9awDYCztXvmlSuKA3PZHfzEQFidTpyQX5hBUUq+oEEXjaongAgFhmtkjugYauGs+xUexKlFY8bdrtExC8op5ZxXgW4viGJgWD/Qb2SZvXkVwEkRdnwGtnjuG2/h/lUv3Z4vjANFR1bWY3IV11M6SdbA6m1RZIJn8BdGaNjrjFI1ePgFhgD1JeYZQ9wuphgd3tYboFf1sgjLEq5YV8c3qnUzfYRJ4h1lNFv6UCTy0tSW+lzB79DrSzV8JHUL3XlU5Piu/Qf6QO71cyULsw8BH2RLH0gXnD3ei5Skke3tuUxgv5bCypQDPsmeSblLvY43IEEomzde5cGbqr8kybYUqUx+Q9E4bQZXlODlaerp+PCCrI3Zjc0+q0VpGxLBFe4T5G96ukcS1Yy4Uu1vkjK+UxbSTiZNCzkIRRVl4jBfcaIpLG5eF9zHYwrkT1gxV+IUtvlxCo1u+MLZBjLPexa2q/rKcras87qk5B3EJ7TUFzkaGjZySH49wwibhlBAapFebNuiRV4dtDLoJvpnEuvkxVIvMZsvkof60Ut7mdr9NB36Ve8y7MXrzV+cAzXIEGvv0+tkbK7uK/Hkqf5bDzfuEX4qpUDiwI9BJM2FJNiJF8sW2AcYge7Dp8dwfh/Q6HxGHy1ysj7/pNtv5Q7GvVE6eVvtiXLCl0Ur87WunZKpSVMdspXop9eep5fedz328GLTLlRgya0tIsI2MiRW36QYoXTi9FMLNqLbyncm4bQFbdjpKJGWMBRoff9ir3rzPnQ8OaUtvdl6UAIW6k0Ac4hmUQ42X5NoL/UWbEuRIs5p4TynmrpBXdAjtHFkNYihRNYe+O3pUpWwqkZ3DJR8zan2/1ha+7IF21gSwqwZhNL4cxRSj2lHm4g4icfSBur9p6LpurvCEPzFtWwiYJmQ7eJ3nR1lSgFW8CavmIak9FeBSvYoZzn/l9wdTXWan4i9N0V+fsGmeCOfWaK+5TCekdk5zxeNRxnK5Bz9Mt+ElTd8cJ4snCb+rVsEvF3nxkboCbcUox+1+NWTSnIkLaPnIP4ME8h9EAeOW3Fd9rvF2G8HK4BgRu60JzKf94ezNiUVR2GbH8jcWCKzEyVNQaS54bdd41WyAfJ7cpfySvb1x4GslFjb/nopg0uz0NO3NHpsjEZNUPSDLfrgHFY6SjUnyj9kd69uzmRfSRfRJ5zsYlHgNNfZKrPg2T2R77fZM6rcuJ+y8aLBLt0O1rORI/2zEqBtRYbO7QqvQqH+GtunG3qIyZP9WzKzP+0RSC31NH47wZPCH9M4bx7bODoMA3BQU56mI2sw9egr35LtS5Ops7gINsL4gkjYyGVl37cOgIHNA9aWBv2rVrubLLtFT66I98ADVyu79Mg+tYaEHyBe9OMWOz8Y6OR3YgVA9P3t9lbIBGzk4DFu95MWGvkH0c+WwUcnOq5YNqhcE56BU1kKh8Zf3SdpywGhOmt+2S0Fau2rhFxZuLw4r+kB/w+ae7A6ywyLdn47VVeNzp48mEHqyJYL00HeNPbBt7hHWtMU9oxMx1bIKkZYJLbsxZbXb6ueWHX41PVJGKRUaT1kBp8e+bMCOr8vDuE3OAFfF6Qw23guerXNrbyYdfpJoMxpPoJeO9wVso5+xm9Seavz+Rjynh1gSznsadujFejxuX1VLIue3Qw/7REZC4S6PMcnAUiSyWuQHd/lz4CDonYBvlaDmU8NP0MPau2UloqqM+CqXOfbfog9ZnqgILB/6ELfgXveTTh1c8gdkYA715netRQxatA/X90VY90yDxBiCwrqXxYweQ5FQ9fN/KftxnPW8Ssyo0PJKIM/YHum2hhu8tyMF64FvTfrG+HVB5z3pv7FSt9y27rB8TFU7bdU0YkenmcLT8uBFCXGY9BsabEKEcZ/7DrQ3MDIQCZSCwz+QuZTkptbdBbl5gANR4FR+rq/6vr/NPdvd9Pk1cu7udKOdq7mp50dT8fpwmbXNqv8OInT2RiOlfWU31ipjAz1QErPgVyWkiiIUJ7aFDy0R2Bcw5MbAQng0HWIhRM0/J1rpvLZLM6R8W783JmaaXQCeTDdHgqnNWY6cxZQ6Fr6ylvcaZYoJomZukrG+gn3YGnIJKo4hM9M4BzqBEQTt967JPjKRGC4v91ge5vsMQBEClzAxv/m1nNoMNFQDZiI8SeDvEVsl/UhgL4CR3bg3WMbat1JqsFe5GGKpJr1jpV+GazIHkcXrD3jR9NltoIOJ4heEDaoY5hhfHppymEQ5HVpAsKxw0tiX82YOzFLxuqF4lm/cv9OLYdlDjMcx080BC15jcoIe7u1iAupMWyBnKIH/iMqsG9AU4GrCAojSFtdWipw8A7jMqsMkRC43VWcd0yLproagF0y3ZxkVHJc+0ScqfKM2s2xZSs80Rqe7FTecgH/4Qk3xWE/BiUUzPofWXb6gu6Szf3/0pwTWqjQ+3DqMe0+HMYevBaG/ZlZ7grFp1Kf6fRSYy2eT2HpfbfnnhY9/mqiI67GoT9xvukqaiD/LzScQ78aGBJw/Ib81emQST7bZk1c8/UhcOxzhMCpRtISEtRKrpFe+0BSKpVxU6oOBmv+PptVvBpiqSiMudIwKdCgprzE8PlYxpC7Fjed3dzpyoHahzYWHsFSM1t0JxXQj2qlO4e/qKL6twXzQBO5WltxM+E0L9nX0HVTubwcM8ZIb+Ha7IfzYWO1AJhxVhX+5N3Tq7iJnk3DPXq49fCiqPEYVPk2gmrmWnl8y0O06NfdmJr4EkkFeWSsn7c7ktUAhBKdEt2wFKinyxYT3ZZ0Yn3o/G6KiBSeDcZpZdTyV3/glag7yDYHusuOPJBBt+ba6tQ7eZmQQx4IZ8RQGhbOIx82ez8HWEEU8x+yepqjFGOT+D98InYiX839CO01YAL+/EzFO6ilXI3e+wwIaJ4KMRoOHmrcicYJyWalyubwLaLAwFitVwW7hfAHI/QnFrOm7oyTxpXYhut9jjOptag3qMAycgi+rODKpqsWrwaPn+vCGqF1COK31yHzV2qhf5slqCNRjN6sJenIZIHkENmnVft+GvJazc6o23K9543WfM3hYTMV2lZA0zVNZTj85DO3DTVviW2BOmwTb9+zyQTEFrB41c7PJlhU03YGa4v0KmrNKSui6rdI/MemolfJLO2tbTEfGEWoqWCuk1GuO4uNZQ7SFlKFKTCliM41NlrnIe/t1L+ysUaGhuSuxliyMM15DabZ+GMWqkISnelA8sH9AurF+H3gDdGuCOWVbg4ow02KM9PZZ/O/6eqOyXH7CiAbd6LsKNnQHDpGTN+MS9AOXDNDDqtwAf8uakB1+IwGNxs7GjorvZqCGajKtY+tQqDp5J6G/kwcsXna8w41306WAc2pf10TWjOKPlD4e6qderZgj7L86UZmmk9MqOsWiP5VWN8Q8C3N7MvFxdVSX5/32NABClvnv94rOEe41tmgI0v07PRoVvj+QmvyA1DLFJJ6As9LNQkBieWzIdHTJcGees/TVXwOIjKgH1Io1tadgFWwV2yY4XahF8JvJ2p0GsRoaUg9ebjgKCrj+ujfns73rShb7HLGCF4TWezNFf7G0X8TI5knWmGhAXJiyBv0qz6RpYTWBF4FfP2XzwnKhvgNtYaUDRFI/YDteMaEW4L3tlkKyBeqFlsg9M4nZ0DCy6EB7HjOtGX1yuWtm4uaKq7CZ4EWjzmboPCB/a0EQpuCnmQumY3Saebrh1LZ7NcilQnBQpcpHWi+sjG8FjXMlZfV8jJslMi+p6o/EhAoqR8lAftoPya5xOdtVPNOlvxEdnMcGPMRpt8hWjWwhA4E40PBLV6BkqSFb633v7NKatU/hSbqe9kdRRwJM2tC58/QX1Sisku8cYgFkxQZyN84B2aMh4u0TO7Tp0GrtsqIVjJmMsQ/byK1kBYaHpuZejcj8moNJIQIldAekdSDPxWRW+DfQyVeDJmptM9mH70QzNiY5xC887D2S2EczMUp0DbLHCgfYyhzoZztoPaEgmkPn8KoDC2oonmcmRcMyMNWKjipgtgp2KVRQ9Ssi4Y43oJgMUJdEW7DQn7tuL//es3qCeyWIIyPGCPfZuUQPudwAp5KLawQ3jSg+UaucTcaf392RSsVICcs9u3fe2WfF1TvDpqrnl/OKwYrwnv2dPKp2RGbnCGwtMdKsjhd6aLW+eFtz8qXMsOeeDjxGhkF6YKMta8gE6e17uSej7mWKMO5N1fOTf0WmUthGs06TEmVpkQWd2ivxEiHYFJM7mSXkjpRpzx+eGkyAHkmdPhzbT6MwaDRV7d3IID2xdRlUwcmDreVUMPLzow3YsYyibqnXchh+lugAQbGXg1MLmFCjU52WmMg/rUm2ak2BUgxOitlaNe7FGvJbY9WMD4Pv9cTh+xwmz8Pw5snFyufpJcpILrPiy6mmCcudnffuws9RRvzEEVO82972GtJVp2KyHI+S3OEURzKGhNoWbBEDla5Je4ErXR8e5BCL94Y2NHz5DQ14nSFELHBY4qHYQdq2TxRzpt0cUV3H7nPIadS+PRV76QttEQrKyGQQuDRKTfMfsc4I7rou16GoY4+D8tVDLbbkK27mrdMZq+ozfyGkUejrkZYyJOArYZfmpI7VZq1HSv6LHBlVeEBUe6A7LOmEc+C2sebfahQMFAcvrj6qzn2zYY+8TuVDybP12rYDekBNyah1Nd2IhibgTwx8kAEmcLhZEXyjRhT+SLqjQ7TnJXkL5BrU3iL9HDzBGOkO5nxawbbUz89K9rOCEO4VwZkAsMbUAb9F+bKZ8cnZpdQ/QVOao4ilfgeRX73oAxnXUYATb9BBZ9cwXbjWCL1AwN2RFCyqkFSSKlb379Ccc66Jtykf/soCFp+NFx3+pXi5OUIgbVHgI2lzploKoZhoA4z4C0b37fpZya/DcPejGllInr9hP26aNewafHYhBxTNkmCkRCyjLOWU99aqUoS3QXAE20KI+YkbyjEJS9IHRh2ET6RkFQmGCyN2TPhuteMirIgC4g9i8xaU4vPzB5BVAh4eJGADMdE4iJ3bE0E/CljroBBuYX1tJbQL1buFSMqJO5mK1RXL0PEHpyEbWiyMYWGv4xxbbMZqCtjry4KCVsKuEdLxLty5nDbmTkKgkANpQD1mhwosgRS5WhweLa921586ZMUik96BgPQmWVxZFxdcuv/9zrOsMbDM2cLLEBqijFNcV1epyqSb0ccap01mlSDCbW4ly59LAsL2O2fPSylaUdUOOgANrFG+Cy8xC7QtQPo2iaSs/qAl/8Y+ChKG40qMDujh3i1Ix6Sl1i99rOwVE0uM6yJiChd+Uu0OU76kJyUWxztP4kjYuZB0Yc/kUp5o/5GS/uUIv6swkI9lVNwomGC4oA0unFhWBJDKmjN4AOvrKpXGKprNYwvH0z6RuUXexf7M688kgUAAd3Ft7z9fzXFYMdBs2xt7K7FhSdzipIJOf2uesBxskjUl7pUOg2eI2tdxUkhjDpe4Len5Gpt21h81sidN0kIugjMK/ckY5EjKIxikFsm+65atPBUmbQw9iJARjf0lYSysc9vNWuPb42xSCu97+SBv4id1kc+tRHX3cZXOH97E1LuV/Nk0tO+G6lmQMFAMEeNM4DEctLnONBkvPRd0fT9yb766kbrFUL6aHqyV2d/Cp6iRmXUotefZpRtDmPtfLnu/MUR5J9w8317ajdImV/CDwUdEzXDbU4XnOcWbO2RSqVSxAp3VxV7mxh8mTHRpTh+KR9IGXvuCFvzAkWBC8o1/LEbL/0hKE4n6GvDlOz/zHz3/8zuNiLl7z0MH9M/82bCVEqC9K1lAbiPAaVxvmbmjX2t+GpP2eNk9yUOGPc/jzxwI1b4zahhiZ+HXliQrTUPu39m14ndwW4SOpa/P39eQEK3sO0digB0aGfiGEJn0g/BZObEvmhG30SjbijGTY1UcKrnuJns6nSb/gqf57VGB1AlHX6DTPnu4qlJZTsXfOtWS+vDAGWF2dEOYfRVBfnBbyH+xNafjBmijQX7ROYvdFCvfFnZb4eQM9wIVKCrWnbkp9zHIROlXPFj3VculWx1oFd6DYRactiTL2FwIQUnyHtf6iQHMBiyprR4X52IkgV33wkRepwp19NxXLepso++U5TVgXMz3Y+aLJfB79Z3EzZ3oGMwVp4x6OhpMt/p/qA8Lp3DXbM6kbW/rZ0C4nMvIAloeKZMjY/72gYYGSyZDLrabSzo3VQnPn5DKR8OSzEeu7dGcOWDkzdNiQbJ0f90ukz0aSf8s5wM5EkW42puPEN4I053CYrWTLx610yp4sLoER8KCe1oeqygvG9xbKskIxyBYckTET4j8TzmbUIpdb+TfWM2PLZaK3AqZYCnobL6NF9Htzr/SHiXQAXPV2TJ3OLuo7mOJZpq3B8XrUwODJobG8ASMNKhOryJ8uclMZh2Q5wVNw2V+jNm/yhqSsa9Z48mDp1UHpmo5w/G4erhdZ5B5IRTxH0E93Z//eaVz5zPucmc4Q+q9/4wHcX5cFLPROUqB4TnBxJn6zeNFQ9gCeE9bcTtbMuqsKjK4Wl0dNk9aWFrgXhiMLJGeT8tAEOrZxANeBDRXy/rA8x4bjKd3ZsHfSk+SE7ViK5JGDo7W/QSBo73oB4/KA+qBOzOMYyIVZlp0ZhuHEU15KLyXSquygbo9UW/RHfQ8ZFTGlq5lTAgQOF2bo2zUqiloqh6x3JFlSB3ckAR1OO4phVVQkg0zVaUPK9vn72wCD7DwGo6QBb0hzzV0FiEaau+reDk0Us3CWDiqI2M8EraE7JTKMQfNohAJpyZ2ToK7QuBVergnXrIjuFcG8urgfYfVJ7+QvOtoJXv48e4rmLvmQ/Ndotd54g22VsFdNaUfIhRlq84PoRpptwXuovnwN8EWCZGn9yJHeDANX97XEGZJ50Byr+L/i52rYP/MLBf64KhT4+9osS0LvWzCI2eAYqNrjksgZ7jkeN5E5CvTlqLPwoKu9mWbNfsOG7pPlXCQEXhMu9JzMfULN99IoZwuGCMTWEtBIm5L/MV7tk7dQRs1Fg3rGbeioAHbE0gAHwqjMFOSgaJDAP+pqj5hCQ2CWLjLSENxoMV0E37eanYKr+RZO8uxGcGa0ocM6ebiJWU+tlwpAQfr5/PcjdYnACzSQ5kbYJCYxmaRW0m60JGW67jF9SryGFTU9N23+iNuY0L3UoWO38O52MlK7DoPlyYrnZpG7C8wGvKmXVu2d7mvzqMGAR2hq3TgQ13EzZwkn3LLlH+3iv4PbY7wSPiJUWiWzPS2t2LAREhQuxiZUxyPdg9E2u2J2Rc0aUhgDHTnAbG4KJmXMj0fpSKV0PR9iRaCk0Av+aLEgt+f1Lx4gbU8cpWuDyyscLdTWf8YZWmj+tUvYdIOjV5Pt1nlqlNwsjzZTd9/EShMKeUH7wkdwVKXxJl/SQ76yTGf2m/HdqGLC2N4fbtSqkNraG7VVDgVjOAs/hoj/TREP4+Oqz7/bc9bc2HdzD9bCovXmTCqXTX/qyvD/WArz65P5cRX0WT8CfZYocdvYtUKrBa2HKzOuiHXsFJE6+RtbxuhwlPeCbeCw85ZjwFtFdcKipNcnXPJJtmkSFvIo7qsx0WvJl+C8c29ELtBIIzAUoMW2ns/TOZzL7U4/ATg1GhU8c4kQqlw+d3T/5JLgi8sX2Max9iudF1JWmN8HYYGofLnidXghdCMi7HYQ5A0eYFZVt/utRT58MQI2IScHmKjn+o7kpiIA3nQOsFUYtohiRUhjNl2PG77O8zsmwMuUijgnTPQj/4MOJdcOf0ZvWYOQDzKsCd/72VPk0OnuqGwstJpm7zw8n9sUoXMt8LkD9myssugwle52IQbYd+3OH8ieROQUFUSnab53O+uaLPlJSa9KtZAeGiGe+U0B71cq96p90lUO7ycfsZLYfrjN2lB/dxlBAxwXA+08HOhzhjtjl6P7705sh8xiev1dm8Q1Od8BOoFFwNkc9qEj8b6TK4YBhn7d7xpS/2ch4tDEWqYuyWVZxpf6WoaLH3hcpBGy666N8kgnEr2npSN55PMgOy7dGNVEvxkInTsHJ5OPSXrNUaUd6knRxCUcaFiKhLWShrvAJ15KQJCc37vQEwd+iDPvCfqSIjMLCOIhwXeNvOTsnMj60g64XGLGpY3V4nAVz2A75AtuLEyGV7en8nhMc7RZAEDDCLwBh/gqgLFcyln9b95HjacCWOKCmMqOVa3PaFKQK20bLDNyIMAt7pQtBPgrMFv5OURba3Qc1KCk6IC6k88Wbw5O2Kx25K7Yu5jQcQsPESBXIfqNXoGJlAsjDUdYcugebLtMP146Pf4aD1nVjz9xhKqfbxz/l9HXzSXDXBAQd8mX3k4ICHx1vK+aZAFRMluOJvwjkV7TfDPgCaV2EuqglsI4AeyV1GtAFU3X0yKGk2IF+gJAF3NdXKFqlxUNSz+YAsLIy/75RWGubdALjfzhwJg/sjNEX1w2A1YooMwJfdAJTEMJHQH6SRqnbBz9hdtwGwgXqT68OuVneIwpUAJix0HVoNMBRzvutYK7yjd4eWBGAOIb634ZjcoCmraMjLKwxxSruPmVCFfa4K1wBMFDrrlN37Hc7DjH9fEcy7AEbRNw1JGHRLm223NG8yS44ZO5i4qUcqwq/xp9sPaksNdpDdbSSOlEK7JvbiHLedcTTxj/71+0FSEb7nGVa+Sg/tmUxK+Pyl5EAT32n7IEWnSGpid/8+LHsXiP8XrmWtiCBm3I90evenKDz2spiwO6c12TkJ30aFviaCmbR9GvWJw8c9peOXDEhFMnN/zWCl/xL8UzibEbqvwpfsTGC1KMvy9zC7Z+CwtM4nFZNBdZ+PGL4vgEifDZGogOpQtxH62GYPyrjkX4s2a+xMkGqxO8hMuTY3N9cOSBzu+Fx4z1HLznaoiE1Xijw71gdOG68u8yApfOk1iJuvWrSwbvRUPzGS1QiQwUVLHoKuKlH7';
+
+  async function tryDecrypt(password) {
+    const raw  = Uint8Array.from(atob(BLOB), c => c.charCodeAt(0));
+    const salt = raw.slice(0,  16);
+    const iv   = raw.slice(16, 28);
+    const ct   = raw.slice(28);
+    const enc  = new TextEncoder();
+    let key;
+    try {
+      const km = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+      key = await crypto.subtle.deriveKey(
+        { name:'PBKDF2', salt, iterations:100000, hash:'SHA-256' },
+        km, { name:'AES-GCM', length:256 }, false, ['decrypt']
+      );
+    } catch { return null; }
+    try {
+      const plain = await crypto.subtle.decrypt({ name:'AES-GCM', iv }, key, ct);
+      return new TextDecoder().decode(plain);
+    } catch { return null; }
+  }
+
+  async function unlock() {
+    const pw   = document.getElementById('lock-input').value;
+    const html = await tryDecrypt(pw);
+    if (html) {
+      const page = document.querySelector('.page');
+      page.innerHTML = html;
+      page.style.display = '';
+      document.getElementById('lock-screen').style.display = 'none';
+      // Re-run reveal observer on injected content
+      const els = page.querySelectorAll('.reveal, .section, .divider, .edition-mark');
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.08 });
+      els.forEach(el => obs.observe(el));
+    } else {
+      const inp = document.getElementById('lock-input');
+      inp.value = '';
+      inp.classList.remove('shake');
+      void inp.offsetWidth; // reflow to restart animation
+      inp.classList.add('shake');
+      document.getElementById('lock-error').textContent = 'Incorrect passphrase.';
+    }
+  }
+
+  document.getElementById('lock-submit').addEventListener('click', unlock);
+  document.getElementById('lock-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') unlock();
   });
 })();
 </script>
